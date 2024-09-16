@@ -48,6 +48,7 @@ module.exports = (env = {}) => {
       publicPath: publicPath, // base path where referenced files will be look for
     },
     resolve: {
+      symlinks: true,
       extensions: [".ts", ".tsx", ".js", ".jsx"],
       alias: {
         Assets: path.resolve(__dirname, "src/assets/"),
