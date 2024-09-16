@@ -5,7 +5,7 @@ import AxiosProvider from "./core/interceptor/interceptor.jsx";
 import CommonDataProvider from "./core/commonData.jsx";
 import ApiServiceProvider from "./core/API/api-service.jsx";
 import { BrowserRouter } from "react-router-dom";
-import { getToken, onMessageListener } from "./firebaseInit.js";
+import { getToken, onMessageListener } from "./firebaseInit";
 import config from "config";
 import store from "./reduxStore/store.js";
 import { Provider } from "react-redux";
