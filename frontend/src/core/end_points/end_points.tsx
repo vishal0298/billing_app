@@ -111,7 +111,8 @@ export const expenses = {
   Delete: "/expense/deleteExpense",
 };
 
-export const downloadImageURL = "http://localhost:7005";
+// export const downloadImageURL = "http://localhost:7005";
+export const downloadImageURL = "http://37.60.255.54:7005";
 
 export const quotation = {
   Add: "/quotation/addQuotation",
