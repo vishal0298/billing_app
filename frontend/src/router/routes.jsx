@@ -136,7 +136,7 @@ export const authRoutes = [
     element: <Dashboard />,
   },
   {
-    path: "/index.jsx",
+    path: "/index",
     element: <Dashboard />,
   },
   {
