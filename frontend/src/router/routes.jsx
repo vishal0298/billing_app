@@ -19,19 +19,19 @@ import BankAccount from "../pages/Feature/settings/bankSettings/index.jsx";
 import TaxRates from "../pages/Feature/settings/taxRates/index.jsx";
 import Preferences from "../pages/Feature/settings/preferences/index.jsx";
 import EmailSettings from "../pages/Feature/settings/emailSettings/index.jsx";
-import AddVendors from "../pages/Feature/vendors/addVendor/index.jsx";
+// import AddVendors from "../pages/Feature/vendors/addVendor/index.jsx";
 import AddLedger from "../pages/Feature/vendors/addLedger/index.jsx";
-import EditVendorList from "../pages/Feature/vendors/editVendor/index.jsx";
+// import EditVendorList from "../pages/Feature/vendors/editVendor/index.jsx";
 import DeactiveCustomers from "../pages/Feature/customers/deactivateCustomers";
 import ActiveCustomers from "../pages/Feature/customers/activeCustomers";
 import CustomerDetails from "../pages/Feature/customers/customerDetails";
 import Addcategory from "../pages/Feature/products/addCategory/index.jsx";
 import Inventory from "../pages/Feature/inventory/inventory";
-import PurchaseOrders from "../pages/Feature/purchaseOrdersLts/purchaseorderList/index.jsx";
-import AddPurchaseOrders from "../pages/Feature/purchaseOrdersLts/addPurchaseOrder/index.jsx";
-import EditPurchaseOrders from "../pages/Feature/purchaseOrdersLts/editPurchaseOrder/index.jsx";
-import ViewPurchaseOrders from "../pages/Feature/purchaseOrdersLts/viewPurchaseOrder/index.jsx";
-import ViewPurchase from "../pages/Feature/purchase/viewPurchase";
+// import PurchaseOrders from "../pages/Feature/purchaseOrdersLts/purchaseorderList/index.jsx";
+// import AddPurchaseOrders from "../pages/Feature/purchaseOrdersLts/addPurchaseOrder/index.jsx";
+// import EditPurchaseOrders from "../pages/Feature/purchaseOrdersLts/editPurchaseOrder/index.jsx";
+// import ViewPurchaseOrders from "../pages/Feature/purchaseOrdersLts/viewPurchaseOrder/index.jsx";
+// import ViewPurchase from "../pages/Feature/purchase/viewPurchase";
 import ViewDebitnotes from "../pages/Feature/debitNotes/viewDebitnotes";
 import ViewCustomer from "../pages/Feature/customers/viewCustomer";
 import ViewDc from "../pages/Feature/deliveryChallans/viewDc";
@@ -51,12 +51,12 @@ import Users from "../pages/Feature/manageUser/ListUser/index.jsx";
 import AddUser from "../pages/Feature/manageUser/AddUser/index.jsx";
 import EditUser from "../pages/Feature/manageUser/EditUser/index.jsx";
 import PaymentSummary from "../pages/Feature/paymentSummary/index.jsx";
-import ListPurchases from "../pages/Feature/purchase/ListPurchase/index.jsx";
-import AddPurchase from "../pages/Feature/purchase/addPurchase/index.jsx";
-import EditPurchase from "../pages/Feature/purchase/EditPurchase/index.jsx";
+// import ListPurchases from "../pages/Feature/purchase/ListPurchase/index.jsx";
+// import AddPurchase from "../pages/Feature/purchase/addPurchase/index.jsx";
+// import EditPurchase from "../pages/Feature/purchase/EditPurchase/index.jsx";
 import ListDebitNotes from "../pages/Feature/debitNotes/ListDebitNotes/index.jsx";
-import AddPurchaseReturn from "../pages/Feature/debitNotes/addPurchaseReturn/index.jsx";
-import EditPurchaseReturn from "../pages/Feature/debitNotes/editPurchaseReturn/index.jsx";
+// import AddPurchaseReturn from "../pages/Feature/debitNotes/addPurchaseReturn/index.jsx";
+// import EditPurchaseReturn from "../pages/Feature/debitNotes/editPurchaseReturn/index.jsx";
 import ListDeliveryChallans from "../pages/Feature/deliveryChallans/ListDeliveryChallan/index.jsx";
 import AddDeliveyChallan from "../pages/Feature/deliveryChallans/AddDeliveryChallan/index.jsx";
 import EditDeliveryChallan from "../pages/Feature/deliveryChallans/EditDeliveryChallan/index.jsx";
@@ -76,7 +76,7 @@ import AddUnit from "../pages/Feature/products/addUnits/index.jsx";
 import EditUnits from "../pages/Feature/products/editUnits/index.jsx";
 import Units from "../pages/Feature/products/listUnit/index.jsx";
 import Staff from "../pages/Feature/products/listStaff/index.jsx";
-import ListVendors from "../pages/Feature/vendors/vendorList/index.jsx";
+// import ListVendors from "../pages/Feature/vendors/vendorList/index.jsx";
 import RecurringInvoices from "../pages/Feature/requrringInvoices/requringinvoiceList/index.jsx";
 import NotificationSetting from "../pages/Feature/settings/notifications/index.jsx";
 import Unauthorised from "../pages/Feature/unauthorised/Unauthorised";
@@ -89,12 +89,12 @@ import InvoiceTemplate from "../pages/Feature/settings/invoiceTemplate/index.jsx
 import AddPreviewInvoice from "../pages/Feature/invoices/addSignPreview";
 import EditPreviewInvoice from "../pages/Feature/invoices/editSignPreview";
 import AddPreviewSales from "../pages/Feature/creditNotes/addSignPreview";
-import AddPreviewPurchase from "../pages/Feature/purchaseOrdersLts/addSignPreview";
-import EditPreviewPurchase from "../pages/Feature/purchaseOrdersLts/editSignPreview";
+// import AddPreviewPurchase from "../pages/Feature/purchaseOrdersLts/addSignPreview";
+// import EditPreviewPurchase from "../pages/Feature/purchaseOrdersLts/editSignPreview";
 import ListOfSignature from "../pages/Feature/settings/signatureLists";
 import AdminLogin from "../pages/authentication/login/admin-index.jsx";
 import UserLogin from "../pages/authentication/login/user-index.jsx";
-import ViewVendor from "../pages/Feature/vendors/viewVendor/index.jsx";
+// import ViewVendor from "../pages/Feature/vendors/viewVendor/index.jsx";
 import ViewExpense from "../pages/Feature/expenses/ViewExpense/index.jsx";
 import AddStaff from "../pages/Feature/products/addStaff/addStaff";
 import EditStaff from "../pages/Feature/products/editStaff/index.jsx";
@@ -211,18 +211,18 @@ export const authRoutes = [
     path: `${"/edit-product"}/:id`,
     element: <EditProduct />,
   },
-  {
-    path: "/purchases",
-    element: <ListPurchases />,
-  },
-  {
-    path: "/add-purchases",
-    element: <AddPurchase />,
-  },
-  {
-    path: `${"/purchase-edit"}/:id`,
-    element: <EditPurchase />,
-  },
+  // {
+  //   path: "/purchases",
+  //   element: <ListPurchases />,
+  // },
+  // {
+  //   path: "/add-purchases",
+  //   element: <AddPurchase />,
+  // },
+  // {
+  //   path: `${"/purchase-edit"}/:id`,
+  //   element: <EditPurchase />,
+  // },
   {
     path: "/settings",
     element: <Settings />,
@@ -263,14 +263,14 @@ export const authRoutes = [
   //   path: "/vendors",
   //   element: <Vendors />,
   // },
-  {
-    path: "/vendors",
-    element: <ListVendors />,
-  },
-  {
-    path: "/add-vendors",
-    element: <AddVendors />,
-  },
+  // {
+  //   path: "/vendors",
+  //   element: <ListVendors />,
+  // },
+  // {
+  //   path: "/add-vendors",
+  //   element: <AddVendors />,
+  // },
   {
     path: `${"/add-ledger"}/:id`,
     element: <AddLedger />,
@@ -288,10 +288,10 @@ export const authRoutes = [
     path: `${"/view-quotations"}/:id`,
     element: <ViewQuotations />,
   },
-  {
-    path: `${"/view-purchase"}/:id`,
-    element: <ViewPurchase />,
-  },
+  // {
+  //   path: `${"/view-purchase"}/:id`,
+  //   element: <ViewPurchase />,
+  // },
   {
     path: `${"/view-debitnotes"}/:id`,
     element: <ViewDebitnotes />,
@@ -312,26 +312,26 @@ export const authRoutes = [
   //   path: `${"/edit-quotations"}/:id`,
   //   element: <EditQuotations />,
   // },
-  {
-    path: `${"/edit-vendors"}/:id`,
-    element: <EditVendorList />,
-  },
-  {
-    path: `${"/view-vendor"}/:id`,
-    element: <ViewVendor />,
-  },
+  // {
+  //   path: `${"/edit-vendors"}/:id`,
+  //   element: <EditVendorList />,
+  // },
+  // {
+  //   path: `${"/view-vendor"}/:id`,
+  //   element: <ViewVendor />,
+  // },
   {
     path: "/inventory",
     element: <Inventory />,
   },
-  {
-    path: `/purchase-orders`,
-    element: <PurchaseOrders />,
-  },
-  {
-    path: `/add-purchases-order`,
-    element: <AddPurchaseOrders />,
-  },
+  // {
+  //   path: `/purchase-orders`,
+  //   element: <PurchaseOrders />,
+  // },
+  // {
+  //   path: `/add-purchases-order`,
+  //   element: <AddPurchaseOrders />,
+  // },
 
   {
     path: `/sales-return`,
@@ -349,27 +349,27 @@ export const authRoutes = [
     path: `${"/view-sales-return"}/:id`,
     element: <ViewCredit />,
   },
-  {
-    path: `${"/edit-purchases-order"}/:id`,
-    element: <EditPurchaseOrders />,
-  },
-  {
-    path: `${"/view-purchases-order"}/:id`,
-    element: <ViewPurchaseOrders />,
-  },
+  // {
+  //   path: `${"/edit-purchases-order"}/:id`,
+  //   element: <EditPurchaseOrders />,
+  // },
+  // {
+  //   path: `${"/view-purchases-order"}/:id`,
+  //   element: <ViewPurchaseOrders />,
+  // },
 
   {
     path: `/debit-notes`,
     element: <ListDebitNotes />,
   },
-  {
-    path: `/add-debit-notes`,
-    element: <AddPurchaseReturn />,
-  },
-  {
-    path: `${"/edit-debit-notes"}/:id`,
-    element: <EditPurchaseReturn />,
-  },
+  // {
+  //   path: `/add-debit-notes`,
+  //   element: <AddPurchaseReturn />,
+  // },
+  // {
+  //   path: `${"/edit-debit-notes"}/:id`,
+  //   element: <EditPurchaseReturn />,
+  // },
   {
     path: `/expenses`,
     element: <ListExpenses />,
@@ -490,14 +490,14 @@ export const authRoutes = [
     path: "/invoice-templates",
     element: <InvoiceTemplate />,
   },
-  {
-    path: "/add-purchase-signature-preview",
-    element: <AddPreviewPurchase />,
-  },
-  {
-    path: "/edit-purchase-signature-preview",
-    element: <EditPreviewPurchase />,
-  },
+  // {
+  //   path: "/add-purchase-signature-preview",
+  //   element: <AddPreviewPurchase />,
+  // },
+  // {
+  //   path: "/edit-purchase-signature-preview",
+  //   element: <EditPreviewPurchase />,
+  // },
   {
     // path: "/add-purchase-return-signature-preview",
     // element: <AddPurchaseReturnPreview />,

@@ -187,7 +187,8 @@ const Sidebar = () => {
               <ul
                 style={{
                   display:
-                    showHide("customer") && showHide("vendor")
+                    showHide("customer") 
+                    // && showHide("vendor")
                       ? "none"
                       : "block",
                 }}
@@ -213,7 +214,7 @@ const Sidebar = () => {
                     <span>Customers</span>
                   </Link>
                 </li>
-                <li
+                {/* <li
                   className={`${
                     "/vendors" === pathName ||
                     "/add-vendors" === pathName ||
@@ -227,7 +228,7 @@ const Sidebar = () => {
                   <Link to="/vendors">
                     <FeatherIcon icon="user" /> <span>Vendors</span>
                   </Link>
-                </li>
+                </li> */}
               </ul>
               {/* /Customers */}
 
@@ -437,7 +438,7 @@ const Sidebar = () => {
               {/* /Sales */}
 
               {/* Purchases */}
-              <ul
+              {/* <ul
                 style={{
                   display:
                     showHide("purchase") &&
@@ -505,7 +506,7 @@ const Sidebar = () => {
                     <span>Purchase Return</span>
                   </Link>
                 </li>
-              </ul>
+              </ul> */}
               {/* /Purchases */}
 
               {/* Finance & Accounts */}
