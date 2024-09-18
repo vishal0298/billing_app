@@ -17,7 +17,7 @@ const AddCustomers = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [website, setWebsite] = useState("");
+  const [villaNumber, setVillaNumber] = useState("");
   const [membershipType, setMembershipType] = useState("");
   const [imageSrc, setImageUrl] = useState(null);
   const fileInputRef = useRef(null);
@@ -193,8 +193,8 @@ const AddCustomers = () => {
                             className="form-control"
                             type="text"
                             placeholder="Enter villaNumber" 
-                            value={website}
-                            onChange={(e) => setWebsite(e.target.value)}
+                            value={villaNumber}
+                            onChange={(e) => setVillaNumber(e.target.value)}
                           />
                         </div>
                       </div>
