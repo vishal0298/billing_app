@@ -30,20 +30,20 @@ exports.create = [
   body("bank").trim().optional(),
   body("notes").trim().optional(),
   body("termsAndCondition").trim().optional(),
-  body("sign_type")
-    .trim()
-    .notEmpty()
-    .withMessage("is required")
-    .isIn(["manualSignature", "eSignature"])
-    .withMessage("is invalid"),
-  body("signatureId")
-    .if(body("sign_type").equals("manualSignature"))
-    .notEmpty()
-    .withMessage("is required"),
-  body("signatureName")
-    .if(body("sign_type").equals("eSignature"))
-    .notEmpty()
-    .withMessage("is required"),
+  // body("sign_type")
+  //   .trim()
+  //   .notEmpty()
+  //   .withMessage("is required")
+  //   .isIn(["manualSignature", "eSignature"])
+  //   .withMessage("is invalid"),
+  // body("signatureId")
+  //   .if(body("sign_type").equals("manualSignature"))
+  //   .notEmpty()
+  //   .withMessage("is required"),
+  // body("signatureName")
+  //   .if(body("sign_type").equals("eSignature"))
+  //   .notEmpty()
+  //   .withMessage("is required"),
   body("invoice_items.*.productId")
     .trim()
     .notEmpty()
@@ -59,21 +59,21 @@ exports.create = [
   body("invoice_items.*.discount").trim().notEmpty().withMessage("is required"),
   body("invoice_items.*.tax").trim().notEmpty().withMessage("is required"),
   body("invoice_items.*.amount").trim().notEmpty().withMessage("is required"),
-  body("signatureImage")
-    .if(body("sign_type").equals("eSignature"))
-    .custom(async (value, { req }) => {
-      if (req.body._id) {
-        const imageRec = await invoiceModel.findById(req.body._id);
-        if ((imageRec == null || !imageRec.signatureImage) && !req.file) {
-          return Promise.reject("is required");
-        }
-      } else {
-        if (!req.file) {
-          return Promise.reject("is required");
-        }
-      }
-      return true;
-    }),
+  // body("signatureImage")
+  //   .if(body("sign_type").equals("eSignature"))
+  //   .custom(async (value, { req }) => {
+  //     if (req.body._id) {
+  //       const imageRec = await invoiceModel.findById(req.body._id);
+  //       if ((imageRec == null || !imageRec.signatureImage) && !req.file) {
+  //         return Promise.reject("is required");
+  //       }
+  //     } else {
+  //       if (!req.file) {
+  //         return Promise.reject("is required");
+  //       }
+  //     }
+  //     return true;
+  //   }),
   
   // New validations for staff and service_from fields
   body("staff").trim().optional().notEmpty().withMessage("is required"),
