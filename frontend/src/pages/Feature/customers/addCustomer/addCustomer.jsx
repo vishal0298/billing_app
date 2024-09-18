@@ -82,7 +82,7 @@ const AddCustomers = () => {
 
     if (isValid) {
       // Submit form data
-      
+       onSubmit(formData)
        toast.success("Form Submitted");
       // Perform actual form submission here
     } else {
