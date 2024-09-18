@@ -33,41 +33,41 @@ const addInvoiceschema = yup
     }),
     products: yup.object().shape({
       value: yup.string().required("Choose Products"),
-    }),
+    })
     // invoiceDate: yup.string().required("Choose Invoice Date").nullable(),
     // dueDate: yup.string().required("Choose Due Date").nullable(),
-    sign_type: yup.string().typeError("Choose Signature Type"),
-    signatureName: yup.string().when("sign_type", (sign_type) => {
-      if (sign_type == "eSignature") {
-        return yup.string().nullable().required("Enter Signature Name");
-      } else {
-        return yup.string().notRequired();
-      }
-    }),
-    signatureData: yup.string().when("sign_type", (sign_type) => {
-      if (sign_type == "eSignature") {
-        return yup
-          .string()
-          .test(
-            "is-eSignature",
-            `Draw The Signature`,
-            async (value) => value == "true"
-          );
-      } else {
-        return yup.string().notRequired();
-      }
-    }),
-    signatureId: yup.string().when("sign_type", (sign_type) => {
-      if (sign_type == "manualSignature") {
-        return yup.object().shape({
-          value: yup.string().required("Choose Signature Name"),
-        });
-      } else {
-        return yup.object().notRequired();
-      }
-    }),
-  })
-  .required();
+    // sign_type: yup.string().typeError("Choose Signature Type"),
+  //   signatureName: yup.string().when("sign_type", (sign_type) => {
+  //     if (sign_type == "eSignature") {
+  //       return yup.string().nullable().required("Enter Signature Name");
+  //     } else {
+  //       return yup.string().notRequired();
+  //     }
+  //   }),
+  //   signatureData: yup.string().when("sign_type", (sign_type) => {
+  //     if (sign_type == "eSignature") {
+  //       return yup
+  //         .string()
+  //         .test(
+  //           "is-eSignature",
+  //           `Draw The Signature`,
+  //           async (value) => value == "true"
+  //         );
+  //     } else {
+  //       return yup.string().notRequired();
+  //     }
+  //   }),
+  //   signatureId: yup.string().when("sign_type", (sign_type) => {
+  //     if (sign_type == "manualSignature") {
+  //       return yup.object().shape({
+  //         value: yup.string().required("Choose Signature Name"),
+  //       });
+  //     } else {
+  //       return yup.object().notRequired();
+  //     }
+  //   }),
+  });
+  // .required();
   //   signatureId: yup.lazy((value, originalValue) => {
   //     if (originalValue?.sign_type === 'manualSignature') {
   //       return yup.object().shape({
@@ -145,7 +145,7 @@ const AddinvoiceComponentController = (props) => {
   const [staffDetails, setStaffDetails] = useState([]);
 
   const [trimmedDataURL, setTrimmedDataURL] = useState(null);
-  const [signatureData, setSignatureData] = useState(null);
+  // const [signatureData, setSignatureData] = useState(null);
   const [num, setNum] = useState("");
 
   const getmasterDetails = async () => {
@@ -300,13 +300,13 @@ const AddinvoiceComponentController = (props) => {
     formData.append("termsAndCondition", data?.termsAndCondition);
     formData.append("isRecurring", isRecurring);
     formData.append("recurringCycle", data?.recurringCycle);
-    formData.append("sign_type", data?.sign_type);
-    if (data?.sign_type == "eSignature") {
-      formData.append("signatureName", data?.signatureName);
-      formData.append("signatureImage", signatureData);
-    } else {
-      formData.append("signatureId", data?.signatureId?.value);
-    }
+    // formData.append("sign_type", data?.sign_type);
+    // if (data?.sign_type == "eSignature") {
+    //   formData.append("signatureName", data?.signatureName);
+    //   formData.append("signatureImage", signatureData);
+    // } else {
+    //   formData.append("signatureId", data?.signatureId?.value);
+    // }
 
     try {
       const response = await postData(Base, formData);
@@ -422,7 +422,7 @@ const AddinvoiceComponentController = (props) => {
         ChoosedCustomer,
         trimmedDataURL,
         setTrimmedDataURL,
-        setSignatureData,
+        // setSignatureData,
         num,
         setNum,
       }}

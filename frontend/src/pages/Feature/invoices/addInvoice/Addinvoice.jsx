@@ -11,7 +11,7 @@ import { Form, Popconfirm, Table } from "antd";
 import { commonDatacontext } from "../../../../core/commonData";
 import { amountFormat } from "../../../../common/helper";
 import { handleNumberRestriction } from "../../../../constans/globals";
-import SignaturePadComponent from "../../../../common/SignaturePadComponent";
+// import SignaturePadComponent from "../../../../common/SignaturePadComponent";
 import DatePickerComponent from "../../datePicker/DatePicker";
 import dayjs from "dayjs";
 import { ApiServiceContext, InvoiceNum } from "../../../../core/core-index";
@@ -33,10 +33,12 @@ const EditableRow = ({ ...props }) => {
 const AddInvoice = () => {
   const { BankSettingschema } = useContext(BankSettingsContext);
   const { currencyData } = useContext(commonDatacontext);
-  const [selectedSign, setselectedSign] = useState("/");
+  // const [selectedSign, setselectedSign] = useState("/");
 
   const {
-    dataSource, setDataSource, addInvoiceschema, staffDetails, dicountEditForm, submitaddInvoiceAddForm, handleKeyPress, productData, customersData, bank, tax, taxableAmount, settaxableAmount, totalTax, settotalTax, totalAmount, settotalAmount, totalDiscount, settotalDiscount, roundof, setroundof, addBankSettingsForm, productsCloneData, setproductsCloneData, addbankpocancelModal, rowErr, setrowErr, setisRecurring, ChoosedCustomer, trimmedDataURL, setTrimmedDataURL, setSignatureData, num, setNum,
+    dataSource, setDataSource, addInvoiceschema, staffDetails, dicountEditForm, submitaddInvoiceAddForm, handleKeyPress, productData, customersData, bank, tax, taxableAmount, settaxableAmount, totalTax, settotalTax, totalAmount, settotalAmount, totalDiscount, settotalDiscount, roundof, setroundof, addBankSettingsForm, productsCloneData, setproductsCloneData, addbankpocancelModal, rowErr, setrowErr, setisRecurring, ChoosedCustomer, trimmedDataURL, setTrimmedDataURL, 
+    // setSignatureData, 
+    num, setNum,
   } = useContext(AddinvoiceContext);
 
   const {
@@ -1183,7 +1185,7 @@ const AddInvoice = () => {
                               </h4>
                             </div>
                           </div>
-                          <SignaturePadComponent
+                          {/* <SignaturePadComponent
                             setValue={addinvsetValue}
                             register={register}
                             trigger={trigger}
@@ -1197,7 +1199,7 @@ const AddInvoice = () => {
                             selectedSign={selectedSign}
                             setselectedSign={setselectedSign}
                             data={{}}
-                          />
+                          /> */}
                         </div>
                       </div>
                     </div>
