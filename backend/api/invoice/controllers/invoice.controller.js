@@ -92,11 +92,11 @@ exports.create = async (req, res) => {
             termsAndCondition: request.termsAndCondition,
             taxable_amount: request.taxable_amount,
             sub_total: request.sub_total,
-            sign_type: request.sign_type,
-            signatureId: request.signatureId,
-            signatureName: request.signatureName,
-            signatureImage:
-              request.sign_type === "eSignature" ? filesName : null,
+            // sign_type: request.sign_type,
+            // signatureId: request.signatureId,
+            // signatureName: request.signatureName,
+            // signatureImage:
+            //   request.sign_type === "eSignature" ? filesName : null,
             taxableAmount: request.taxableAmount,
             totalDiscount: request.totalDiscount,
             vat: request.vat,
@@ -812,12 +812,12 @@ exports.update = async (req, res) => {
           termsAndCondition: request.termsAndCondition,
           taxable_amount: request.taxable_amount,
           sub_total: request.sub_total,
-          sign_type: request.sign_type,
-          signatureId:
-            request.sign_type !== "eSignature" ? request.signatureId : null,
-          signatureName:
-            request.sign_type === "eSignature" ? request.signatureName : null,
-          signatureImage: request.sign_type === "eSignature" ? filesName : null,
+          // sign_type: request.sign_type,
+          // signatureId:
+          //   request.sign_type !== "eSignature" ? request.signatureId : null,
+          // signatureName:
+          //   request.sign_type === "eSignature" ? request.signatureName : null,
+          // signatureImage: request.sign_type === "eSignature" ? filesName : null,
           taxableAmount: request.taxableAmount,
           totalDiscount: request.totalDiscount,
           vat: request.vat,
@@ -1023,16 +1023,16 @@ exports.cloneInvoice = async function (req, res) {
     if (!originalInvoice) {
       return response.data_error_message("Invoice not found", res);
     }
-    if (originalInvoice.sign_type == "eSignature") {
-      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-      const ext = path.extname(originalInvoice.signatureImage);
-      const invoiceImagePath = `./uploads/invoices/signatureImage-${
-        uniqueSuffix + ext
-      }`;
-      fs.copyFileSync(`./${originalInvoice.signatureImage}`, invoiceImagePath);
+    // if (originalInvoice.sign_type == "eSignature") {
+    //   const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    //   const ext = path.extname(originalInvoice.signatureImage);
+    //   const invoiceImagePath = `./uploads/invoices/signatureImage-${
+    //     uniqueSuffix + ext
+    //   }`;
+    //   fs.copyFileSync(`./${originalInvoice.signatureImage}`, invoiceImagePath);
 
-      originalInvoice.signatureImage = invoiceImagePath;
-    }
+    //   originalInvoice.signatureImage = invoiceImagePath;
+    // }
 
     let minQuanProducts = [];
     for (const item of originalInvoice.items) {
@@ -1133,17 +1133,17 @@ exports.convertsalesreturn = async (req, res) => {
       return res.status(404).json({ error: "Original Invoice not found" });
     }
     let creditNoteImagePath = "";
-    if (originalInvoiceDetails.sign_type == "eSignature") {
-      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-      const ext = path.extname(originalInvoiceDetails.signatureImage);
-      creditNoteImagePath = `./uploads/credit_notes/signatureImage-${
-        uniqueSuffix + ext
-      }`;
-      fs.copyFileSync(
-        `./${originalInvoiceDetails.signatureImage}`,
-        creditNoteImagePath
-      );
-    }
+    // if (originalInvoiceDetails.sign_type == "eSignature") {
+    //   const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    //   const ext = path.extname(originalInvoiceDetails.signatureImage);
+    //   creditNoteImagePath = `./uploads/credit_notes/signatureImage-${
+    //     uniqueSuffix + ext
+    //   }`;
+    //   fs.copyFileSync(
+    //     `./${originalInvoiceDetails.signatureImage}`,
+    //     creditNoteImagePath
+    //   );
+    // }
     
  const creditnotecount = await creditnoteModel.find({}).count();
     let count = creditnotecount + 1;
@@ -1285,14 +1285,14 @@ exports.generateDeliveryChallans = async (req, res) => {
       .lean();
 
     let imagePath = "";
-    if (invoiceRecord.sign_type == "eSignature") {
-      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-      const ext = path.extname(invoiceRecord.signatureImage);
-      imagePath = `./uploads/delivery_challans/signatureImage-${
-        uniqueSuffix + ext
-      }`;
-      fs.copyFileSync(`./${invoiceRecord.signatureImage}`, imagePath);
-    }
+    // if (invoiceRecord.sign_type == "eSignature") {
+    //   const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    //   const ext = path.extname(invoiceRecord.signatureImage);
+    //   imagePath = `./uploads/delivery_challans/signatureImage-${
+    //     uniqueSuffix + ext
+    //   }`;
+    //   fs.copyFileSync(`./${invoiceRecord.signatureImage}`, imagePath);
+    // }
 
     await delivery_challansModel.create({
       deliveryChallanNumber: `DC-${count.toString().padStart(6, "0")}`,
@@ -1312,11 +1312,11 @@ exports.generateDeliveryChallans = async (req, res) => {
       bank: invoiceRecord.bank,
       notes: invoiceRecord.notes,
       termsAndCondition: invoiceRecord.termsAndCondition,
-      sign_type: invoiceRecord.sign_type,
-      signatureId: invoiceRecord.signatureId,
-      signatureName: invoiceRecord.signatureName,
-      signatureImage:
-        invoiceRecord.sign_type === "eSignature" ? imagePath : null,
+      // sign_type: invoiceRecord.sign_type,
+      // signatureId: invoiceRecord.signatureId,
+      // signatureName: invoiceRecord.signatureName,
+      // signatureImage:
+      //   invoiceRecord.sign_type === "eSignature" ? imagePath : null,
       userId: auth_user.id,
     });
     response.success_message("DeliveryChallan created successfully", res);
