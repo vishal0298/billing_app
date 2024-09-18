@@ -1,26 +1,82 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import { useForm, Controller } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { AddStaffContext } from "./addStaff.control";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AddStaffContext,  } from "./addStaff.control";
 import { handleCharacterRestrictionSpace } from "../../../../constans/globals";
+import { toast } from 'react-toastify'; // Assuming you have react-toastify installed
+import { ApiServiceContext, errorToast, successToast } from "../../../../core/core-index";
+import { addStaffApi } from "../../../../constans/apiname";
 
 const AddStaff = () => {
-  const { schema, onSubmit } = useContext(AddStaffContext);
+  const { schema, } = useContext(AddStaffContext);
 
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
+  // console.log(AddStaffComponentController.onSubmit)
+  const [formData, setFormData] = useState({
+    name: "",
+    employeeId: "",
+    mobileNumber: "",
   });
 
-  // const handleFormSubmit = (data) => {
-  //   console.log("Form submitted", data);
-  //   console.log(onSubmit) // Check if it's being logged
-  //   onSubmit(data);
-  // };
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const validate = () => {
+    try {
+      schema.validateSync(formData, { abortEarly: false });
+      return true;
+    } catch (err) {
+      const validationErrors = err.inner.reduce((acc, curr) => {
+        acc[curr.path] = curr.message;
+        return acc;
+      }, {});
+      setErrors(validationErrors);
+      return false;
+    }
+  };
+
+  const navigate = useNavigate();
+  const { postData } = useContext(ApiServiceContext);
+
+  const onSubmit = async (data) => {
+    const obj = {
+      name: data?.name,
+      employeeId: data?.employeeId,
+      mobileNumber: data?.mobileNumber,
+    };
+    try {
+      console.log(postData)
+      const response = await postData(addStaffApi, obj);
+      if (response.code == 200) {
+        successToast("Staff Added successfully");
+        navigate("/staff");
+      } else {
+        errorToast(response?.data?.message);
+      }
+    } catch {
+      return false;
+    }
+  };
+
+  const handleSubmit =(e) => {
+    e.preventDefault();
+    if (validate()) {
+      try {
+        onSubmit(formData);
+        toast.success('Staff added successfully!');
+      } catch (error) {
+        toast.error('An error occurred. Please try again.');
+      }
+    } else {
+      toast.error('Please fix the errors in the form.');
+    }
+    console.log("submitt cliked: ", formData)
+  };
 
   return (
     <div className="page-wrapper">
@@ -31,7 +87,7 @@ const AddStaff = () => {
         <div className="row">
           <div className="col-md-12">
             <div className="card-body">
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <form onSubmit={handleSubmit}>
                 <div className="form-group-item border-0 pb-0">
                   <div className="row">
                     <div className="col-lg-4 col-md-6 col-sm-12">
@@ -39,31 +95,18 @@ const AddStaff = () => {
                         <label>
                           Name <span className="text-danger">*</span>
                         </label>
-                        <Controller
+                        <input
                           name="name"
-                          control={control}
-                          render={({ field: { value, onChange } }) => (
-                            <>
-                              <input
-                                className="form-control"
-                                value={value}
-                                type="text"
-                                placeholder="Enter Name"
-                                label={"Name"}
-                                onKeyPress={handleCharacterRestrictionSpace}
-                                onChange={(val) => {
-                                  onChange(val);
-                                }}
-                              />
-                              {errors.name && (
-                                <p className="text-danger">
-                                  {errors.name.message}
-                                </p>
-                              )}
-                            </>
-                          )}
-                          defaultValue=""
+                          className="form-control"
+                          type="text"
+                          placeholder="Enter Name"
+                          value={formData.name}
+                          onKeyPress={handleCharacterRestrictionSpace}
+                          onChange={handleChange}
                         />
+                        {errors.name && (
+                          <p className="text-danger">{errors.name}</p>
+                        )}
                       </div>
                     </div>
                     <div className="col-lg-4 col-md-6 col-sm-12">
@@ -71,30 +114,17 @@ const AddStaff = () => {
                         <label>
                           Employee ID <span className="text-danger">*</span>
                         </label>
-                        <Controller
+                        <input
                           name="employeeId"
-                          control={control}
-                          render={({ field: { value, onChange } }) => (
-                            <>
-                              <input
-                                className="form-control"
-                                value={value}
-                                type="text"
-                                placeholder="Enter Employee ID"
-                                label={"Employee ID"}
-                                onChange={(val) => {
-                                  onChange(val);
-                                }}
-                              />
-                              {errors.employeeId && (
-                                <p className="text-danger">
-                                  {errors.employeeId.message}
-                                </p>
-                              )}
-                            </>
-                          )}
-                          defaultValue=""
+                          className="form-control"
+                          type="text"
+                          placeholder="Enter Employee ID"
+                          value={formData.employeeId}
+                          onChange={handleChange}
                         />
+                        {errors.employeeId && (
+                          <p className="text-danger">{errors.employeeId}</p>
+                        )}
                       </div>
                     </div>
                     <div className="col-lg-4 col-md-6 col-sm-12">
@@ -102,30 +132,17 @@ const AddStaff = () => {
                         <label>
                           Mobile Number <span className="text-danger">*</span>
                         </label>
-                        <Controller
+                        <input
                           name="mobileNumber"
-                          control={control}
-                          render={({ field: { value, onChange } }) => (
-                            <>
-                              <input
-                                className="form-control"
-                                value={value}
-                                type="text"
-                                placeholder="Enter Mobile Number"
-                                label={"Mobile Number"}
-                                onChange={(val) => {
-                                  onChange(val);
-                                }}
-                              />
-                              {errors.mobileNumber && (
-                                <p className="text-danger">
-                                  {errors.mobileNumber.message}
-                                </p>
-                              )}
-                            </>
-                          )}
-                          defaultValue=""
+                          className="form-control"
+                          type="text"
+                          placeholder="Enter Mobile Number"
+                          value={formData.mobileNumber}
+                          onChange={handleChange}
                         />
+                        {errors.mobileNumber && (
+                          <p className="text-danger">{errors.mobileNumber}</p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -134,7 +151,7 @@ const AddStaff = () => {
                   <Link to="/staff" className="btn btn-primary cancel me-2">
                     Cancel
                   </Link>
-                  <button to="/staff" className="btn btn-primary" type="submit">
+                  <button className="btn btn-primary" type="submit">
                     Add Staff
                   </button>
                 </div>

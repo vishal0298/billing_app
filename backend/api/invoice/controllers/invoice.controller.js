@@ -97,7 +97,6 @@ exports.create = async (req, res) => {
             signatureName: request.signatureName,
             signatureImage:
               request.sign_type === "eSignature" ? filesName : null,
-            // signatureImage: filesName ? filesName : undefined,
             taxableAmount: request.taxableAmount,
             totalDiscount: request.totalDiscount,
             vat: request.vat,
@@ -110,6 +109,10 @@ exports.create = async (req, res) => {
             status: status,
             created_at: new Date(),
             isDeleted: false,
+            
+            // New fields
+            staff: request.staff,
+            service_from: request.service_from,
           },
           async function (err, invoiceDetails) {
             if (err) {
@@ -248,7 +251,7 @@ exports.list = async function (req, res) {
     options.lean = true;
     var filter = {};
     filter.isDeleted = false;
-    filter.isSalesReturned=false;
+    filter.isSalesReturned = false;
     const fromDateFilter = moment(req.query.fromDate);
     const endFDateFilter = moment(req.query.toDate);
 
@@ -300,6 +303,7 @@ exports.list = async function (req, res) {
     if (req.query.invoiceNumber) {
       filter.invoiceNumber = { $in: req.query.invoiceNumber.split(",") };
     }
+    
     let invoiceRecordsCount = await invoiceModel.paginate(filter, options);
     invoiceRecordsCount = invoiceRecordsCount.totalDocs;
 
@@ -357,6 +361,15 @@ exports.list = async function (req, res) {
         if (!item.signatureId) {
           item.signatureId = {};
         }
+
+        // Include the new fields in the result
+        if (item.staff) {
+          item.staff = item.staff;
+        }
+        if (item.service_from) {
+          item.service_from = item.service_from;
+        }
+
         results.push(item);
       }
 
@@ -514,12 +527,18 @@ exports.sendPdf = async (req, res) => {
       .findOne()
       .populate("currencyId")
       .lean();
+    
     const invoiceinfo = await invoiceModel
       .findOne({ _id: mongoose.Types.ObjectId(invoiceId), is_deleted: false })
       .populate({ path: "customerId", select: "-_id -updated_at -__v" })
       .populate("bank")
       .select("-__v -updated_at")
       .lean();
+
+    // Ensure staff and service_from fields are included
+    invoiceinfo.staff = invoiceinfo.staff || "Not Specified"; // Default if not present
+    invoiceinfo.service_from = invoiceinfo.service_from || "Not Specified"; // Default if not present
+
     invoiceinfo.currency = preferenceSettingsRec.currencyId.currency_symbol;
     invoiceinfo.companySettings = companySettings[0];
     invoiceinfo.invoiceLogo = `${process.env.DEVLOPMENT_BACKEND_URL}/${invoiceSettings[0].invoiceLogo}`;
@@ -530,10 +549,7 @@ exports.sendPdf = async (req, res) => {
       "DD-MMM-YYYY"
     );
     invoiceinfo.totalItems = invoiceinfo.items.length;
-    console.log(
-      "invoiceinfo.item.taxInfo.taxRate :",
-      JSON.parse(invoiceinfo.items[0].taxInfo).taxRate
-    );
+    
     let count = 1;
     let totalqty = 0;
     let taxAmount = 0;
@@ -551,84 +567,85 @@ exports.sendPdf = async (req, res) => {
     invoiceinfo.Tax = taxAmount;
     invoiceinfo.sub_total = sub_total;
     invoiceinfo.roundOffValue = (
-      parseFloat(invoiceinfo.TotalAmount) -
-      (parseFloat(sub_total) -
-        parseFloat(invoiceinfo.totalDiscount) +
+      parseFloat(invoiceinfo.TotalAmount) - 
+      (parseFloat(sub_total) - 
+        parseFloat(invoiceinfo.totalDiscount) + 
         parseFloat(taxAmount))
     ).toFixed(2);
+
     const baseDirectory = resolve(__dirname, '..', '..', '..'); // Adjust the number of '..' as needed
     const invoicesPdfDirectory = 'uploads/invoicesPdf';
- const fileName = 'invoice.pdf';
+    const fileName = 'invoice.pdf';
 
-// Using join to create complete paths
-const folderPath = join(baseDirectory, invoicesPdfDirectory);
-const fullPath = join(folderPath, fileName);
+    // Using join to create complete paths
+    const folderPath = join(baseDirectory, invoicesPdfDirectory);
+    const fullPath = join(folderPath, fileName);
 
-  if (!fs.existsSync(folderPath)) {
-  fs.mkdirSync(folderPath, { recursive: true });
- }
+    if (!fs.existsSync(folderPath)) {
+      fs.mkdirSync(folderPath, { recursive: true });
+    }
 
-if (fs.existsSync(fullPath)) {
-  fs.unlinkSync(fullPath);
-}
-  const htmlTemplate = fs.readFileSync("receipt.html", "utf-8");
+    if (fs.existsSync(fullPath)) {
+      fs.unlinkSync(fullPath);
+    }
+
+    const htmlTemplate = fs.readFileSync("receipt.html", "utf-8");
     const template = handlebars.compile(htmlTemplate);
     const renderedHtml = template({ invoice: invoiceinfo });
-   // const browser = await puppeteer.launch({ headless: true });
+
+    // Use puppeteer to generate PDF
     const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
     const page = await browser.newPage();
-
     await page.setContent(renderedHtml);
     await page.pdf({ path: fullPath, format: "A4" });
-
     await browser.close();
+
     var subject = "Invoice PDF";
-    var emailBody = "";
-    emailBody += "<p><b>Your invoice attached below...</b></p>";
+    var emailBody = "<p><b>Your invoice is attached below...</b></p>";
     const emailSettings = await emailSettingModel.findOne().lean();
 
     let mailres;
-  if(emailSettings!=null){
-    const transporters = await createTransporters();
-    const nodeTransporter = transporters.nodeTransporter;
-    const smtpTransporter = transporters.smtpTransporter;
+    if(emailSettings != null) {
+      const transporters = await createTransporters();
+      const nodeTransporter = transporters.nodeTransporter;
+      const smtpTransporter = transporters.smtpTransporter;
 
-    if (emailSettings.provider_type === "NODE") {
-      mailres = await nodeTransporter.sendMail({
-        from: `${emailSettings.nodeFromName} <${emailSettings.nodeFromEmail}>`,
-        to: invoiceinfo.customerId.email,
-        subject: subject,
-        html: emailBody,
-        attachments: [
-          {
-            filename: "invoice.pdf",
-            path: fullPath,
-            contentType: "application/pdf",
-          },
-        ],
-      });
-    } else {
-      mailres = await smtpTransporter.sendMail({
-        from: `${emailSettings.smtpFromName} <${emailSettings.smtpFromEmail}>`,
-        to: invoiceinfo.customerId.email,
-        subject: subject,
-        html: emailBody,
-        attachments: [
-          {
-            filename: "invoice.pdf",
-            path: fullPath,
-            contentType: "application/pdf",
-          },
-        ],
-      });
+      if (emailSettings.provider_type === "NODE") {
+        mailres = await nodeTransporter.sendMail({
+          from: `${emailSettings.nodeFromName} <${emailSettings.nodeFromEmail}>`,
+          to: invoiceinfo.customerId.email,
+          subject: subject,
+          html: emailBody,
+          attachments: [
+            {
+              filename: "invoice.pdf",
+              path: fullPath,
+              contentType: "application/pdf",
+            },
+          ],
+        });
+      } else {
+        mailres = await smtpTransporter.sendMail({
+          from: `${emailSettings.smtpFromName} <${emailSettings.smtpFromEmail}>`,
+          to: invoiceinfo.customerId.email,
+          subject: subject,
+          html: emailBody,
+          attachments: [
+            {
+              filename: "invoice.pdf",
+              path: fullPath,
+              contentType: "application/pdf",
+            },
+          ],
+        });
+      }
     }
-  }
+
     if (mailres) {
       response.success_message({ message: "Mail sent successfully!" }, res);
-    }else{
-      data = { message: "From email is empty!" };
+    } else {
+      const data = { message: "From email is empty!" };
       response.validation_error_message(data, res);
-
     }
   } catch (error) {
     console.log("error :", error);
@@ -636,11 +653,13 @@ if (fs.existsSync(fullPath)) {
   }
 };
 
+
 exports.view = async function (req, res) {
   try {
+    const invoiceId = mongoose.Types.ObjectId(req.params.id);
     const invoiceinfo = await invoiceModel
       .findOne({
-        _id: mongoose.Types.ObjectId(req.params.id),
+        _id: invoiceId,
         is_deleted: false,
       })
       .populate({ path: "customerId", select: "-updated_at -__v" })
@@ -650,12 +669,17 @@ exports.view = async function (req, res) {
       .lean();
 
     if (invoiceinfo) {
+      // Include staff and service_from fields
+      invoiceinfo.staff = invoiceinfo.staff || "Not Specified"; // Default if not present
+      invoiceinfo.service_from = invoiceinfo.service_from || "Not Specified"; // Default if not present
+      
       const invoiceSettings = await invoiceSettingsModel.findOne().lean();
       if (invoiceSettings) {
         invoiceinfo.invoiceLogo = `${process.env.DEVLOPMENT_BACKEND_URL}/${invoiceSettings.invoiceLogo}`;
       } else {
         invoiceinfo.invoiceLogo = "";
       }
+
       const paymentDetails = await paymentModel
         .findOne({ invoiceId: invoiceinfo._id })
         .sort({ _id: -1 })
@@ -669,6 +693,7 @@ exports.view = async function (req, res) {
         invoiceinfo.balance = invoiceinfo.TotalAmount;
         invoiceinfo.paidAmount = 0;
       }
+
       if (invoiceinfo.signatureImage) {
         invoiceinfo.signatureImage = `${process.env.DEVLOPMENT_BACKEND_URL}/${invoiceinfo.signatureImage}`;
       }
@@ -706,6 +731,7 @@ exports.view = async function (req, res) {
     response.error_message(error.message, res);
   }
 };
+
 
 exports.update = async (req, res) => {
   try {
@@ -792,7 +818,6 @@ exports.update = async (req, res) => {
           signatureName:
             request.sign_type === "eSignature" ? request.signatureName : null,
           signatureImage: request.sign_type === "eSignature" ? filesName : null,
-          // signatureImage: filesName ? filesName : undefined,
           taxableAmount: request.taxableAmount,
           totalDiscount: request.totalDiscount,
           vat: request.vat,
@@ -802,6 +827,8 @@ exports.update = async (req, res) => {
           recurringCycle: request.recurringCycle ? request.recurringCycle : 0,
           total: request.total,
           userId: authUser.id,
+          staff: request.staff,  // Added staff field
+          service_from: request.service_from,  // Added service_from field
         },
       };
 
@@ -909,6 +936,7 @@ exports.update = async (req, res) => {
     response.error_message(error.message, res);
   }
 };
+
 
 exports.update_status = async (req, res) => {
   try {

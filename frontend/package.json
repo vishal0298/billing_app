@@ -79,6 +79,7 @@
     "react-signature-canvas": "^1.0.6",
     "react-to-pdf": "^1.0.1",
     "react-to-print": "^2.14.13",
+    "react-toastify": "^10.0.5",
     "react-tooltip": "^5.19.0",
     "reactstrap": "^9.2.0",
     "regenerator-runtime": "^0.13.11",

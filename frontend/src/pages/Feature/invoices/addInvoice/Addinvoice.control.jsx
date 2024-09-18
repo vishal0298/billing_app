@@ -16,7 +16,7 @@ import {
   successToast,
   customerrorToast,
 } from "../../../../core/core-index";
-import { viewCustomerApi } from "../../../../constans/apiname";
+import { staffApi, viewCustomerApi } from "../../../../constans/apiname";
 import dayjs from "dayjs";
 
 const addInvoiceschema = yup
@@ -131,6 +131,8 @@ const AddinvoiceComponentController = (props) => {
   const [taxableAmount, settaxableAmount] = useState(0);
   const [totalDiscount, settotalDiscount] = useState(0);
   const [totalTax, settotalTax] = useState(0);
+  const [staff, setstaff] = useState(0);
+  const [service_from, setservice_from] = useState(0);
   const [totalAmount, settotalAmount] = useState(0);
   const [productData, setProductOptiondata] = useState([]);
   const [productsCloneData, setproductsCloneData] = useState([]);
@@ -140,6 +142,7 @@ const AddinvoiceComponentController = (props) => {
   const [showSubmit, setshowSubmit] = useState(false);
   const [ChoosedCustomer, setChoosedCustomer] = useState({});
   const [searchParams, setSearchParams] = useSearchParams();
+  const [staffDetails, setStaffDetails] = useState([]);
 
   const [trimmedDataURL, setTrimmedDataURL] = useState(null);
   const [signatureData, setSignatureData] = useState(null);
@@ -195,6 +198,23 @@ const AddinvoiceComponentController = (props) => {
     elements.map((element) => element.classList.add("w-100"));
   }, []);
 
+  useEffect(() => {
+    console.log('hello');
+    getStaffDetails();
+  }, []);
+
+  const getStaffDetails = async () => {
+    try {
+      const response = await getData(`${staffApi}`);
+      console.log(typeof(response?.data))
+      if (response) {
+        // eslint-disable-next-line no-undef
+        setStaffDetails(response?.data);
+      }
+    } catch {
+      return false;
+    }
+  };
   const [tax, setTax] = useState([]);
 
   const submitaddInvoiceAddForm = async (data) => {
@@ -266,6 +286,8 @@ const AddinvoiceComponentController = (props) => {
     formData.append("referenceNo", data?.referenceNo);
     formData.append("invoiceNumber", num);
     formData.append("taxableAmount", taxableAmount);
+    formData.append("staff", staff);
+    formData.append("service_from", service_from);
     formData.append("TotalAmount", totalAmount);
     formData.append("vat", totalTax);
     formData.append("totalDiscount", totalDiscount);
@@ -370,6 +392,12 @@ const AddinvoiceComponentController = (props) => {
         settaxableAmount,
         totalTax,
         settotalTax,
+        staff, 
+        setstaff,
+        staffDetails, 
+        setStaffDetails,
+        service_from, 
+        setservice_from,
         totalAmount,
         settotalAmount,
         totalDiscount,

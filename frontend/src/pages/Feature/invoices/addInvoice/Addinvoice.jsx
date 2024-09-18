@@ -28,56 +28,19 @@ const EditableRow = ({ ...props }) => {
   );
 };
 
+
+
 const AddInvoice = () => {
   const { BankSettingschema } = useContext(BankSettingsContext);
   const { currencyData } = useContext(commonDatacontext);
   const [selectedSign, setselectedSign] = useState("/");
 
   const {
-    dataSource,
-    setDataSource,
-    addInvoiceschema,
-    dicountEditForm,
-    submitaddInvoiceAddForm,
-    handleKeyPress,
-    productData,
-    customersData,
-    bank,
-    tax,
-    taxableAmount,
-    settaxableAmount,
-    totalTax,
-    settotalTax,
-    totalAmount,
-    settotalAmount,
-    totalDiscount,
-    settotalDiscount,
-    roundof,
-    setroundof,
-    addBankSettingsForm,
-    productsCloneData,
-    setproductsCloneData,
-    addbankpocancelModal,
-    rowErr,
-    setrowErr,
-    setisRecurring,
-    ChoosedCustomer,
-    trimmedDataURL,
-    setTrimmedDataURL,
-    setSignatureData,
-    num,
-    setNum,
+    dataSource, setDataSource, addInvoiceschema, staffDetails, dicountEditForm, submitaddInvoiceAddForm, handleKeyPress, productData, customersData, bank, tax, taxableAmount, settaxableAmount, totalTax, settotalTax, totalAmount, settotalAmount, totalDiscount, settotalDiscount, roundof, setroundof, addBankSettingsForm, productsCloneData, setproductsCloneData, addbankpocancelModal, rowErr, setrowErr, setisRecurring, ChoosedCustomer, trimmedDataURL, setTrimmedDataURL, setSignatureData, num, setNum,
   } = useContext(AddinvoiceContext);
 
   const {
-    handleSubmit,
-    register,
-    clearErrors,
-    control,
-    trigger,
-    getValues,
-    setValue: addinvsetValue,
-    formState: { errors },
+    handleSubmit, register, clearErrors, control, trigger, getValues, setValue: addinvsetValue, formState: { errors },
   } = useForm({ resolver: yupResolver(addInvoiceschema) });
 
   const {
@@ -102,6 +65,12 @@ const AddInvoice = () => {
     { label: "Card", value: "Card" },
     { label: "Membership", value: "Membership" },
   ]);
+
+  const [serviceFrom, setServiceFrom] = useState([
+    { label: "In-Salon", value: "In-Salon" },
+    { label: "Home Service", value: "HomeService" },
+  ]);
+  
 
   const [count, setCount] = useState(0);
   let editRowInputs = useRef([]);
@@ -578,6 +547,75 @@ const AddInvoice = () => {
       ),
     },
     {
+      title: "staff",
+      render: (text, record) => (
+        <>
+          
+          <div className="">
+                        <div className="form-group input_text">
+                          <label>
+                            Staff <span className="text-danger"> * </span>
+                          </label>
+                          <Controller
+                            name="staff"
+                            control={control}
+                            render={({ field }) => (
+                              <Select
+                                {...field}
+                                className={`react-selectcomponent form-control ${
+                                  errors?.staff ? "error-input" : ""
+                                }`}
+                                getOptionLabel={(option) =>
+                                  `${option.staffName}`
+                                }
+                                getOptionValue={(option) => `${option.staffName}`}
+                                options={staffDetails}
+                                isSearchable={true}
+                                placeholder={`Select Staff `}
+                                classNamePrefix="select_kanakku"
+                              />
+                            )}
+                          />
+                          <small>{errors?.tax?._id?.message}</small>
+                        </div>
+                      </div>
+        </>
+      ),
+    },
+    {
+      title: "Service From",
+      render: (text, record) => (
+        <>
+           <div className="">
+                        <div className="form-group input_text">
+                          <label>
+                          Service From
+                            <span className="text-danger"> *</span>
+                          </label>
+                          <Controller
+                            name="service_from"
+                            control={control}
+                            render={({ field }) => (
+                              <Select
+                                {...field}
+                                className={`form-control react-selectcomponent w-100 ${
+                                  errors?.service_from ? "error-input" : ""
+                                }`}
+                                placeholder="Select Service From"
+                                options={serviceFrom}
+                                classNamePrefix="select_kanakku"
+                              />
+                            )}
+                          />
+                          <small>
+                            {errors?.service_from?.value?.message}
+                          </small>
+                        </div>
+                      </div>
+        </>
+      ),
+    },
+    {
       title: "Action",
       render: (text, record) => (
         <>
@@ -847,6 +885,62 @@ const AddInvoice = () => {
                           </small>
                         </div>
                       </div>
+
+                      {/* <div className="col-lg-4 col-md-6 col-sm-12">
+                        <div className="form-group input_text">
+                          <label>
+                            Staff <span className="text-danger"> * </span>
+                          </label>
+                          <Controller
+                            name="staff"
+                            control={control}
+                            render={({ field }) => (
+                              <Select
+                                {...field}
+                                className={`react-selectcomponent form-control ${
+                                  errors?.tax ? "error-input" : ""
+                                }`}
+                                getOptionLabel={(option) =>
+                                  `${option.name} (${option.taxRate}%)`
+                                }
+                                getOptionValue={(option) => `${option._id}`}
+                                // options={taxData}
+                                isSearchable={true}
+                                placeholder={`Select Staff `}
+                                classNamePrefix="select_kanakku"
+                              />
+                            )}
+                          />
+                          <small>{errors?.tax?._id?.message}</small>
+                        </div>
+                      </div>
+
+                      <div className="col-lg-4 col-md-6 col-sm-12">
+                        <div className="form-group input_text">
+                          <label>
+                          Service From
+                            <span className="text-danger"> *</span>
+                          </label>
+                          <Controller
+                            name="membership_type"
+                            control={control}
+                            render={({ field }) => (
+                              <Select
+                                {...field}
+                                className={`form-control react-selectcomponent w-100 ${
+                                  errors?.payment_method ? "error-input" : ""
+                                }`}
+                                placeholder="Select Service From"
+                                options={serviceFrom}
+                                classNamePrefix="select_kanakku"
+                              />
+                            )}
+                          />
+                          <small>
+                            {errors?.payment_method?.value?.message}
+                          </small>
+                        </div>
+                      </div> */}
 
                       
                       

@@ -3,7 +3,6 @@ const response = require("../../../response");
 const invoiceModel = require("../models/invoice.model");
 
 exports.create = [
-  //body("invoiceNumber").trim().notEmpty().withMessage('is required'),
   body("customerId").trim().notEmpty().withMessage("is required"),
   body("invoiceDate").trim().notEmpty().withMessage("is required"),
   body("dueDate").trim().notEmpty().withMessage("is required"),
@@ -37,7 +36,6 @@ exports.create = [
     .withMessage("is required")
     .isIn(["manualSignature", "eSignature"])
     .withMessage("is invalid"),
-
   body("signatureId")
     .if(body("sign_type").equals("manualSignature"))
     .notEmpty()
@@ -46,8 +44,6 @@ exports.create = [
     .if(body("sign_type").equals("eSignature"))
     .notEmpty()
     .withMessage("is required"),
-
-  // body("invoice_items").isArray().withMessage("is must be a array"),
   body("invoice_items.*.productId")
     .trim()
     .notEmpty()
@@ -78,6 +74,10 @@ exports.create = [
       }
       return true;
     }),
+  
+  // New validations for staff and service_from fields
+  body("staff").trim().optional().notEmpty().withMessage("is required"),
+  body("service_from").trim().optional().notEmpty().withMessage("is required"),
 
   async (req, res, next) => {
     const errors = validationResult(req);

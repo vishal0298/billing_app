@@ -24,7 +24,7 @@ const schema = yup.object().shape({
 
 const AddStaffContext = createContext({
   schema: schema,
-  onSubmit: () => {},
+  _onSubmit: async (data) => {},
 });
 
 const AddStaffComponentController = (props) => {
@@ -37,7 +37,7 @@ const AddStaffComponentController = (props) => {
   const navigate = useNavigate();
   const { postData } = useContext(ApiServiceContext);
 
-  const onSubmit = async (data) => {
+  const _onSubmit = async (data) => {
     const obj = {
       name: data?.name,
       employeeId: data?.employeeId,
@@ -61,7 +61,7 @@ const AddStaffComponentController = (props) => {
     <AddStaffContext.Provider
       value={{
         schema,
-        onSubmit,
+        _onSubmit,
       }}
     >
       {props.children}

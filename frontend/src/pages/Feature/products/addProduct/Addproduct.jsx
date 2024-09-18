@@ -33,17 +33,17 @@ const Addproduct = () => {
   const { getData } = useContext(ApiServiceContext);
 
 
-  const [serviceFrom, setServiceFrom] = useState([
-    { label: "In-Salon", value: "In-Salon" },
-    { label: "Home Service", value: "HomeService" },
-  ]);
+  // const [serviceFrom, setServiceFrom] = useState([
+  //   { label: "In-Salon", value: "In-Salon" },
+  //   { label: "Home Service", value: "HomeService" },
+  // ]);
 
   const [skuNumber, setskuNumber] = useState("");
   // const [serviceFrom, setServiceFrom] = useState("");
   const [imgerror, setImgError] = useState("");
   const file = watch("images");
   const [filePreview] = useFilePreview(file, setImgError);
-  const ServiceFromData =['In-salon', 'Home Service']
+  // const ServiceFromData =['In-salon', 'Home Service']
   useEffect(() => {
     setValue("sku", skuNumber);
     clearErrors("sku");
@@ -424,7 +424,7 @@ const Addproduct = () => {
                         </div>
                       </div>
 
-                      <div className="col-lg-4 col-md-6 col-sm-12">
+                      {/* <div className="col-lg-4 col-md-6 col-sm-12">
                         <div className="form-group input_text">
                           <label>
                             Staff <span className="text-danger"> * </span>
@@ -453,35 +453,6 @@ const Addproduct = () => {
                         </div>
                       </div>
 
-                      {/* <div className="col-lg-4 col-md-6 col-sm-12">
-                        <div className="form-group input_text">
-                          <label>
-                            Service From <span className="text-danger"> * </span>
-                          </label>
-                          <Controller
-                            name="service-from"
-                            control={control}
-                            render={({ field }) => (
-                              <Select
-                                {...field}
-                                className={`react-selectcomponent form-control ${
-                                  errors?.tax ? "error-input" : ""
-                                }`}
-                                getOptionLabel={(option) =>
-                                  `${option.name} (${option.taxRate}%)`
-                                }
-                                getOptionValue={(option) => `${option._id}`}
-                                options={taxData}
-                                isSearchable={true}
-                                placeholder={`Service From `}
-                                classNamePrefix="select_kanakku"
-                              />
-                            )}
-                          />
-                          <small>{errors?.tax?._id?.message}</small>
-                        </div>
-                      </div> */}
-
                       <div className="col-lg-4 col-md-6 col-sm-12">
                         <div className="form-group input_text">
                           <label>
@@ -507,7 +478,7 @@ const Addproduct = () => {
                             {errors?.payment_method?.value?.message}
                           </small>
                         </div>
-                      </div>
+                      </div> */}
 
                     </div>
                   </div>
