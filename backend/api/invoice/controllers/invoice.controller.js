@@ -1170,12 +1170,12 @@ exports.convertsalesreturn = async (req, res) => {
         bank: originalInvoiceDetails.bank,
         notes: originalInvoiceDetails.notes,
         termsAndCondition: originalInvoiceDetails.termsAndCondition,
-        sign_type: originalInvoiceDetails.sign_type,
-        signature_name: originalInvoiceDetails.signatureName,
-        signatureImage: creditNoteImagePath ? creditNoteImagePath : " ",
-        signatureId: originalInvoiceDetails.signatureId
-          ? originalInvoiceDetails.signatureId
-          : null,
+        // sign_type: originalInvoiceDetails.sign_type,
+        // signature_name: originalInvoiceDetails.signatureName,
+        // signatureImage: creditNoteImagePath ? creditNoteImagePath : " ",
+        // signatureId: originalInvoiceDetails.signatureId
+        //   ? originalInvoiceDetails.signatureId
+        //   : null,
         userId: authUser.id,
       },
       async (err, crnrec) => {
