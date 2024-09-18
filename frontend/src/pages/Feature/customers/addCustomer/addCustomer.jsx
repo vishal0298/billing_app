@@ -69,13 +69,6 @@ const AddCustomers = () => {
     return PreviewImg;
   };
 
-  // const handleFormSubmit = (event) => {
-  //   event.preventDefault();
-  //   // Validate the form here if needed
-  //   onSubmit({ name, email, phone, website, membershipType });
-  // };
-
-
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     const formData = {

@@ -1,6 +1,6 @@
 import React from "react";
 import { AddCustomerComponentController } from "./addCustomer.control";
-import AddCustomers from "./addCustomer_old";
+import AddCustomers from "./addCustomer";
 
 const AddQuotationComponent = () => {
   return (
