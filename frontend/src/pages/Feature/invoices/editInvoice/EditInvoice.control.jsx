@@ -16,6 +16,7 @@ import {
   customerrorToast,
 } from "../../../../core/core-index";
 import dayjs from "dayjs";
+import { staffApi } from "../../../../constans/apiname";
 
 const editInvoiceschema = yup
   .object({
@@ -140,9 +141,28 @@ const EditinvoiceComponentController = (props) => {
   const [files, setFile] = useState(null);
 
   const { id } = useParams();
-
+  const [staffDetails, setStaffDetails] = useState([]);
   const [trimmedDataURL, setTrimmedDataURL] = useState(null);
   const [signatureData, setSignatureData] = useState(null);
+
+
+  useEffect(() => {
+    console.log('hello');
+    getStaffDetails();
+  }, []);
+
+  const getStaffDetails = async () => {
+    try {
+      const response = await getData(`${staffApi}`);
+      console.log(typeof(response?.data))
+      if (response) {
+        // eslint-disable-next-line no-undef
+        setStaffDetails(response?.data);
+      }
+    } catch {
+      return false;
+    }
+  };
 
   const getmasterDetails = async () => {
     try {
@@ -380,6 +400,8 @@ const EditinvoiceComponentController = (props) => {
         settotalDiscount,
         roundof,
         setroundof,
+        staffDetails, 
+        setStaffDetails,
         addBankSettingsForm,
         productsCloneData,
         setproductsCloneData,

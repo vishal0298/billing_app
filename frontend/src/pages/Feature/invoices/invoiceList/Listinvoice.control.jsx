@@ -82,6 +82,7 @@ const ListinvoiceComponentController = (props) => {
       const response = await getData(url);
       if (response.code === 200) {
         let sortedArray = await sortbyINVnumberDESC(response?.data);
+        console.log(sortedArray)
         setInvoiceListData(sortedArray);
         setTotalCount(response?.totalRecords);
       }
@@ -130,7 +131,9 @@ const ListinvoiceComponentController = (props) => {
         `${invoice?.Base}?limit=${currentpagesize}&skip=${skipSize}`
       );
       if (response.code === 200) {
+
         let sortedArray = await sortbyINVnumberDESC(response?.data);
+        console.log(sortedArray)
         setInvoiceListData(sortedArray);
         setTotalCount(response?.totalRecords);
       }
@@ -161,6 +164,7 @@ const ListinvoiceComponentController = (props) => {
           ...invoicelistData,
           response.data,
         ]);
+        console.log(sortedArray)
         setInvoiceListData(sortedArray);
         return response;
       }

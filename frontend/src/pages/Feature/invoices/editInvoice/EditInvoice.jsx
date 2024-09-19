@@ -12,7 +12,7 @@ import moment from "moment";
 import { commonDatacontext } from "../../../../core/commonData";
 import { amountFormat } from "../../../../common/helper";
 import { handleNumberRestriction } from "../../../../constans/globals";
-import SignaturePadComponent from "../../../../common/SignaturePadComponent";
+// import SignaturePadComponent from "../../../../common/SignaturePadComponent";
 import DatePickerComponent from "../../datePicker/DatePicker";
 
 const EditableContext = React.createContext(null);
@@ -50,6 +50,7 @@ const EditInvoice = () => {
     totalAmount,
     settotalAmount,
     totalDiscount,
+    staffDetails,
     settotalDiscount,
     setroundof,
     addBankSettingsForm,
@@ -95,6 +96,10 @@ const EditInvoice = () => {
 
   const EditcancelModal = useRef(null);
   const [roundofValue, setroundofValue] = useState(0);
+  const [serviceFrom, setServiceFrom] = useState([
+    { label: "In-Salon", value: "In-Salon" },
+    { label: "Home Service", value: "HomeService" },
+  ]);
 
   const changeRoundoff = (val) => {
     setroundof(val);
@@ -124,9 +129,9 @@ const EditInvoice = () => {
 
   const [paymentmethodsData, setpaymentmethodsData] = useState([
     { label: "Cash", value: "Cash" },
-    { label: "Bank", value: "Bank" },
-    { label: "Cheque", value: "Cheque" },
-    { label: "Online", value: "Online" },
+    { label: "UPI", value: "Upi" },
+    { label: "Card", value: "Card" },
+    { label: "Membership", value: "Membership" },
   ]);
 
   useEffect(() => {
@@ -585,6 +590,65 @@ const EditInvoice = () => {
           {currencyData ? currencyData : "$"}
           {record?.amount}
         </>
+      ),
+    },
+    {
+      title: "Staff",
+      render: (text, record) => (
+        <div className="">
+          <div className="form-group input_text">
+            <label>
+              Staff <span className="text-danger"> * </span>
+            </label>
+            <Controller
+              name={`staffName_${record.key}`} // Unique identifier for each row with base name 'staffName'
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  className={`react-selectcomponent form-control ${
+                    errors?.[`staffName_${record.key}`] ? "error-input" : ""
+                  }`}
+                  getOptionLabel={(option) => `${option.staffName}`}
+                  options={staffDetails}
+                  isSearchable={false}
+                  placeholder={`Select Staff`}
+                  classNamePrefix="select_kanakku"
+                />
+              )}
+            />
+            <small>{errors?.[`staffName_${record.key}`]?.message}</small>
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: "Service From",
+      render: (text, record) => (
+        <div className="">
+          <div className="form-group input_text">
+            <label>
+              Service From
+              <span className="text-danger"> *</span>
+            </label>
+            <Controller
+              name={`service_from_${record.key}`} // Unique identifier for each row with base name 'service_from'
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  className={`form-control react-selectcomponent w-100 ${
+                    errors?.[`service_from_${record.key}`] ? "error-input" : ""
+                  }`}
+                  placeholder="Select Service From"
+                  options={serviceFrom}
+                  classNamePrefix="select_kanakku"
+                />
+              )}
+            />
+            <small>{errors?.[`service_from_${record.key}`]?.message}</small>
+          </div>
+        </div>
       ),
     },
     {
@@ -1078,7 +1142,7 @@ const EditInvoice = () => {
                               </h4>
                             </div>
                           </div>
-                          <SignaturePadComponent
+                          {/* <SignaturePadComponent
                             setValue={setValue}
                             register={register}
                             trigger={trigger}
@@ -1092,7 +1156,7 @@ const EditInvoice = () => {
                             data={invoiceData}
                             setselectedSign={setselectedSign}
                             selectedSign={selectedSign}
-                          />
+                          /> */}
                         </div>
                       </div>
                     </div>

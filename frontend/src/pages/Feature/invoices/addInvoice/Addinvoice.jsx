@@ -144,83 +144,145 @@ const AddInvoice = () => {
     Edittrigger();
   };
 
+  // const addTableRows = (product_id) => {
+  //   if (product_id != "") {
+  //     let selectedProduct;
+  //     selectedProduct = productData.find((prod) => {
+  //       return prod?._id == `${product_id}`;
+  //     });
+
+  //     let removeSeletctedProd;
+  //     removeSeletctedProd = productsCloneData.filter((prod) => {
+  //       return prod?._id != `${product_id}`;
+  //     });
+  //     setproductsCloneData(removeSeletctedProd);
+
+  //     const newData = {
+  //       key: count,
+  //       name: selectedProduct?.name,
+  //       productId: selectedProduct?._id,
+  //       units: selectedProduct?.units?.name,
+  //       unit_id: selectedProduct?.units?._id,
+  //       quantity: 1,
+  //       discountType: selectedProduct?.discountType,
+  //       discount: Number(selectedProduct?.discountValue).toFixed(2),
+  //       rate: Number(selectedProduct?.sellingPrice).toFixed(2),
+  //       tax: Number(selectedProduct?.tax?.taxRate).toFixed(2),
+
+  //       taxInfo: selectedProduct?.tax,
+
+  //       isRateFormUpadted: false,
+  //       form_updated_discounttype: selectedProduct?.discountType,
+  //       form_updated_discount: Number(selectedProduct?.discountValue).toFixed(
+  //         2
+  //       ),
+  //       form_updated_rate: Number(selectedProduct?.sellingPrice).toFixed(2),
+  //       form_updated_tax: Number(selectedProduct?.tax?.taxRate).toFixed(2),
+
+  //       amount: 0,
+  //     };
+
+  //     let Calulateddicount;
+  //     let tdrateVlaue = Number(1 * selectedProduct?.sellingPrice);
+
+  //     if (selectedProduct?.discountType == "2") {
+  //       Calulateddicount = (
+  //         tdrateVlaue *
+  //         (selectedProduct?.discountValue / 100)
+  //       ).toFixed(2);
+  //     } else {
+  //       Calulateddicount = selectedProduct?.discountValue?.toFixed(2);
+  //     }
+
+  //     let afterdiscount = (
+  //       Number(tdrateVlaue) - Number(Calulateddicount)
+  //     ).toFixed(2);
+
+  //     let newDataTax = (
+  //       afterdiscount *
+  //       (Number(selectedProduct?.tax?.taxRate) / 100)
+  //     ).toFixed(2);
+
+  //     let newDataAmount = (
+  //       Number(selectedProduct?.sellingPrice) -
+  //       Number(Calulateddicount) +
+  //       Number(newDataTax)
+  //     ).toFixed(2);
+
+  //     newData.tax = newDataTax;
+  //     newData.amount = newDataAmount;
+  //     newData.discount = (tdrateVlaue - afterdiscount).toFixed(2);
+  //     setDataSource([...dataSource, newData]);
+  //     editRowInputs.current[count] = React.createRef();
+  //     setrowErr([
+  //       ...rowErr,
+  //       { field: `qtyInput${count}`, valid: true, key: count },
+  //     ]);
+  //     setCount(count + 1);
+  //   }
+  // };
+
   const addTableRows = (product_id) => {
-    if (product_id != "") {
-      let selectedProduct;
-      selectedProduct = productData.find((prod) => {
-        return prod?._id == `${product_id}`;
-      });
+    if (product_id !== "") {
+        let selectedProduct;
+        selectedProduct = productData.find((prod) => prod?._id === `${product_id}`);
 
-      let removeSeletctedProd;
-      removeSeletctedProd = productsCloneData.filter((prod) => {
-        return prod?._id != `${product_id}`;
-      });
-      setproductsCloneData(removeSeletctedProd);
+        let removeSeletctedProd;
+        removeSeletctedProd = productsCloneData.filter((prod) => prod?._id !== `${product_id}`);
+        setproductsCloneData(removeSeletctedProd);
 
-      const newData = {
-        key: count,
-        name: selectedProduct?.name,
-        productId: selectedProduct?._id,
-        units: selectedProduct?.units?.name,
-        unit_id: selectedProduct?.units?._id,
-        quantity: 1,
-        discountType: selectedProduct?.discountType,
-        discount: Number(selectedProduct?.discountValue).toFixed(2),
-        rate: Number(selectedProduct?.sellingPrice).toFixed(2),
-        tax: Number(selectedProduct?.tax?.taxRate).toFixed(2),
+        const newData = {
+            key: count,
+            name: selectedProduct?.name,
+            productId: selectedProduct?._id,
+            units: selectedProduct?.units?.name,
+            unit_id: selectedProduct?.units?._id,
+            quantity: 1,
+            discountType: selectedProduct?.discountType,
+            discount: Number(selectedProduct?.discountValue).toFixed(2),
+            rate: Number(selectedProduct?.sellingPrice).toFixed(2),
+            tax: Number(selectedProduct?.tax?.taxRate).toFixed(2),
+            taxInfo: selectedProduct?.tax,
 
-        taxInfo: selectedProduct?.tax,
+            isRateFormUpadted: false,
+            form_updated_discounttype: selectedProduct?.discountType,
+            form_updated_discount: Number(selectedProduct?.discountValue).toFixed(2),
+            form_updated_rate: Number(selectedProduct?.sellingPrice).toFixed(2),
+            form_updated_tax: Number(selectedProduct?.tax?.taxRate).toFixed(2),
 
-        isRateFormUpadted: false,
-        form_updated_discounttype: selectedProduct?.discountType,
-        form_updated_discount: Number(selectedProduct?.discountValue).toFixed(
-          2
-        ),
-        form_updated_rate: Number(selectedProduct?.sellingPrice).toFixed(2),
-        form_updated_tax: Number(selectedProduct?.tax?.taxRate).toFixed(2),
+            amount: 0,
 
-        amount: 0,
-      };
+            // Add default values for staff and service_from fields
+            staff: null,  // Assuming staff details will be selected from the dropdown
+            service_from: null,  // Assuming service from details will be selected from the dropdown
+        };
 
-      let Calulateddicount;
-      let tdrateVlaue = Number(1 * selectedProduct?.sellingPrice);
+        let Calulateddicount;
+        let tdrateVlaue = Number(1 * selectedProduct?.sellingPrice);
 
-      if (selectedProduct?.discountType == "2") {
-        Calulateddicount = (
-          tdrateVlaue *
-          (selectedProduct?.discountValue / 100)
-        ).toFixed(2);
-      } else {
-        Calulateddicount = selectedProduct?.discountValue?.toFixed(2);
-      }
+        if (selectedProduct?.discountType === "2") {
+            Calulateddicount = (tdrateVlaue * (selectedProduct?.discountValue / 100)).toFixed(2);
+        } else {
+            Calulateddicount = selectedProduct?.discountValue?.toFixed(2);
+        }
 
-      let afterdiscount = (
-        Number(tdrateVlaue) - Number(Calulateddicount)
-      ).toFixed(2);
+        let afterdiscount = (Number(tdrateVlaue) - Number(Calulateddicount)).toFixed(2);
+        let newDataTax = (afterdiscount * (Number(selectedProduct?.tax?.taxRate) / 100)).toFixed(2);
+        let newDataAmount = (Number(selectedProduct?.sellingPrice) - Number(Calulateddicount) + Number(newDataTax)).toFixed(2);
 
-      let newDataTax = (
-        afterdiscount *
-        (Number(selectedProduct?.tax?.taxRate) / 100)
-      ).toFixed(2);
+        newData.tax = newDataTax;
+        newData.amount = newDataAmount;
+        newData.discount = (tdrateVlaue - afterdiscount).toFixed(2);
 
-      let newDataAmount = (
-        Number(selectedProduct?.sellingPrice) -
-        Number(Calulateddicount) +
-        Number(newDataTax)
-      ).toFixed(2);
-
-      newData.tax = newDataTax;
-      newData.amount = newDataAmount;
-      newData.discount = (tdrateVlaue - afterdiscount).toFixed(2);
-      setDataSource([...dataSource, newData]);
-      editRowInputs.current[count] = React.createRef();
-      setrowErr([
-        ...rowErr,
-        { field: `qtyInput${count}`, valid: true, key: count },
-      ]);
-      setCount(count + 1);
+        setDataSource([...dataSource, newData]);
+        editRowInputs.current[count] = React.createRef();
+        setrowErr([
+            ...rowErr,
+            { field: `qtyInput${count}`, valid: true, key: count },
+        ]);
+        setCount(count + 1);
     }
-  };
+};
 
   const handleChanges = (evnt, key) => {
     const { name, value } = evnt.target;
@@ -549,72 +611,62 @@ const AddInvoice = () => {
       ),
     },
     {
-      title: "staff",
+      title: "Staff",
       render: (text, record) => (
-        <>
-          
-          <div className="">
-                        <div className="form-group input_text">
-                          <label>
-                            Staff <span className="text-danger"> * </span>
-                          </label>
-                          <Controller
-                            name="staff"
-                            control={control}
-                            render={({ field }) => (
-                              <Select
-                                {...field}
-                                className={`react-selectcomponent form-control ${
-                                  errors?.staff ? "error-input" : ""
-                                }`}
-                                getOptionLabel={(option) =>
-                                  `${option.staffName}`
-                                }
-                                getOptionValue={(option) => `${option.staffName}`}
-                                options={staffDetails}
-                                isSearchable={true}
-                                placeholder={`Select Staff `}
-                                classNamePrefix="select_kanakku"
-                              />
-                            )}
-                          />
-                          <small>{errors?.tax?._id?.message}</small>
-                        </div>
-                      </div>
-        </>
+        <div className="">
+          <div className="form-group input_text">
+            <label>
+              Staff <span className="text-danger"> * </span>
+            </label>
+            <Controller
+              name={`staffName_${record.key}`} // Unique identifier for each row with base name 'staffName'
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  className={`react-selectcomponent form-control ${
+                    errors?.[`staffName_${record.key}`] ? "error-input" : ""
+                  }`}
+                  getOptionLabel={(option) => `${option.staffName}`}
+                  options={staffDetails}
+                  isSearchable={true}
+                  placeholder={`Select Staff`}
+                  classNamePrefix="select_kanakku"
+                />
+              )}
+            />
+            <small>{errors?.[`staffName_${record.key}`]?.message}</small>
+          </div>
+        </div>
       ),
     },
     {
       title: "Service From",
       render: (text, record) => (
-        <>
-           <div className="">
-                        <div className="form-group input_text">
-                          <label>
-                          Service From
-                            <span className="text-danger"> *</span>
-                          </label>
-                          <Controller
-                            name="service_from"
-                            control={control}
-                            render={({ field }) => (
-                              <Select
-                                {...field}
-                                className={`form-control react-selectcomponent w-100 ${
-                                  errors?.service_from ? "error-input" : ""
-                                }`}
-                                placeholder="Select Service From"
-                                options={serviceFrom}
-                                classNamePrefix="select_kanakku"
-                              />
-                            )}
-                          />
-                          <small>
-                            {errors?.service_from?.value?.message}
-                          </small>
-                        </div>
-                      </div>
-        </>
+        <div className="">
+          <div className="form-group input_text">
+            <label>
+              Service From
+              <span className="text-danger"> *</span>
+            </label>
+            <Controller
+              name={`service_from_${record.key}`} // Unique identifier for each row with base name 'service_from'
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  className={`form-control react-selectcomponent w-100 ${
+                    errors?.[`service_from_${record.key}`] ? "error-input" : ""
+                  }`}
+                  placeholder="Select Service From"
+                  options={serviceFrom}
+                  classNamePrefix="select_kanakku"
+                />
+              )}
+            />
+            <small>{errors?.[`service_from_${record.key}`]?.message}</small>
+          </div>
+        </div>
       ),
     },
     {

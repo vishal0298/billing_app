@@ -268,6 +268,7 @@ import { useForm } from "react-hook-form";
 import { debounce } from "../../../common/helper";
 import DatePickerComponent from "../datePicker/DatePicker";
 import dayjs from "dayjs";
+import { staffApi } from "../../../constans/apiname";
 
 const InvoiceFilter = ({
   setShow,
@@ -298,6 +299,7 @@ const InvoiceFilter = ({
   const [key3, setKey3] = useState([]);
   const [noData, setNoData] = useState(false);
   const [noData2, setNoData2] = useState(false);
+  const [searchText3, setSearchText3] = useState({ value: "", asset: [] });
   const [searchText, setSearchText] = useState({ value: "", asset: [] });
   const [searchText2, setSearchText2] = useState({ value: "", asset: [] });
   const { getData } = useContext(ApiServiceContext);
@@ -307,7 +309,7 @@ const InvoiceFilter = ({
     { id: "PARTIALLY_PAID", value: "PARTIALLY PAID" },
     { id: "DRAFTED", value: "DRAFTED" },
   ]);
-
+  
   const [paymentOptions] = useState([
     { id: "CASH", value: "Cash" },
     { id: "UPI", value: "UPI" },
@@ -396,6 +398,7 @@ const InvoiceFilter = ({
           const response = await getData(searchUrl, false);
           if (response.code == 200) {
             let data = response?.data;
+            console.log(data)
             if (data.length > 0) {
               setNoData2(false);
               setSearchText2({
@@ -425,12 +428,12 @@ const InvoiceFilter = ({
     } else if (type == "STAFF") {
       if (val !== "") {
         try {
-          let searchUrl = `/api/staff?search_staff=${val}`;
+          let searchUrl = staffApi;
           const response = await getData(searchUrl, false);
           if (response.code == 200) {
             let data = response?.data;
             if (data.length > 0) {
-              setSearchText({
+              setSearchText3({
                 value: val,
                 asset: response?.data,
               });
@@ -468,6 +471,12 @@ const InvoiceFilter = ({
   const handleCheckboxChange = (event, name, type) => {
     const { value, checked } = event.target;
     if (type == "CUS") {
+      if (checked) {
+        setKey((prev) => [...prev, name]);
+      } else {
+        setKey((prev) => prev.filter((item) => item !== name));
+      }
+    } else if (type == "STA") {
       if (checked) {
         setKey((prev) => [...prev, name]);
       } else {
@@ -678,11 +687,11 @@ const InvoiceFilter = ({
                             placeholder="Search Customer"
                             onChange={(e) => {
                               const val = e?.target?.value.toLowerCase();
-                              setSearchText({
+                              setSearchText3({
                                 value: val,
                                 asset: [],
                               });
-                              onSearchprocessChange(val, "CUSTOMER");
+                              onSearchprocessChange(val, "STAFF");
                             }}
                           />
                           <span>
@@ -690,8 +699,8 @@ const InvoiceFilter = ({
                           </span>
                         </div>
                         <div className="selectBox-cont">
-                          {searchText?.asset?.length > 0 &&
-                            searchText?.asset?.map((item, index) => {
+                          {searchText3?.asset?.length > 0 &&
+                            searchText3?.asset?.map((item, index) => {
                               return (
                                 <label
                                   className="custom_check w-100"
@@ -703,14 +712,14 @@ const InvoiceFilter = ({
                                     {...register(`customer${index}`)}
                                     defaultChecked={false}
                                     onChange={(e) =>
-                                      handleCheckboxChange(e, item?._id, "CUS")
+                                      handleCheckboxChange(e, item?.staffName, "STA")
                                     }
                                   />
-                                  <span className="checkmark" /> {item.name}
+                                  <span className="checkmark" /> {item.staffName}
                                 </label>
                               );
                             })}
-                          {noData && <span>Customer Not Found !</span>}
+                          {noData && <span>Staff Not Found !</span>}
                         </div>
                       </div>
                     </div>

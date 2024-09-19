@@ -219,6 +219,7 @@ const AddinvoiceComponentController = (props) => {
 
   const submitaddInvoiceAddForm = async (data) => {
 
+    console.log(data)
     let invoiceDate =
       data?.invoiceDate == undefined ? new Date() : data?.invoiceDate;
     let dueDate = data?.dueDate == undefined ? new Date() : data?.dueDate;
@@ -237,11 +238,14 @@ const AddinvoiceComponentController = (props) => {
     }
 
     const formData = new FormData();
+    console.log(formData)
     for (let i = 0; i < dataSource.length; i++) {
       formData.append(`items[${i}][name]`, dataSource[i].name);
       formData.append(`items[${i}][key]`, dataSource[i].key);
       formData.append(`items[${i}][productId]`, dataSource[i].productId);
       formData.append(`items[${i}][quantity]`, dataSource[i].quantity);
+      formData.append(`items[${i}][staff]`, dataSource[i].staffName);
+      formData.append(`items[${i}][service_from]`, dataSource[i].service_from);
       formData.append(`items[${i}][units]`, dataSource[i].units);
       formData.append(`items[${i}][unit]`, dataSource[i].unit_id);
       formData.append(`items[${i}][rate]`, dataSource[i].rate);
@@ -286,8 +290,6 @@ const AddinvoiceComponentController = (props) => {
     formData.append("referenceNo", data?.referenceNo);
     formData.append("invoiceNumber", num);
     formData.append("taxableAmount", taxableAmount);
-    formData.append("staff", staff);
-    formData.append("service_from", service_from);
     formData.append("TotalAmount", totalAmount);
     formData.append("vat", totalTax);
     formData.append("totalDiscount", totalDiscount);
