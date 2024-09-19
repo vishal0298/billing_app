@@ -100,24 +100,24 @@ let invoice = new Schema(
       type: Schema.Types.String,
       required: false,
     },
-    sign_type: {
-      type: Schema.Types.String,
-      required: true,
-    },
-    signatureId: {
-      type: Schema.Types.ObjectId,
-      required: false,
-      ref: "signature",
-    },
-    signatureName: {
-      type: Schema.Types.String,
-      required: false,
-    },
-    signatureImage: {
-      type: Schema.Types.String,
-      required: false,
-      // default: "",
-    },
+    // sign_type: {
+    //   type: Schema.Types.String,
+    //   required: true,
+    // },
+    // signatureId: {
+    //   type: Schema.Types.ObjectId,
+    //   required: false,
+    //   ref: "signature",
+    // },
+    // signatureName: {
+    //   type: Schema.Types.String,
+    //   required: false,
+    // },
+    // signatureImage: {
+    //   type: Schema.Types.String,
+    //   required: false,
+    //   // default: "",
+    // },
     isDeleted: {
       type: Schema.Types.Boolean,
       required: true,
