@@ -245,7 +245,7 @@ exports.list = async function (req, res) {
     options.select = "-__v -updated_at";
     options.populate = [
       { path: "customerId", select: " -updated_at" },
-      { path: "signatureId" },
+      // { path: "signatureId" },
     ];
     options.sort = { _id: -1 };
     options.lean = true;
@@ -348,9 +348,9 @@ exports.list = async function (req, res) {
         if (item.signatureImage) {
           item.signatureImage = `${process.env.DEVLOPMENT_BACKEND_URL}/${item.signatureImage}`;
         }
-        if (item.signatureId && item.signatureId.signatureImage) {
-          item.signatureId.signatureImage = `${process.env.DEVLOPMENT_BACKEND_URL}/${item.signatureId.signatureImage}`;
-        }
+        // if (item.signatureId && item.signatureId.signatureImage) {
+        //   item.signatureId.signatureImage = `${process.env.DEVLOPMENT_BACKEND_URL}/${item.signatureId.signatureImage}`;
+        // }
         if (
           item.customerId &&
           item.customerId.image &&
@@ -358,9 +358,9 @@ exports.list = async function (req, res) {
         ) {
           item.customerId.image = `${process.env.DEVLOPMENT_BACKEND_URL}/${item.customerId.image}`;
         }
-        if (!item.signatureId) {
-          item.signatureId = {};
-        }
+        // if (!item.signatureId) {
+        //   item.signatureId = {};
+        // }
 
         // Include the new fields in the result
         if (item.staff) {
@@ -663,7 +663,7 @@ exports.view = async function (req, res) {
         is_deleted: false,
       })
       .populate({ path: "customerId", select: "-updated_at -__v" })
-      .populate({ path: "signatureId", select: "-updated_at -__v" })
+      // .populate({ path: "signatureId", select: "-updated_at -__v" })
       .populate({ path: "bank", select: "-updated_at -__v" })
       .select("-__v -updated_at")
       .lean();
@@ -694,12 +694,12 @@ exports.view = async function (req, res) {
         invoiceinfo.paidAmount = 0;
       }
 
-      if (invoiceinfo.signatureImage) {
-        invoiceinfo.signatureImage = `${process.env.DEVLOPMENT_BACKEND_URL}/${invoiceinfo.signatureImage}`;
-      }
-      if (invoiceinfo.signatureId) {
-        invoiceinfo.signatureId.signatureImage = `${process.env.DEVLOPMENT_BACKEND_URL}/${invoiceinfo.signatureId.signatureImage}`;
-      }
+      // if (invoiceinfo.signatureImage) {
+      //   invoiceinfo.signatureImage = `${process.env.DEVLOPMENT_BACKEND_URL}/${invoiceinfo.signatureImage}`;
+      // }
+      // if (invoiceinfo.signatureId) {
+      //   invoiceinfo.signatureId.signatureImage = `${process.env.DEVLOPMENT_BACKEND_URL}/${invoiceinfo.signatureId.signatureImage}`;
+      // }
 
       if (invoiceinfo.status == "OVERDUE") {
         await invoiceModel.updateOne(
@@ -709,9 +709,9 @@ exports.view = async function (req, res) {
       }
 
       // Check if the signatureId exists or not
-      if (!invoiceinfo.signatureId) {
-        invoiceinfo.signatureId = {}; // Set an empty object if signatureId doesn't exist
-      }
+      // if (!invoiceinfo.signatureId) {
+      //   invoiceinfo.signatureId = {}; // Set an empty object if signatureId doesn't exist
+      // }
 
       const data = {
         invoice_details: invoiceinfo,
