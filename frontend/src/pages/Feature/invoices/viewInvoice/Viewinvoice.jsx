@@ -173,6 +173,13 @@ const ViewInvoice = () => {
       ),
     },
     {
+      title: "Staff",
+      dataIndex: "staff",
+    },{
+      title: "Service From",
+      dataIndex: "service_from",
+    },
+    {
       title: `Discount`,
       dataIndex: "discount",
       render: (text,record) => (

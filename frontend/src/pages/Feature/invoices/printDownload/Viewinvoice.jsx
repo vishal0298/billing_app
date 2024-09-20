@@ -182,6 +182,28 @@ const ViewInvoice = () => {
         </>
       ),
     },
+    
+    {
+      title: `Staff`,
+      dataIndex: "staff",
+      render: (text,record) => (
+        <>
+          { console.log(record)}
+          {currencyData ? currencyData : "$"}
+          {record?.staff}
+        </>
+      ),
+    },
+    {
+      title: `Service From`,
+      dataIndex: "service_from",
+      render: (text,record) => (
+        <>
+          {currencyData ? currencyData : "$"}
+          {record?.service_from}
+        </>
+      ),
+    },
     {
       title: `Tax`,
       dataIndex: "tax",

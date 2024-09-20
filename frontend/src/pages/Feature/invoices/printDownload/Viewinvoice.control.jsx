@@ -31,6 +31,7 @@ const ViewinvoiceComponentController = (props) => {
     try {
       const viewinvoiceData = await getData(`${Base}/${id}`);
       if (viewinvoiceData.code === 200) {
+        console.log(viewinvoiceData?.data?.invoice_details)
         setinvoicedata(viewinvoiceData?.data?.invoice_details);
         setDataSource(viewinvoiceData?.data?.invoice_details?.items);
       }
