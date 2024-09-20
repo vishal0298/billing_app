@@ -62,6 +62,7 @@ const EditInvoice = () => {
     setshowSubmit,
     count,
     setCount,
+    handleFieldChange,
     trimmedDataURL,
     setTrimmedDataURL,
     setSignatureData,
@@ -600,23 +601,19 @@ const EditInvoice = () => {
             <label>
               Staff <span className="text-danger"> * </span>
             </label>
-            <Controller
-              name={`staffName_${record.key}`} // Unique identifier for each row with base name 'staffName'
-              control={control}
-              render={({ field }) => (
-                <Select
-                  {...field}
+            {console.log(record.staff)}
+            <Select
                   className={`react-selectcomponent form-control ${
-                    errors?.[`staffName_${record.key}`] ? "error-input" : ""
+                    errors?.[`staffName${record.key}`] ? "error-input" : ""
                   }`}
+                  onChange={(value) => handleFieldChange(value.staffName, record.key, "staffName")}
                   getOptionLabel={(option) => `${option.staffName}`}
+                  // defaulValue={record.staff}
                   options={staffDetails}
-                  isSearchable={false}
-                  placeholder={`Select Staff`}
+                  isSearchable={true}
+                  placeholder={ record.staff || `Select Staff`}
                   classNamePrefix="select_kanakku"
                 />
-              )}
-            />
             <small>{errors?.[`staffName_${record.key}`]?.message}</small>
           </div>
         </div>
@@ -631,22 +628,21 @@ const EditInvoice = () => {
               Service From
               <span className="text-danger"> *</span>
             </label>
-            <Controller
-              name={`service_from_${record.key}`} // Unique identifier for each row with base name 'service_from'
-              control={control}
-              render={({ field }) => (
+            
                 <Select
-                  {...field}
                   className={`form-control react-selectcomponent w-100 ${
                     errors?.[`service_from_${record.key}`] ? "error-input" : ""
                   }`}
-                  placeholder="Select Service From"
+                  onChange={(value) => handleFieldChange(value, record.key, "service_from")}
+                  getOptionLabel={(option) => `${option?.value}`}
+                  
+                  // defaultValue={record.service_from}
+                  placeholder={record.service_from || "Select Service From"}
                   options={serviceFrom}
                   classNamePrefix="select_kanakku"
                 />
-              )}
-            />
-            <small>{errors?.[`service_from_${record.key}`]?.message}</small>
+                {console.log("record service_from" + record.service_from)}
+            <small>{errors?.[`service_from${record.key}`]?.message}</small>
           </div>
         </div>
       ),

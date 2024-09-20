@@ -145,6 +145,32 @@ const EditinvoiceComponentController = (props) => {
   const [trimmedDataURL, setTrimmedDataURL] = useState(null);
   const [signatureData, setSignatureData] = useState(null);
 
+  const [staffData, setStaffData] = useState({});
+    const [serviceFromData, setServiceFromData] = useState({});
+  
+    // useEffect(() => {
+    //   console.log(staffData)
+    // }, [staffData])
+    // useEffect(() => {
+    //   console.log(serviceFromData)
+    // }, [serviceFromData])
+    
+    // Generic handler for both staff and service_from, differentiating based on fieldType
+    const handleFieldChange = (value, key, fieldType) => {
+      if (fieldType === "staffName") {
+        setStaffData((prev) => ({
+          ...prev,
+          [key]: value, // Store staff data by key
+        }));
+      } else if (fieldType === "service_from") {
+        console.log(value)
+        setServiceFromData((prev) => ({
+          ...prev,
+          [key]: value, // Store service_from data by key
+        }));
+      }
+      // setValue(`${fieldType}${key}`, value); // Update form value in react-hook-form
+    };
 
   useEffect(() => {
     console.log('hello');
@@ -271,6 +297,8 @@ const EditinvoiceComponentController = (props) => {
       formData.append(`items[${i}][key]`, i);
       formData.append(`items[${i}][productId]`, dataSource[i]?.productId);
       formData.append(`items[${i}][quantity]`, dataSource[i]?.quantity);
+      formData.append(`items[${i}][staff]`, staffData[i]);
+      formData.append(`items[${i}][service_from]`, serviceFromData[i]?.value);
       formData.append(`items[${i}][units]`, dataSource[i]?.units);
       formData.append(`items[${i}][unit]`, dataSource[i]?.unit_id);
       formData.append(`items[${i}][rate]`, dataSource[i]?.rate);
@@ -423,6 +451,11 @@ const EditinvoiceComponentController = (props) => {
         trimmedDataURL,
         setTrimmedDataURL,
         setSignatureData,
+        staffData,
+        setStaffData,
+        serviceFromData,
+        setServiceFromData,
+        handleFieldChange,
       }}
     >
       {props.children}

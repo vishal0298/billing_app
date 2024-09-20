@@ -111,7 +111,7 @@ exports.create = async (req, res) => {
             isDeleted: false,
             
             // New fields
-            staff: request.staff,
+            staffName: request.staffName,
             service_from: request.service_from,
           },
           async function (err, invoiceDetails) {
@@ -363,8 +363,8 @@ exports.list = async function (req, res) {
         // }
 
         // Include the new fields in the result
-        if (item.staff) {
-          item.staff = item.staff;
+        if (item.staffName) {
+          item.staffName = item.staffName;
         }
         if (item.service_from) {
           item.service_from = item.service_from;
@@ -535,8 +535,8 @@ exports.sendPdf = async (req, res) => {
       .select("-__v -updated_at")
       .lean();
 
-    // Ensure staff and service_from fields are included
-    invoiceinfo.staff = invoiceinfo.staff || "Not Specified"; // Default if not present
+    // Ensure staffName and service_from fields are included
+    invoiceinfo.staffName = invoiceinfo.staffName || "Not Specified"; // Default if not present
     invoiceinfo.service_from = invoiceinfo.service_from || "Not Specified"; // Default if not present
 
     invoiceinfo.currency = preferenceSettingsRec.currencyId.currency_symbol;
@@ -669,8 +669,8 @@ exports.view = async function (req, res) {
       .lean();
 
     if (invoiceinfo) {
-      // Include staff and service_from fields
-      invoiceinfo.staff = invoiceinfo.staff || "Not Specified"; // Default if not present
+      // Include staffName and service_from fields
+      invoiceinfo.staffName = invoiceinfo.staffName || "Not Specified"; // Default if not present
       invoiceinfo.service_from = invoiceinfo.service_from || "Not Specified"; // Default if not present
       
       const invoiceSettings = await invoiceSettingsModel.findOne().lean();
@@ -827,7 +827,7 @@ exports.update = async (req, res) => {
           recurringCycle: request.recurringCycle ? request.recurringCycle : 0,
           total: request.total,
           userId: authUser.id,
-          staff: request.staff,  // Added staff field
+          staffName: request.staffName,  // Added staffName field
           service_from: request.service_from,  // Added service_from field
         },
       };

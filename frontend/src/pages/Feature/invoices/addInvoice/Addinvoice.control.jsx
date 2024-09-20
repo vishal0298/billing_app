@@ -148,6 +148,34 @@ const AddinvoiceComponentController = (props) => {
   // const [signatureData, setSignatureData] = useState(null);
   const [num, setNum] = useState("");
 
+    // State for staff and service_from data
+    const [staffData, setStaffData] = useState({});
+    const [serviceFromData, setServiceFromData] = useState({});
+  
+    useEffect(() => {
+      console.log(staffData)
+    }, [staffData])
+    useEffect(() => {
+      console.log(serviceFromData)
+    }, [serviceFromData])
+    
+    // Generic handler for both staff and service_from, differentiating based on fieldType
+    const handleFieldChange = (value, key, fieldType) => {
+      if (fieldType === "staffName") {
+        setStaffData((prev) => ({
+          ...prev,
+          [key]: value, // Store staff data by key
+        }));
+      } else if (fieldType === "service_from") {
+        setServiceFromData((prev) => ({
+          ...prev,
+          [key]: value, // Store service_from data by key
+        }));
+      }
+      // setValue(`${fieldType}${key}`, value); // Update form value in react-hook-form
+    };
+  
+
   const getmasterDetails = async () => {
     try {
       if (searchParams.get("cid") && searchParams.get("cid") != "") {
@@ -171,6 +199,8 @@ const AddinvoiceComponentController = (props) => {
         setProductOptiondata(DDOPTData);
         setproductsCloneData(DDOPTData);
       }
+
+      
 
       const Customersresponse = await getData(dropdown_api.customer_api);
       if (Customersresponse.code === 200) {
@@ -244,8 +274,8 @@ const AddinvoiceComponentController = (props) => {
       formData.append(`items[${i}][key]`, dataSource[i].key);
       formData.append(`items[${i}][productId]`, dataSource[i].productId);
       formData.append(`items[${i}][quantity]`, dataSource[i].quantity);
-      formData.append(`items[${i}][staff]`, dataSource[i].staffName);
-      formData.append(`items[${i}][service_from]`, dataSource[i].service_from);
+      formData.append(`items[${i}][staff]`, staffData[i]);
+      formData.append(`items[${i}][service_from]`, serviceFromData[i].value);
       formData.append(`items[${i}][units]`, dataSource[i].units);
       formData.append(`items[${i}][unit]`, dataSource[i].unit_id);
       formData.append(`items[${i}][rate]`, dataSource[i].rate);
@@ -424,6 +454,11 @@ const AddinvoiceComponentController = (props) => {
         ChoosedCustomer,
         trimmedDataURL,
         setTrimmedDataURL,
+        staffData,
+        setStaffData,
+        serviceFromData,
+        setServiceFromData,
+        handleFieldChange,
         // setSignatureData,
         num,
         setNum,
