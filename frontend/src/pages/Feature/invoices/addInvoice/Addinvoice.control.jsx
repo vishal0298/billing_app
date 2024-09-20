@@ -275,7 +275,7 @@ const AddinvoiceComponentController = (props) => {
       formData.append(`items[${i}][productId]`, dataSource[i].productId);
       formData.append(`items[${i}][quantity]`, dataSource[i].quantity);
       formData.append(`items[${i}][staff]`, staffData[i]);
-      formData.append(`items[${i}][service_from]`, serviceFromData[i].value);
+      formData.append(`items[${i}][service_from]`, serviceFromData[i]?.value);
       formData.append(`items[${i}][units]`, dataSource[i].units);
       formData.append(`items[${i}][unit]`, dataSource[i].unit_id);
       formData.append(`items[${i}][rate]`, dataSource[i].rate);
