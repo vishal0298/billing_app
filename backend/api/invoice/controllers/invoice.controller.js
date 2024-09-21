@@ -265,6 +265,13 @@ exports.list = async function (req, res) {
         $lte: new Date(`${toDateOnly}T23:59:59.999Z`),
       };
     }
+    if (req.query.search_staff) {
+      console.log(req.query.search_staff);
+      filter["items.staff"] = {
+        $regex: `^${req.query.search_staff}`,
+        $options: "i",
+      };
+    }
     if (req.query.status == "DRAFTED") {
       filter.status = "DRAFTED";
       filter.dueDate = {
@@ -289,6 +296,7 @@ exports.list = async function (req, res) {
       };
     }
     if (req.query.search_invoiceNumber) {
+      console.log(req.query.search_invoiceNumber)
       filter.invoiceNumber = {
         $regex: `^${req.query.search_invoiceNumber}`,
         $options: "i",
@@ -313,8 +321,10 @@ exports.list = async function (req, res) {
     if (req.query.limit) {
       options.limit = parseInt(req.query.limit);
     }
+    console.log(filter)
     await invoiceModel.paginate(filter, options).then(async (result) => {
       let results = [];
+      console.log(result)
       let status = ["PAID", "PARTIALLY_PAID", "SENT"];
       for (const item of result.docs) {
         if (Object.keys(item).length > 0) {

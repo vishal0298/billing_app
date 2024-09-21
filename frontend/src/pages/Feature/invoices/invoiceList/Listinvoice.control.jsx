@@ -40,8 +40,10 @@ const ListinvoiceComponentController = (props) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [activeTab, setActiveTab] = useState("ALL");
 
-  const [fromDate, setfromDate] = useState(dayjs());
-  const [toDate, settoDate] = useState(dayjs());
+  // const [fromDate, setfromDate] = useState(dayjs());
+  const [fromDate, setfromDate] = useState();
+  const [toDate, settoDate] = useState();
+  // const [toDate, settoDate] = useState(dayjs());
 
   const [receivedon, setreceivedon] = useState(new Date());
   const addpaymentcancelModal = useRef(null);
