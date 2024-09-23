@@ -295,6 +295,13 @@ exports.list = async function (req, res) {
         $lt: new Date(),
       };
     }
+    if (req.query.payment_mode) {
+      console.log(req.query.payment_mode);
+      filter.payment_method = {
+        $in: req.query.payment_mode.split(',')
+        // .map(mode => mode.toUpperCase())
+      };
+    }
     if (req.query.search_invoiceNumber) {
       console.log(req.query.search_invoiceNumber)
       filter.invoiceNumber = {

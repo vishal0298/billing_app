@@ -39,6 +39,7 @@ const InvoiceFilter = ({
   const [key2, setKey2] = useState([]);
   const [key3, setKey3] = useState([]);
   const [key4, setKey4] = useState([]);
+  const [key5, setKey5] = useState([]);
   const [noData, setNoData] = useState(false);
   const [noData2, setNoData2] = useState(false);
   const [searchText, setSearchText] = useState({ value: "", asset: [] });
@@ -54,7 +55,7 @@ const InvoiceFilter = ({
 
   const [paymentOptions] = useState([
     { id: "CASH", value: "Cash" },
-    { id: "UPI", value: "UPI" },
+    { id: "UPI", value: "Upi" },
     { id: "CARD", value: "Card" },
     { id: "MEMBERSHIP", value: "Membership" },
   ]);
@@ -65,6 +66,7 @@ const InvoiceFilter = ({
       key2.length > 0 ||
       key3.length > 0 ||
       key4.length > 0 ||
+      key5.length > 0 ||
       fromDate ||
       toDate ||
       searchText.value ||
@@ -74,7 +76,7 @@ const InvoiceFilter = ({
     } else {
       setnoFilters(true);
     }
-  }, [key, key2, key3, key4, fromDate, toDate, searchText2.value, searchText.value]);
+  }, [key, key2, key3, key4, key5, fromDate, toDate, searchText2.value, searchText.value]);
 
   useEffect(() => {
     setKey([]);
@@ -236,6 +238,13 @@ const InvoiceFilter = ({
       } else {
         setKey4((prev) => prev.filter((item) => item !== name));
       }
+    } else if (type == "PAY") {
+      console.log(name)
+      if (checked) {
+        setKey5((prev) => [...prev, name]);
+      } else {
+        setKey5((prev) => prev.filter((item) => item !== name));
+      }
     } else {
       if (checked) {
         setKey3((prev) => [...prev, name]);
@@ -270,11 +279,13 @@ const InvoiceFilter = ({
         let toIsodate = dayjs(toDate).toISOString();
         queryParams.push(`toDate=${toIsodate}`);
       }
+      console.log(key5)
 
       if (key.length > 0) queryParams.push(`customer=${key.join(",")}`);
       if (key2.length > 0) queryParams.push(`search_invoiceNumber=${key2.join(",")}`);
       if (key3.length > 0) queryParams.push(`status=${key3.join(",")}`);
       if (key4.length > 0) queryParams.push(`search_staff=${key4.join(",")}`);
+      if (key5.length > 0) queryParams.push(`payment_mode=${key5.join(",")}`);
       if (queryParams.length > 0)
         searchUrl = `${searchUrl}?${queryParams.join("&")}`;
 
@@ -299,6 +310,8 @@ const InvoiceFilter = ({
     setKey([]);
     setKey2([]);
     setKey3([]);
+    setKey4([]);
+    setKey5([]);
     setfromDate();
     settoDate();
     handlePagination(1, 10);
@@ -780,7 +793,7 @@ const InvoiceFilter = ({
             </div>
             {/* Payment Method */}
              {/* Payment */}
-             {/*<div className="accordion" id="accordionMain1">
+             <div className="accordion" id="accordionMain1">
               <div
                 className="card-header-new"
                 id="headingOne"
@@ -816,10 +829,10 @@ const InvoiceFilter = ({
                               <input
                                 type="checkbox"
                                 name="payment"
-                                {...register(`payment${index}`)}
+                                // {...register(`payment${index}`)}
                                 defaultChecked={false}
                                 onChange={(e) =>
-                                  handleCheckboxChange(e, option.id, "PAY")
+                                  handleCheckboxChange(e, option.value, "PAY")
                                 }
                               />
                               <span className="checkmark" /> {option.value}
@@ -831,7 +844,7 @@ const InvoiceFilter = ({
                   </div>
                 </div>
               </div>
-            </div>*/}
+            </div>
             {/* /Customer */}
             {/* Invoice Number */}
             <div className="accordion" id="accordionMain5">
