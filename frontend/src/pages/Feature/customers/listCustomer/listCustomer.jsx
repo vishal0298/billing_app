@@ -73,13 +73,13 @@ const ListCustomer = () => {
     },
     {
       title: "Address",
-      dataIndex: "Address",
-      key: "Address",
+      dataIndex: "villaNumber",
+      key: "villaNumber",
     },
     {
       title: "Membership Type",
-      dataIndex: "Membership",
-      key: "Membership",
+      dataIndex: "membership_type",
+      key: "membership_type",
     },
     // {
     //   title: "Balance",

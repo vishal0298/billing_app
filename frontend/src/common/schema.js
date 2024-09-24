@@ -220,18 +220,18 @@ export const editExpenseSchema = yup.object().shape({
 });
 
 export const userSchema = yup.object().shape({
-  image: yup
-    .mixed()
-    .required("Please select an image file.")
-    .test(
-      "fileFormat",
-      "Invalid file format. Please select a valid image file.",
-      (value) => {
-        if (!value) return false;
-        const allowedFormats = ["image/jpeg", "image/png", "image/gif"];
-        return allowedFormats.includes(value.type);
-      }
-    ),
+  // image: yup
+  //   .mixed()
+  //   .required("Please select an image file.")
+  //   .test(
+  //     "fileFormat",
+  //     "Invalid file format. Please select a valid image file.",
+  //     (value) => {
+  //       if (!value) return false;
+  //       const allowedFormats = ["image/jpeg", "image/png", "image/gif"];
+  //       return allowedFormats.includes(value.type);
+  //     }
+  //   ),
   firstName: yup.string().required("Enter First Name"),
   lastName: yup.string().required("Enter Last Name"),
   email: yup.string().email("Enter Valid Email").required("Enter Email"),
@@ -247,10 +247,10 @@ export const userSchema = yup.object().shape({
     .string()
     .required("Enter new password")
     .min(6, "Password should be at least 6 characters")
-    .matches(SpecialCharacters, "At Least one special character")
-    .matches(numberRgx, "Password must contain at least one number")
-    .matches(lowerCase, "Password must contain at least one lowercase")
     .matches(upperCase, "Password must contain at least one uppercase")
+    .matches(lowerCase, "Password must contain at least one lowercase")
+    .matches(numberRgx, "Password must contain at least one number")
+    .matches(SpecialCharacters, "At Least one special character")
     .max(10, "Password should be maximum 10 characters")
     .trim(),
   userName: yup

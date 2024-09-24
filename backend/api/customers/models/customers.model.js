@@ -38,7 +38,7 @@ const customers = new Schema(
     },
     email: {
       type: Schema.Types.String,
-      required: true,
+      required: false,
     },
     phone: {
       type: Schema.Types.String,
@@ -48,9 +48,13 @@ const customers = new Schema(
     //   type: Schema.Types.String,
     //   required: false,
     // },
-    website: {
+    villaNumber: {
       type: Schema.Types.String,
-      required: false,
+      required: true,
+    },
+    membership_type: {
+      type: Schema.Types.String,
+      required: true,
     },
     image: {
       type: Schema.Types.String,
@@ -65,66 +69,66 @@ const customers = new Schema(
       required: true,
       default: "Active",
     },
-    billingAddress: {
-      name: {
-        type: Schema.Types.String,
-        required: false,
-      },
-      addressLine1: {
-        type: Schema.Types.String,
-        required: false,
-      },
-      addressLine2: {
-        type: Schema.Types.String,
-        required: false,
-      },
-      city: {
-        type: Schema.Types.String,
-        required: false,
-      },
-      state: {
-        type: Schema.Types.String,
-        required: false,
-      },
-      pincode: {
-        type: Schema.Types.String,
-        required: false,
-      },
-      country: {
-        type: Schema.Types.String,
-        required: false,
-      },
-    },
-    shippingAddress: {
-      name: {
-        type: Schema.Types.String,
-        required: false,
-      },
-      addressLine1: {
-        type: Schema.Types.String,
-        required: false,
-      },
-      addressLine2: {
-        type: Schema.Types.String,
-        required: false,
-      },
-      city: {
-        type: Schema.Types.String,
-        required: false,
-      },
-      state: {
-        type: Schema.Types.String,
-        required: false,
-      },
-      pincode: {
-        type: Schema.Types.String,
-        required: false,
-      },
-      country: {
-        type: Schema.Types.String,
-        required: false,
-      },
-    },
+    // billingAddress: {
+    //   name: {
+    //     type: Schema.Types.String,
+    //     required: false,
+    //   },
+    //   addressLine1: {
+    //     type: Schema.Types.String,
+    //     required: false,
+    //   },
+    //   addressLine2: {
+    //     type: Schema.Types.String,
+    //     required: false,
+    //   },
+    //   city: {
+    //     type: Schema.Types.String,
+    //     required: false,
+    //   },
+    //   state: {
+    //     type: Schema.Types.String,
+    //     required: false,
+    //   },
+    //   pincode: {
+    //     type: Schema.Types.String,
+    //     required: false,
+    //   },
+    //   country: {
+    //     type: Schema.Types.String,
+    //     required: false,
+    //   },
+    // },
+    // shippingAddress: {
+    //   name: {
+    //     type: Schema.Types.String,
+    //     required: false,
+    //   },
+    //   addressLine1: {
+    //     type: Schema.Types.String,
+    //     required: false,
+    //   },
+    //   addressLine2: {
+    //     type: Schema.Types.String,
+    //     required: false,
+    //   },
+    //   city: {
+    //     type: Schema.Types.String,
+    //     required: false,
+    //   },
+    //   state: {
+    //     type: Schema.Types.String,
+    //     required: false,
+    //   },
+    //   pincode: {
+    //     type: Schema.Types.String,
+    //     required: false,
+    //   },
+    //   country: {
+    //     type: Schema.Types.String,
+    //     required: false,
+    //   },
+    // },
     bankDetails: {
       bankName: {
         type: Schema.Types.String,
