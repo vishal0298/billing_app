@@ -9,17 +9,21 @@ import {
   toTitleCase,
 } from "../../../common/helper";
 import nodata from "../../../assets/img/nodata.png";
-import { successToast } from "../../../core/core-index";
+import { staffApi, successToast } from "../../../core/core-index";
 import moment from "moment";
 import FeatherIcon from "feather-icons-react";
 import { PreviewImg } from "../../../common/imagepath";
+import { Select } from "antd";
+
 
 const Dashboard = () => {
   const { getData, postData } = useContext(ApiServiceContext);
   const { currencyData } = useContext(commonDatacontext);
   const [dashboardData, setDashboardData] = useState([]);
-  const [filterValue, setfilterValue] = useState("month");
+  const [filterValue, setfilterValue] = useState('month');
+  const [staffData, setStaffData] = useState([]);
   const [invoiceData, setinvoiceData] = useState([]);
+  const [staffRevenueData, setStaffRevenueData] = useState([]);
   const [RowId, setRowId] = useState("");
   const invoiceOptions = {
     colors: ["#33B469", "#ffc107", "#ff737b", "#2196f3"],
@@ -42,6 +46,73 @@ const Dashboard = () => {
         },
       },
     ],
+  };
+
+  const calculateTotals = async (staffData) => {
+    const today = moment();
+    const startOfMonth = moment().startOf("month");
+    const startOfYear = moment().startOf("year");
+    const startOfWeek = moment().startOf("week"); // Start of the week (Sunday)
+  
+    // Initialize totals for each staff member
+    const totals = {};
+  
+    // Loop through each staff
+    for (const staff of staffData) {
+      const staffName = staff.staffName;
+  
+      // Fetch invoices for this staff member
+      const response = await getData(`/invoice?search_staff=${staffName}`);
+      const invoices = response.data || [];
+  
+      // Initialize totals for today, this week, this month, and this year
+      let dailyTotal = 0;
+      let weeklyTotal = 0;
+      let monthlyTotal = 0;
+      let yearlyTotal = 0;
+  
+      // Loop through each invoice
+      invoices.forEach((invoice) => {
+        const invoiceDate = moment(invoice.invoiceDate);
+  
+        // Check each item in the invoice
+        invoice.items.forEach((item) => {
+          if (item.staff === staffName) {
+            const amount = parseFloat(item.amount); // Get the amount
+  
+            // Add to daily total if the invoice is from today
+            if (invoiceDate.isSame(today, "day")) {
+              dailyTotal += amount;
+            }
+  
+            // Add to weekly total if the invoice is from this week
+            if (invoiceDate.isSameOrAfter(startOfWeek)) {
+              weeklyTotal += amount;
+            }
+  
+            // Add to monthly total if the invoice is from this month
+            if (invoiceDate.isSameOrAfter(startOfMonth)) {
+              monthlyTotal += amount;
+            }
+  
+            // Add to yearly total if the invoice is from this year
+            if (invoiceDate.isSameOrAfter(startOfYear)) {
+              yearlyTotal += amount;
+            }
+          }
+        });
+      });
+  
+      // Store the totals for this staff member
+      totals[staffName] = {
+        dailyTotal,
+        weeklyTotal,  // Add weeklyTotal to the stored totals
+        monthlyTotal,
+        yearlyTotal,
+      };
+    }
+  
+    return totals;
   };
 
   const getDetials = async (filter = "") => {
@@ -69,6 +140,17 @@ const Dashboard = () => {
       return false;
     }
   };
+  const fetchStaffDetails = async () => {
+    try {
+      const response = await getData(staffApi)
+      if (response.code === 200) {
+        setStaffData(response.data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  // fetchStaffDetails()
 
   useEffect(() => {
     let invoiceChart;
@@ -97,6 +179,10 @@ const Dashboard = () => {
       }
     };
     fetchDetials();
+    fetchStaffDetails()
+
+   
+    
     //getInvoiceDetials();
     return () => {
       if (invoiceChart) {
@@ -104,6 +190,13 @@ const Dashboard = () => {
       }
     };
   }, []);
+  useEffect(() => {
+    console.log(staffData)
+    calculateTotals(staffData).then((data)=>{
+      setStaffRevenueData(data)
+    })
+  }, [staffData])
+  
 
   const convertTosalesReturn = async (id) => {
     try {
@@ -165,7 +258,7 @@ const Dashboard = () => {
 
                           {amountFormat(
                             dashboardData?.overdueAmt +
-                              dashboardData?.draftedAmt
+                            dashboardData?.draftedAmt
                           )}
                         </p>
                       </div>
@@ -183,15 +276,14 @@ const Dashboard = () => {
                   </div>
                   <p className="text-muted mt-3 mb-0 dashbord-data">
                     <span
-                      className={`me-1 ${
-                        dashboardData?.amountDuePercentage?.percentage ==
+                      className={`me-1 ${dashboardData?.amountDuePercentage?.percentage ==
                         "Increased"
-                          ? "text-success"
-                          : "text-danger"
-                      }`}
+                        ? "text-success"
+                        : "text-danger"
+                        }`}
                     >
                       {dashboardData?.amountDuePercentage?.percentage ==
-                      "Increased" ? (
+                        "Increased" ? (
                         <i className="fas fa-arrow-up me-1"></i>
                       ) : (
                         <i className="fas fa-arrow-down me-1"></i>
@@ -229,15 +321,14 @@ const Dashboard = () => {
                   </div>
                   <p className="text-muted mt-3 mb-0 dashbord-data">
                     <span
-                      className={`me-1 ${
-                        dashboardData?.customerPercentage?.percentage ==
+                      className={`me-1 ${dashboardData?.customerPercentage?.percentage ==
                         "Increased"
-                          ? "text-success"
-                          : "text-danger"
-                      }`}
+                        ? "text-success"
+                        : "text-danger"
+                        }`}
                     >
                       {dashboardData?.customerPercentage?.percentage ==
-                      "Increased" ? (
+                        "Increased" ? (
                         <i className="fas fa-arrow-up me-1"></i>
                       ) : (
                         <i className="fas fa-arrow-down me-1"></i>
@@ -278,15 +369,14 @@ const Dashboard = () => {
                   </div>
                   <p className="text-muted mt-3 mb-0 dashbord-data">
                     <span
-                      className={`me-1 ${
-                        dashboardData?.invoicedPercentage?.percentage ==
+                      className={`me-1 ${dashboardData?.invoicedPercentage?.percentage ==
                         "Increased"
-                          ? "text-success"
-                          : "text-danger"
-                      }`}
+                        ? "text-success"
+                        : "text-danger"
+                        }`}
                     >
                       {dashboardData?.invoicedPercentage?.percentage ==
-                      "Increased" ? (
+                        "Increased" ? (
                         <i className="fas fa-arrow-up me-1"></i>
                       ) : (
                         <i className="fas fa-arrow-down me-1"></i>
@@ -324,15 +414,14 @@ const Dashboard = () => {
                   </div>
                   <p className="text-muted mt-3 mb-0 dashbord-data">
                     <span
-                      className={`me-1 ${
-                        dashboardData?.quotationPercentage?.percentage ==
+                      className={`me-1 ${dashboardData?.quotationPercentage?.percentage ==
                         "Increased"
-                          ? "text-success"
-                          : "text-danger"
-                      }`}
+                        ? "text-success"
+                        : "text-danger"
+                        }`}
                     >
                       {dashboardData?.quotationPercentage?.percentage ==
-                      "Increased" ? (
+                        "Increased" ? (
                         <i className="fas fa-arrow-up me-1"></i>
                       ) : (
                         <i className="fas fa-arrow-down me-1"></i>
@@ -522,7 +611,7 @@ const Dashboard = () => {
                                 </h2>
                               </td>
                               <td>
-                               
+
                                 {currencyData ? currencyData : "$"}
                                 {Number(item.TotalAmount).toLocaleString(
                                   "en-IN",
@@ -551,9 +640,8 @@ const Dashboard = () => {
                                       <Link
                                         className="dropdown-item"
                                         to={{
-                                          pathname: `${"/edit-invoice"}/${
-                                            item._id
-                                          }`,
+                                          pathname: `${"/edit-invoice"}/${item._id
+                                            }`,
                                         }}
                                       >
                                         <i className="far fa-edit me-2" />
@@ -564,9 +652,8 @@ const Dashboard = () => {
                                         target="_blank"
                                         className="dropdown-item"
                                         to={{
-                                          pathname: `${"/view-invoice"}/${
-                                            item._id
-                                          }`,
+                                          pathname: `${"/view-invoice"}/${item._id
+                                            }`,
                                         }}
                                       >
                                         <i className="far fa-eye me-2" />
@@ -587,7 +674,7 @@ const Dashboard = () => {
                                         Send
                                       </Link>
 
-                                      
+
 
                                       <Link
                                         className="dropdown-item"
@@ -596,7 +683,7 @@ const Dashboard = () => {
                                         data-bs-target="#clone_modal"
                                         to="/#"
                                       >
-                                      
+
                                         <FeatherIcon
                                           icon="copy"
                                           className="me-2"
@@ -631,9 +718,20 @@ const Dashboard = () => {
                         role="button"
                         data-bs-toggle="dropdown"
                       >
-                        {toTitleCase(filterValue)}ly
+                        {filterValue == 'day'? 'Dai': toTitleCase(filterValue)}ly
                       </Link>
                       <div className="dropdown-menu dropdown-menu-right">
+                        <Link
+                          to="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            getDetials("day");
+                          }}
+                          className="dropdown-item"
+                        >
+                          Daily
+                        </Link>
+                      {/* <div className="dropdown-menu dropdown-menu-right"> */}
                         <Link
                           to="#"
                           onClick={(e) => {
@@ -727,6 +825,108 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
+        <div className="content container-fluid">
+          <div className="row">
+            <div className="col-xl-7 d-flex">
+              <div className="card">
+                <div className="card-header">
+                  <div className="row">
+                    <div className="col">
+                      <h5 className="card-title">Staff Revenue</h5>
+                    </div>
+                    <div className="col-auto">
+                      <Link
+                        to="/invoice-list"
+                        className="btn-right btn btn-sm btn-outline-primary"
+                      >
+                        View All
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                <div className="card-body">
+                 
+
+                  <div className="table-responsive dashboard">
+                    <table className="table table-stripped table-hover">
+                      <thead className="thead-light">
+                        <tr>
+                          <th>Staff</th>
+                          <th>Todays Revenue</th>
+                          <th>Monthly Revenue</th>
+                          <th>Weekly Revenue</th>
+                          <th >Yearly Revenue</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                          Object.entries(staffRevenueData).map((staffName) => {
+                            // let status;
+                            
+
+                            return (
+                              <tr key={staffName[0]}>
+                                <td>
+                                  <h2 className="table-avatar">
+                                    <Link to={'/invoice-list'}>
+
+                                    {staffName[0]}
+                                    </Link>
+                                  </h2>
+                                </td>
+                                <td>
+
+                                  {currencyData ? currencyData : "$"}
+                                  {Number(staffName[1].dailyTotal).toLocaleString(
+                                    "en-IN",
+                                    {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    }
+                                  )}
+                                </td>
+                                <td>
+                                {currencyData ? currencyData : "$"}
+                                  {Number(staffName[1].monthlyTotal).toLocaleString(
+                                    "en-IN",
+                                    {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    }
+                                  )}
+                                </td>
+                                <td>
+                                {currencyData ? currencyData : "$"}
+                                  {Number(staffName[1].weeklyTotal).toLocaleString(
+                                    "en-IN",
+                                    {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    }
+                                  )}
+                                </td>
+                                <td >
+                                {currencyData ? currencyData : "$"}
+                                  {Number(staffName[1].yearlyTotal).toLocaleString(
+                                    "en-IN",
+                                    {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    }
+                                  )}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div> 
       </div>
 
       <div className="modal custom-modal fade" id="delete_modal" role="dialog">

@@ -93,6 +93,10 @@ router.get(
   checkAccess.checkAccess("invoice", "view"),
   invoiceController.cardCount
 );
+router.get(
+  "/staffRevenue",
+  invoiceController.getStaffRevenue
+);
 router.get("/getInvoiceNumber", invoiceController.getInvoiceNumber);
 
 router.get(

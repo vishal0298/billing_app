@@ -398,6 +398,64 @@ exports.list = async function (req, res) {
   }
 };
 
+exports.getStaffRevenue = async function (req, res) {
+  try {
+    const staffName = req.query.search_staff; // Assuming staff name is passed as a query parameter
+    const today = moment().format("YYYY-MM-DD");
+    const startOfMonth = moment().startOf('month').toDate();
+    const startOfYear = moment().startOf('year').toDate();
+
+    const totals = await invoiceModel.aggregate([
+      { $unwind: "$items" },
+      { $match: { "items.staff": staffName } },
+      {
+        $group: {
+          _id: "$items.staff",
+          dailyTotal: {
+            $sum: {
+              $cond: [
+                { 
+                  $eq: [
+                    { $dateToString: { format: "%Y-%m-%d", date: "$invoiceDate" } }, 
+                    today
+                  ]
+                },
+                "$items.amount",
+                0
+              ]
+            }
+          },
+          monthlyTotal: {
+            $sum: {
+              $cond: [
+                { $gte: ["$invoiceDate", startOfMonth] },
+                "$items.amount",
+                0
+              ]
+            }
+          },
+          yearlyTotal: {
+            $sum: {
+              $cond: [
+                { $gte: ["$invoiceDate", startOfYear] },
+                "$items.amount",
+                0
+              ]
+            }
+          }
+        }
+      }
+    ]);
+
+    console.log("Totals for staff:", totals); // Log the totals
+    res.json(totals);
+
+  } catch (error) {
+    console.error("Error calculating totals:", error); // Log any errors
+    res.status(500).send({ message: "Error calculating totals", error });
+  }
+};
+
 // Card count function Start
 exports.cardCount = async function (req, res) {
   try {
