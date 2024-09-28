@@ -1052,7 +1052,7 @@ const AddInvoice = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="form-group-item border-0 p-0">
+                  {/* <div className="form-group-item border-0 p-0">
                     <div className="row">
                       <div className="col-xl-6 col-lg-12">
                         <div className="form-group-bank">
@@ -1228,7 +1228,7 @@ const AddInvoice = () => {
                               </h4>
                             </div>
                           </div>
-                          {/* <SignaturePadComponent
+                          <SignaturePadComponent
                             setValue={addinvsetValue}
                             register={register}
                             trigger={trigger}
@@ -1242,11 +1242,11 @@ const AddInvoice = () => {
                             selectedSign={selectedSign}
                             setselectedSign={setselectedSign}
                             data={{}}
-                          /> */}
+                          />
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="text-end">
                 

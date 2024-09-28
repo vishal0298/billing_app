@@ -963,7 +963,7 @@ const EditInvoice = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="form-group-item border-0 p-0">
+                  {/* <div className="form-group-item border-0 p-0">
                     <div className="row">
                       <div className="col-xl-6 col-lg-12">
                         <div className="form-group-bank">
@@ -1138,7 +1138,7 @@ const EditInvoice = () => {
                               </h4>
                             </div>
                           </div>
-                          {/* <SignaturePadComponent
+                          <SignaturePadComponent
                             setValue={setValue}
                             register={register}
                             trigger={trigger}
@@ -1152,11 +1152,11 @@ const EditInvoice = () => {
                             data={invoiceData}
                             setselectedSign={setselectedSign}
                             selectedSign={selectedSign}
-                          /> */}
+                          />
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="text-end">
                     <Link
                       to="/invoice-list"
