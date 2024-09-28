@@ -48,6 +48,7 @@ const ViewInvoice = () => {
     },
   });
 
+  const [amountValue, setAmountValue] = useState("");
   const editModal = (data) => {
     reset({ payment_method: "" });
     resetField("payment_method");
@@ -60,7 +61,7 @@ const ViewInvoice = () => {
     setAmountValue(data.balance);
   };
 
-  const [amountValue, setAmountValue] = useState("");
+  
   const cursorPosition = useRef(null);
   const { invoiceLogo } = useSelector((state) => state?.app);
   const handleKeyPress = (event) => {
@@ -132,6 +133,8 @@ const ViewInvoice = () => {
   const handleDragStart = (event) => {
     event.preventDefault();
   };
+
+  
 
   useEffect(() => {
     if (formState.isSubmitSuccessful) {

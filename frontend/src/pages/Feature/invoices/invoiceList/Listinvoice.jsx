@@ -75,6 +75,27 @@ const Listinvoice = () => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(1000);
+
+  
+  const [totalAmount, setTotalAmount] = useState()
+  
+  const calculateTotalAmount = () => {
+    let total = 0;
+    if(invoicelistData)
+      {
+        console.log(invoicelistData)
+      invoicelistData.map((invocie)=>{
+      invocie.items.map((item) => {
+        total += parseInt(item.amount)
+      })
+    })
+    setTotalAmount(total)
+    } 
+  }
+  useEffect(() => {
+    calculateTotalAmount()
+  }, [invoicelistData])
+  
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
@@ -565,6 +586,7 @@ const Listinvoice = () => {
                       dataSource={invoicelistData}
                       rowKey={(record) => record._id}
                     />
+                   <b>Total Amount {amountFormat(totalAmount)}</b> 
                   </div>
                 </div>
               </div>
