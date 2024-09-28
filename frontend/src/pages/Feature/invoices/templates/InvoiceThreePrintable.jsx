@@ -54,6 +54,13 @@ const InvoiceThreeprint = ({
       ),
     },
     {
+      title: "Staff",
+      dataIndex: "staff",
+    },{
+      title: "Service From",
+      dataIndex: "service_from",
+    },
+    {
       title: "Discount",
       dataIndex: "discount",
       render: (text, record) => (
@@ -148,34 +155,8 @@ const InvoiceThreeprint = ({
                       <div className="inv-to-address">
                         {data?.customerId?.name ? data?.customerId?.name : ""}
                         <br />
-                        {data?.customerId?.billingAddress?.addressLine1
-                          ? data?.customerId?.billingAddress?.addressLine1 + ","
-                          : ""}
-                        {data?.customerId?.billingAddress?.city
-                          ? data?.customerId?.billingAddress?.city + ","
-                          : ""}
-                        {data?.customerId?.billingAddress?.addressLine1 ||
-                        data?.customerId?.billingAddress?.city ? (
-                          <br />
-                        ) : (
-                          <></>
-                        )}
-                        {data?.customerId?.billingAddress?.state
-                          ? data?.customerId?.billingAddress?.state + ","
-                          : ""}
-                        {data?.customerId?.billingAddress?.pincode
-                          ? data?.customerId?.billingAddress?.pincode + ","
-                          : ""}
-                        {data?.customerId?.billingAddress?.country
-                          ? data?.customerId?.billingAddress?.country + "."
-                          : ""}
-                        {data?.customerId?.billingAddress?.state ||
-                        data?.customerId?.billingAddress?.pincode ||
-                        data?.customerId?.billingAddress?.country ? (
-                          <br />
-                        ) : (
-                          <></>
-                        )}
+                        {data?.customerId?.villaNumber ? data?.customerId?.villaNumber : ""}
+                        <br />
                         {data?.customerId?.email ? data?.customerId?.email : ""}
                         <br />
                         {data?.customerId?.phone ? data?.customerId?.phone : ""}
@@ -283,55 +264,7 @@ const InvoiceThreeprint = ({
                   <AmountToWords amount={amountFormat(data?.TotalAmount)} />
                 </p>
               </div>
-              <div className="bank-details">
-                <div className="account-info">
-                  <span className="bank-title">Bank Details</span>
-                  <div className="account-details-infotop">
-                    <div className="account-details">
-                      Bank : <span>{data?.bank?.bankName}</span>
-                    </div>
-                    <div className="account-details">
-                      IFSC : <span>{data?.bank?.IFSCCode}</span>
-                    </div>
-                  </div>
-                  <div className="account-details-infotop">
-                    <div className="account-details">
-                      Account # :<span> {data?.bank?.accountNumber} </span>
-                    </div>
-                    <div className="account-details">
-                      BRANCH : <span>{data?.bank?.branch}</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="company-sign">
-                  <span>For {toTitleCase(companyData?.companyName)}</span>
-                  {data?.sign_type == "manualSignature" ? (
-                    <img
-                      className="img-fluid d-inline-block uploaded-img-view"
-                      style={{
-                        display: "flex",
-                        maxWidth: "150px",
-                        maxHeight: "100px",
-                        minHeight: "100px",
-                      }}
-                      src={data?.signatureId?.signatureImage}
-                      alt=""
-                    />
-                  ) : (
-                    <img
-                      className="img-fluid d-inline-block uploaded-img-view"
-                      style={{
-                        display: "flex",
-                        maxWidth: "150px",
-                        maxHeight: "100px",
-                        minHeight: "100px",
-                      }}
-                      src={data?.signatureImage}
-                      alt=""
-                    />
-                  )}
-                </div>
-              </div>
+             
               <div className="invoice-footer">
                 <div className="thanks-msg">
                   <span>Notes:</span>

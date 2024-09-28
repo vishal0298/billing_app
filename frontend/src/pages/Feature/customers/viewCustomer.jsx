@@ -228,9 +228,27 @@ const ViewCustomer = () => {
                           </i>
                         </span>
                         <div className="customer-details-cont">
-                          <h6>Website</h6>
+                          <h6>Address</h6>
                           <p className="customer-mail">
-                            {customer?.website ? customer?.website : ""}
+                            {customer?.villaNumber ? customer?.villaNumber : ""}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-xl-6 col-12">
+                    <div className="customer-details">
+                      <div className="d-flex align-items-center">
+                        <span className="customer-widget-icon d-inline-flex">
+                          <i className="fe fe-globe">
+                            <FeatherIcon icon="users" />
+                          </i>
+                        </span>
+                        <div className="customer-details-cont">
+                          <h6>Membership</h6>
+                          <p className="customer-mail">
+                            {customer?.membership_type ? customer?.membership_type : ""}
                           </p>
                         </div>
                       </div>

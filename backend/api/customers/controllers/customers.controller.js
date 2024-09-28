@@ -115,6 +115,12 @@ exports.list = async (req, res) => {
       });
       query[1].$match._id = { $in: splittedVal };
     }
+    if (request.membership_type) {
+      query[1].$match.membership_type = {
+        $regex: `^${request.membership_type}`,
+        $options: "i",
+      };
+    }
     if (request.search_customer) {
       query[1].$match.name = {
         $regex: `^${request.search_customer}`,

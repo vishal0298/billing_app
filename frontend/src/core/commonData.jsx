@@ -4,13 +4,15 @@ import React, { createContext, useEffect, useState } from "react";
 export const commonDatacontext = createContext();
 
 const commonDataProvider = (props) => {
+  
   const [favicon, setFavicon] = useState(null);
   const [companyLogo, setCompanyLogo] = useState(null);
   const [companyIcon, setCompanyIcon] = useState(null);
-  const [companyTitle, setCompanyTitle] = useState(null);
+  const [companyTitle, setCompanyTitle] = useState("ROSH & ROY'S SALON");
   const [companyData, setCompanyData] = useState([]);
   const [profileData, setProfileData] = useState([]);
   const [currencyData, setCurrencyData] = useState("");
+
 
   useEffect(() => {
     if (
@@ -42,7 +44,7 @@ const commonDataProvider = (props) => {
       localStorage.getItem("companyIcon") != null &&
       localStorage.getItem("companyIcon") != undefined
     ) {
-      setCompanyIcon(localStorage.getItem("companyIcon"));
+      setCompanyIcon();
     }
 
     if (
@@ -50,7 +52,7 @@ const commonDataProvider = (props) => {
       localStorage.getItem("companyTitle") != null &&
       localStorage.getItem("companyTitle") != undefined
     ) {
-      setCompanyTitle(localStorage.getItem("companyTitle"));
+      setCompanyTitle("ROSH & ROY'S SALON");
     }
 
     if (
@@ -94,3 +96,4 @@ const commonDataProvider = (props) => {
 };
 
 export default commonDataProvider;
+

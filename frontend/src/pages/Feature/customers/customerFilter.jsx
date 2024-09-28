@@ -19,11 +19,19 @@ const CustomerFilter = ({
   const { resetField, register } = useForm({});
   const { getData } = useContext(ApiServiceContext);
   const [key, setKey] = useState([]);
+  const [key1, setKey1] = useState([]);
   const [noData, setNoData] = useState(false);
   const [searchText, setSearchText] = useState({ value: "", asset: [] });
   const [noDataText, setnoDataText] = useState("");
   const [customer, setCustomer] = useState(true);
+  const [member, setmember] = useState(false);
+  const [searchButton,setSearchButton] = useState(false)
   const [searchInputValue, setSearchInputValue] = useState("");
+
+  const [membershipOptions] = useState([
+    { id: "MEMBER", value: "Member" },
+    { id: "NON-MEMBER", value: "Non-Member" },
+  ]);
 
   useEffect(() => {
     setKey([]);
@@ -34,6 +42,8 @@ const CustomerFilter = ({
       });
     }
   }, [searchText]);
+
+
 
   const onSearchChange = async (val) => {
     if (val !== "") {
@@ -84,11 +94,23 @@ const CustomerFilter = ({
 
   const handleCheckboxChange = (event, name) => {
     const { value, checked } = event.target;
-    if (checked) {
-      setKey((prev) => [...prev, name]);
-    } else {
-      setKey((prev) => prev.filter((item) => item !== name));
-    }
+    // setSearchButton(true)
+    if (name == "MEM") {
+        if (checked) {
+          setSearchButton(true)
+          setKey1((prev) => [...prev, name]);
+        } else {
+          setSearchButton(false)
+          setKey1((prev) => prev.filter((item) => item !== name));
+        }
+    } else if (checked) {
+          setSearchButton(true)
+          setKey((prev) => [...prev, name]);
+        } else {
+          setSearchButton(false)
+          setKey((prev) => prev.filter((item) => item !== name));
+        }
+     
   };
 
   const handleApplyFilter = async (e) => {
@@ -108,6 +130,8 @@ const CustomerFilter = ({
       queryParams.push(`skip=${skipSize}`);
 
       if (key.length > 0) queryParams.push(`customer=${key.join(",")}`);
+      console.log(key1)
+      if (key1.length > 0) queryParams.push(`membership_type=${key1.join(",")}`);
       if (queryParams.length > 0)
         searchUrl = `${searchUrl}?${queryParams.join("&")}`;
 
@@ -126,7 +150,8 @@ const CustomerFilter = ({
   };
 
   const handleFilterclear = async () => {
-    // resetList();
+    // resetList()
+    setSearchButton(false);
     setKey([]);
     setSearchText({ value: "", asset: [] });
     setNoData(false);
@@ -189,6 +214,7 @@ const CustomerFilter = ({
                               type="text"
                               className="form-control"
                               id="member_search1"
+                              name="customer"
                               placeholder="Search Customers"
                               onChange={(e) => {
                                 const val = e?.target?.value.toLowerCase();
@@ -215,10 +241,11 @@ const CustomerFilter = ({
                                   >
                                     <input
                                       type="checkbox"
+                                      name="customer"
                                       {...register(`customer${index}`)}
                                       defaultChecked={false}
                                       onChange={(e) =>
-                                        handleCheckboxChange(e, item?._id)
+                                        handleCheckboxChange(e, item?._id, )
                                       }
                                     />
                                     <span className="checkmark" /> {item.name}
@@ -234,10 +261,63 @@ const CustomerFilter = ({
                 </div>
               </div>
               {/* /Customer */}
+              <div className="accordion" id="accordionMain1">
+              <div
+                className="card-header-new"
+                id="headingOne"
+                onClick={() => setmember(!member)}
+              >
+                <h6 className="filter-title">
+                  <Link
+                    to="#"
+                    className={member ? "w-100" : "w-100 collapsed"}
+                    aria-expanded={member}
+                  >
+                    Membership Type
+                    <span className="float-end">
+                      <i className="fa-solid fa-chevron-down" />
+                    </span>
+                  </Link>
+                </h6>
+              </div>
+              <div
+                id="collapseOne"
+                className={member ? "collapse show" : "collapse"}
+              >
+                <div className="card-body-chat">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div id="checkBoxes1">
+                        <div className="selectBox-cont">
+                          {membershipOptions.map((option, index) => (
+                            <label
+                              className="custom_check w-100"
+                              key={index}
+                            >
+                              <input
+                                type="checkbox"
+                                name="membership_type"
+                                // {...register(`payment${index}`)}
+                                defaultChecked={false}
+                                onChange={(e) =>
+                                  handleCheckboxChange(e, "MEM")
+                                }
+                              />
+                              <span className="checkmark" /> {option.id}
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
               <div className="filter-buttons">
                 <button
                   onClick={handleApplyFilter}
-                  disabled={key.length > 0 ? false : true}
+                  disabled={!searchButton}
                   className="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary"
                 >
                   {key.length > 0 ? "Apply" : "Select Customers"}
@@ -245,9 +325,9 @@ const CustomerFilter = ({
                 <button
                   type="button"
                   onClick={handleFilterclear}
-                  disabled={
-                    searchText.value == "" && key.length == 0 ? true : false
-                  }
+                  // disabled={
+                  //   searchText.value == "" && key.length == 0 ? true : false
+                  // }
                   className="d-inline-flex align-items-center justify-content-center btn w-100 btn-secondary"
                 >
                   Reset

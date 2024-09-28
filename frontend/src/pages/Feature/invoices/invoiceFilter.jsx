@@ -249,7 +249,6 @@ const InvoiceFilter = ({
         setKey4((prev) => prev.filter((item) => item !== name));
       }
     } else if (type == "PAY") {
-      console.log(name)
       if (checked) {
         setKey5((prev) => [...prev, name]);
       } else {

@@ -50,6 +50,13 @@ const InvoiceFourprint = ({ data, invoiceLogo, currencyData, companyData }) => {
       ),
     },
     {
+      title: "Staff",
+      dataIndex: "staff",
+    },{
+      title: "Service From",
+      dataIndex: "service_from",
+    },
+    {
       title: "Discount",
       dataIndex: "discount",
       render: (text, record) => (
@@ -142,34 +149,8 @@ const InvoiceFourprint = ({ data, invoiceLogo, currencyData, companyData }) => {
                   <div className="inv-to-address">
                     {data?.customerId?.name ? data?.customerId?.name : ""}
                     <br />
-                    {data?.customerId?.billingAddress?.addressLine1
-                      ? data?.customerId?.billingAddress?.addressLine1 + ","
-                      : ""}
-                    {data?.customerId?.billingAddress?.city
-                      ? data?.customerId?.billingAddress?.city + ","
-                      : ""}
-                    {data?.customerId?.billingAddress?.addressLine1 ||
-                    data?.customerId?.billingAddress?.city ? (
-                      <br />
-                    ) : (
-                      <></>
-                    )}
-                    {data?.customerId?.billingAddress?.state
-                      ? data?.customerId?.billingAddress?.state + ","
-                      : ""}
-                    {data?.customerId?.billingAddress?.pincode
-                      ? data?.customerId?.billingAddress?.pincode + ","
-                      : ""}
-                    {data?.customerId?.billingAddress?.country
-                      ? data?.customerId?.billingAddress?.country + "."
-                      : ""}
-                    {data?.customerId?.billingAddress?.state ||
-                    data?.customerId?.billingAddress?.pincode ||
-                    data?.customerId?.billingAddress?.country ? (
-                      <br />
-                    ) : (
-                      <></>
-                    )}
+                    {data?.customerId?.villaNumber ? data?.customerId?.villaNumber : ""}
+                    <br />
                     {data?.customerId?.email ? data?.customerId?.email : ""}
                     <br />
                     {data?.customerId?.phone ? data?.customerId?.phone : ""}
@@ -276,46 +257,6 @@ const InvoiceFourprint = ({ data, invoiceLogo, currencyData, companyData }) => {
                 Total amount ( in words):
                 <AmountToWords amount={amountFormat(data?.TotalAmount)} />
               </p>
-            </div>
-            <div className="bank-details">
-              <div className="payment-info">
-                <span className="payment-title">Payment Info:</span>
-                <div>
-                  <span>Payment Status :</span> {data?.status}
-                </div>
-                <div>
-                  <span>Amount :</span> {currencyData ? currencyData : "$"}
-                  {amountFormat(data?.TotalAmount)}
-                </div>
-              </div>
-              <div className="company-sign">
-                <span>For {toTitleCase(companyData?.companyName)}</span>
-                {data?.sign_type == "manualSignature" ? (
-                  <img
-                    className="img-fluid d-inline-block uploaded-img-view"
-                    style={{
-                      display: "flex",
-                      maxWidth: "150px",
-                      maxHeight: "100px",
-                      minHeight: "100px",
-                    }}
-                    src={data?.signatureId?.signatureImage}
-                    alt=""
-                  />
-                ) : (
-                  <img
-                    className="img-fluid d-inline-block uploaded-img-view"
-                    style={{
-                      display: "flex",
-                      maxWidth: "150px",
-                      maxHeight: "100px",
-                      minHeight: "100px",
-                    }}
-                    src={data?.signatureImage}
-                    alt=""
-                  />
-                )}
-              </div>
             </div>
             <div className="terms-condition">
               <span>Terms and Conditions:</span>

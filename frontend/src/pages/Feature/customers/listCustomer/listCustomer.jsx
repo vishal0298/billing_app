@@ -33,6 +33,8 @@ const ListCustomer = () => {
     setPage,
   } = useContext(ListCustomerContext);
   const { currencyData } = useContext(commonDatacontext);
+  
+  console.log(list)
 
   const columns = [
     {
