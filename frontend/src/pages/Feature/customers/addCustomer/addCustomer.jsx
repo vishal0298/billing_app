@@ -188,7 +188,7 @@ const AddCustomers = () => {
 
                       <div className="col-lg-4 col-md-6 col-sm-12">
                         <div className="form-group">
-                          <label>Villa Number</label>
+                          <label>Villa Number/Flat</label>
                           <input
                             className="form-control"
                             type="text"

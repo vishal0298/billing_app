@@ -8,7 +8,7 @@ export const addCustomerschema = yup.object().shape({
     .max(15, "Phone Number Must Be At Most 15 Digits")
     .matches(/^\+?[1-9]\d*$/, "Invalid Phone Number"),
   email: yup.string().email("Enter Valid Email"),
-  villaNumber: yup.string().required("Enter Villa Number"),
+  villaNumber: yup.string().required("Enter Villa Number/Flat"),
   membership_type: yup.string().required("Select Membership Type"),
   // Uncomment and modify the below section if needed
   /*
