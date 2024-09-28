@@ -320,7 +320,7 @@ const EditCustomer = () => {
                       <div className="col-lg-4 col-md-6 col-sm-12">
                         <div className="form-group">
                           <label>
-                            Villa/Flat Number<span className="text-danger"> *</span>
+                            Villa No./Flat No.<span className="text-danger"> *</span>
                           </label>
                           <Controller
                             name="villaNumber"
@@ -331,7 +331,7 @@ const EditCustomer = () => {
                                   className="form-control"
                                   value={value}
                                   type="text"
-                                  placeholder="Enter Villa/Flat Number"
+                                  placeholder="Enter Villa No./Flat No."
                                   onChange={(val) => {
                                     onChange(val);
                                     trigger("villaNumber");
