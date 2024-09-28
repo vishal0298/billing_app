@@ -1151,8 +1151,8 @@ const EditInvoice = () => {
                             handleKeyPress={handleKeyPress}
                             data={invoiceData}
                             setselectedSign={setselectedSign}
-                            selectedSign={selectedSign} */}
-                          />
+                            selectedSign={selectedSign}
+                          /> */}
                         </div>
                       </div>
                     </div>
