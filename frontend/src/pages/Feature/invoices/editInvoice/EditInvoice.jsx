@@ -963,9 +963,9 @@ const EditInvoice = () => {
                       </div>
                     </div>
                   </div>
-                  {/* <div className="form-group-item border-0 p-0">
+                  <div className="form-group-item border-0 p-0">
                     <div className="row">
-                      <div className="col-xl-6 col-lg-12">
+                      {/* <div className="col-xl-6 col-lg-12">
                         <div className="form-group-bank">
                           <div className="row align-items-center">
                             <div className="col-md-8">
@@ -1060,7 +1060,7 @@ const EditInvoice = () => {
                             </small>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="col-xl-6 col-lg-12">
                         <div className="form-group-bank">
                           <div className="invoice-total-box">
@@ -1138,7 +1138,7 @@ const EditInvoice = () => {
                               </h4>
                             </div>
                           </div>
-                          <SignaturePadComponent
+                          {/* <SignaturePadComponent
                             setValue={setValue}
                             register={register}
                             trigger={trigger}
@@ -1151,12 +1151,12 @@ const EditInvoice = () => {
                             handleKeyPress={handleKeyPress}
                             data={invoiceData}
                             setselectedSign={setselectedSign}
-                            selectedSign={selectedSign}
+                            selectedSign={selectedSign} */}
                           />
                         </div>
                       </div>
                     </div>
-                  </div> */}
+                  </div>
                   <div className="text-end">
                     <Link
                       to="/invoice-list"
