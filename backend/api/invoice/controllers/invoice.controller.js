@@ -315,13 +315,25 @@ exports.list = async function (req, res) {
       });
       filter.customerId = { $in: splittedVal };
     }
+    // if (req.query.search_villaNumber) {
+    //   let splittedVillas = req.query.search_villaNumber.split(",").map((villa) => villa.trim());
+    //   filter["customerId.villaNumber"] = {
+    //     // $regex: `^${req.query.search_villaNumber}`,
+    //     $regex: `^${splittedVillas}`,
+    //     $options: "i",
+    //   };
+    //   // console.log(splittedVillas)
+    //   // filter['customerId.villaNumber'] = { $in: splittedVillas };
+    //   // filter["customerId.villaNumber"] = { $regex: req.query.search_villaNumber };
+    // }
     if (req.query.search_villaNumber) {
-      // let splittedVillas = req.query.search_villaNumber.split(",").map((villa) => villa.trim());
-      // console.log(splittedVillas)
-      // filter['customerId.villaNumber'] = { $in: splittedVillas };
-      filter["customerId.villaNumber"] = { $regex: req.query.search_villaNumber };
+      let splittedVillas = req.query.search_villaNumber.split(",").map(villa => villa.trim());
+      filter["customerId.villaNumber"] = {
+        $regex: new RegExp(`^(${splittedVillas.join('|')})`, 'i') // Handle multiple villa numbers
+      };
     }
     if (req.query.invoiceNumber) {
+
       filter.invoiceNumber = { $in: req.query.invoiceNumber.split(",") };
     }
     
@@ -405,6 +417,35 @@ exports.list = async function (req, res) {
   } catch (error) {
     console.log("error :", error);
     response.error_message(error.message, res);
+  }
+};
+
+exports.getInvoicesByVillaNumber = async function (req, res) {
+  try {
+    const villaNumber = req.query.villa_number; // Assuming villaNumber is passed as a query parameter
+
+    // Aggregation to filter invoices by villaNumber inside customerId
+    const invoices = await invoiceModel.aggregate([
+      {
+        $match: {
+          "customerId.villaNumber": villaNumber // Match villaNumber in the customerId object
+        }
+      },
+      {
+        $group: {
+          _id: "$customerId.villaNumber",
+          totalAmount: { $sum: "$totalAmount" }, // Example field, adjust as needed
+          count: { $sum: 1 } // Get the count of invoices
+        }
+      }
+    ]);
+
+    console.log("Invoices for villa number:", invoices); // Log the result
+    res.json(invoices); // Respond with the result
+
+  } catch (error) {
+    console.error("Error fetching invoices by villa number:", error); // Log any errors
+    res.status(500).send({ message: "Error fetching invoices", error });
   }
 };
 

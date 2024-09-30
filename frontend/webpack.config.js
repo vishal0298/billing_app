@@ -20,7 +20,8 @@ const envKeys = Object?.keys(envVars).reduce((prev, next) => {
 module.exports = (env = {}) => {
   const isProduction = env.NODE_ENV === "production";
   // const apiUrl = isProduction ? envVars?.REACT_APP_BACKEND_URL : 'http://localhost:7005/';
-  const apiUrl = isProduction ? envVars?.REACT_APP_BACKEND_URL : 'http://37.60.255.54:7005/';
+  // const apiUrl = isProduction ? envVars?.REACT_APP_BACKEND_URL : 'http://37.60.255.54:7005/';
+  const apiUrl = isProduction ? envVars?.REACT_APP_BACKEND_URL : 'http://82.180.147.10:7005/';
   return {
     mode: isProduction ? "production" : "development",
     entry: {
@@ -39,7 +40,8 @@ module.exports = (env = {}) => {
       // global app config object
       config: JSON.stringify({
         // API_URL: apiUrl || 'http://localhost:7005/',
-        API_URL: apiUrl || 'http://37.60.255.54:7005/',
+        // API_URL: apiUrl || 'http://37.60.255.54:7005/',
+        API_URL: apiUrl || 'http://82.180.147.10:7005/',
         imageapiUrl: "",
         publicPath: "/",
       }),
