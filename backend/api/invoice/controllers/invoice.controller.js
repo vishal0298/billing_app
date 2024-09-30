@@ -346,6 +346,38 @@ exports.list = async function (req, res) {
     if (req.query.limit) {
       options.limit = parseInt(req.query.limit);
     }
+
+    // if (req.query.search_villaNumber) {
+    //   let splittedVillas = req.query.search_villaNumber.split(",").map(villa => villa.trim());
+    
+    //   filter["customerId.villaNumber"] = {
+    //     $regex: new RegExp(`^(${splittedVillas.join('|')})`, 'i') // Handle multiple villa numbers
+    //   };
+    
+    //   try {
+    //     // Ensure `await` is used properly, waiting for the database query
+    //     let result = await invoiceModel.find(filter, options.select)
+    //       .populate(options.populate)
+    //       .sort({_id: -1})
+    //       .skip(req.query.skip)
+    //       .limit(req.query.limit)
+    //       .lean()
+    //       .then((results)=>console.log("results is not zero :=----" + results));
+    
+    //     // Only send a response after the result is ready
+    //     if (result.length > 0) {
+    //       console.log("result is not zero :=----" + result)
+    //       // response.success_message(result, res, invoiceRecordsCount);
+    //     } else {
+    //       console.log("result :=----" + result)
+    //       // response.success_message([], res, 0); // Send an empty array if no results found
+    //     }
+    //   } catch (error) {
+    //     // response.error_message(error, res); // Handle errors properly
+    //   }
+    // }
+    
+
     console.log(filter)
     await invoiceModel.paginate(filter, options).then(async (result) => {
       let results = [];

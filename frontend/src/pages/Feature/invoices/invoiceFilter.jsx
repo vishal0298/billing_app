@@ -544,7 +544,7 @@ const InvoiceFilter = ({
                                   <input
                                     type="checkbox"
                                     name="villaNumber"
-                                    {...register(`villaNumber${index}`)}
+                                    // {...register(`villaNumber${index}`)}
                                     defaultChecked={false}
                                     onChange={(e) =>
                                       handleCheckboxChange(e, item?.villaNumber, "VILLA")
