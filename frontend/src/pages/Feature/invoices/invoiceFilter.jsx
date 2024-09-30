@@ -34,17 +34,20 @@ const InvoiceFilter = ({
   const [first3, setfirst3] = useState(false);
   const [first4, setfirst4] = useState(false);
   const [first5, setfirst5] = useState(false);
+  const [first6, setfirst6] = useState(false);
   const [noFilters, setnoFilters] = useState(true);
   const [key, setKey] = useState([]);
   const [key2, setKey2] = useState([]);
   const [key3, setKey3] = useState([]);
   const [key4, setKey4] = useState([]);
   const [key5, setKey5] = useState([]);
+  const [key6, setKey6] = useState([]);
   const [noData, setNoData] = useState(false);
   const [noData2, setNoData2] = useState(false);
   const [searchText, setSearchText] = useState({ value: "", asset: [] });
   const [searchText2, setSearchText2] = useState({ value: "", asset: [] });
   const [searchText3, setSearchText3] = useState({ value: "", asset: [] });
+  const [searchText4, setSearchText4] = useState({ value: "", asset: [] });
   const { getData } = useContext(ApiServiceContext);
   const [statussearchFilter, setstatussearchFilter] = useState([
     { id: "PAID", value: "PAID" },
@@ -67,17 +70,19 @@ const InvoiceFilter = ({
       key3.length > 0 ||
       key4.length > 0 ||
       key5.length > 0 ||
+      key6.length > 0 ||
       fromDate ||
       toDate ||
       searchText.value ||
       searchText2.value ||
-      searchText3.value
+      searchText3.value ||
+      searchText4.value
     ) {
       setnoFilters(false);
     } else {
       setnoFilters(true);
     }
-  }, [key, key2, key3, key4, key5, fromDate, toDate, searchText2.value, searchText.value, searchText3.value]);
+  }, [key, key2, key3, key4, key5, fromDate, toDate, searchText2.value, searchText.value, searchText3.value, searchText4.value]);
 
   useEffect(() => {
     setKey([]);
@@ -106,7 +111,16 @@ const InvoiceFilter = ({
         resetField(`staff_${idx}`);
       });
     }
-  }, [searchText2]);
+  }, [searchText3]);
+  useEffect(() => {
+    setKey6([]);
+    let data = searchText3.asset;
+    if (data.length) {
+      data.forEach((data, idx) => {
+        resetField(`villaNumber${idx}`);
+      });
+    }
+  }, [searchText4]);
 
   const onSearchChange = async (val, type) => {
     if (type == "CUSTOMER") {
@@ -144,6 +158,43 @@ const InvoiceFilter = ({
         resetList();
       }
     }
+    else if (type == "VILLANUMBER") {
+      if (val !== "") {
+        console.log(val)
+        try {
+          let searchUrl = listcustomerApi;
+          if (val !== "") searchUrl = `${searchUrl}?villaNumber=${val}`;
+          const response = await getData(searchUrl, false);
+          console.log(response)
+          if (response.code == 200) {
+            let data = response?.data
+            if (data.length > 0) {
+              setNoData(false);
+              setSearchText4({
+                value: val,
+                asset: response?.data,
+              });
+            } else {
+              setSearchText4({
+                value: val,
+                asset: data,
+              });
+              setNoData(true);
+            }
+          }
+        } catch {
+          setNoData(true);
+        }
+      } else {
+        setKey6([]);
+        setSearchText4({
+          value: "",
+          asset: [],
+        });
+        setNoData(false);
+        resetList();
+      }
+    }
     else if (type == "STAFF") {
       if (val !== "") {
         try {
@@ -168,8 +219,8 @@ const InvoiceFilter = ({
           setNoData(true);
         }
       } else {
-        setKey([]);
-        setSearchText({
+        setKey4([]);
+        setSearchText3({
           value: "",
           asset: [],
         });
@@ -254,6 +305,12 @@ const InvoiceFilter = ({
       } else {
         setKey5((prev) => prev.filter((item) => item !== name));
       }
+    } else if (type == "VILLA") {
+      if (checked) {
+        setKey6((prev) => [...prev, name]);
+      } else {
+        setKey6((prev) => prev.filter((item) => item !== name));
+      }
     } else {
       if (checked) {
         setKey3((prev) => [...prev, name]);
@@ -295,6 +352,7 @@ const InvoiceFilter = ({
       if (key3.length > 0) queryParams.push(`status=${key3.join(",")}`);
       if (key4.length > 0) queryParams.push(`search_staff=${key4.join(",")}`);
       if (key5.length > 0) queryParams.push(`payment_mode=${key5.join(",")}`);
+      if (key6.length > 0) queryParams.push(`search_villaNumber=${key6.join(",")}`);
       if (queryParams.length > 0)
         searchUrl = `${searchUrl}?${queryParams.join("&")}`;
 
@@ -316,11 +374,13 @@ const InvoiceFilter = ({
     resetList();
     setSearchText({ value: "", asset: [] });
     setSearchText2({ value: "", asset: [] });
+    setSearchText4({ value: "", asset: [] });
     setKey([]);
     setKey2([]);
     setKey3([]);
     setKey4([]);
     setKey5([]);
+    setKey6([]);
     setSearchText3({
       value: "",
       asset: [],
@@ -425,6 +485,84 @@ const InvoiceFilter = ({
                 </div>
               </div>
             </div>
+
+            <div className="accordion" id="accordionMain1">
+              <div
+                className="card-header-new"
+                id="headingOne"
+                onClick={() => setfirst6(!first6)}
+              >
+                <h6 className="filter-title">
+                  <Link
+                    to="#"
+                    className={first6 ? "w-100" : "w-100 collapsed"}
+                    aria-expanded={first6}
+                  >
+                    Villa No/Flat No
+                    <span className="float-end">
+                      <i className="fa-solid fa-chevron-down" />
+                    </span>
+                  </Link>
+                </h6>
+              </div>
+              <div
+                id="collapseOne"
+                className={first6 ? "collapse show" : "collapse"}
+              >
+                <div className="card-body-chat">
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div id="checkBoxes1">
+                        <div className="form-custom">
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="member_search1"
+                            placeholder="Search Villa No/Flat No"
+                            onChange={(e) => {
+                              const val = e?.target?.value.toLowerCase();
+                              setSearchText4({
+                                value: val,
+                                asset: [],
+                              });
+                              onSearchprocessChange(val, "VILLANUMBER");
+                            }}
+                          />
+                          <span>
+                            <img src={search} alt="img" />
+                          </span>
+                        </div>
+                        <div className="selectBox-cont">
+                          {searchText4?.asset?.length > 0 &&
+                            searchText4?.asset?.map((item, index) => {
+                              console.log(item.villaNumber)
+                              return (
+                                <label
+                                  className="custom_check w-100"
+                                  key={index}
+                                >
+                                  <input
+                                    type="checkbox"
+                                    name="villaNumber"
+                                    {...register(`villaNumber${index}`)}
+                                    defaultChecked={false}
+                                    onChange={(e) =>
+                                      handleCheckboxChange(e, item?.villaNumber, "VILLA")
+                                    }
+                                  />
+                                  <span className="checkmark" /> {item.villaNumber}
+                                </label>
+                              );
+                            })}
+                          {noData && <span>Villa No/Flat No Not Found !</span>}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* staff */}
              <div className="accordion" id="accordionMain1">
               <div

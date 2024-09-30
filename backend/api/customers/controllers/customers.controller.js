@@ -121,6 +121,12 @@ exports.list = async (req, res) => {
         $options: "i",
       };
     }
+    if (request.villaNumber) {
+      query[1].$match.villaNumber = {
+        $regex: `^${request.villaNumber}`,
+        $options: "i",
+      };
+    }
     if (request.search_customer) {
       query[1].$match.name = {
         $regex: `^${request.search_customer}`,

@@ -315,6 +315,12 @@ exports.list = async function (req, res) {
       });
       filter.customerId = { $in: splittedVal };
     }
+    if (req.query.search_villaNumber) {
+      // let splittedVillas = req.query.search_villaNumber.split(",").map((villa) => villa.trim());
+      // console.log(splittedVillas)
+      // filter['customerId.villaNumber'] = { $in: splittedVillas };
+      filter["customerId.villaNumber"] = { $regex: req.query.search_villaNumber };
+    }
     if (req.query.invoiceNumber) {
       filter.invoiceNumber = { $in: req.query.invoiceNumber.split(",") };
     }
@@ -331,7 +337,7 @@ exports.list = async function (req, res) {
     console.log(filter)
     await invoiceModel.paginate(filter, options).then(async (result) => {
       let results = [];
-      console.log(result)
+      console.log(results)
       let status = ["PAID", "PARTIALLY_PAID", "SENT"];
       for (const item of result.docs) {
         if (Object.keys(item).length > 0) {
@@ -380,8 +386,12 @@ exports.list = async function (req, res) {
         // }
 
         // Include the new fields in the result
+        // console.log("items:" + item)
         if (item.staffName) {
           item.staffName = item.staffName;
+        }
+        if (item.customerId.villaNumber) {
+          item.customerId.villaNumber = item.customerId.villaNumber;
         }
         if (item.service_from) {
           item.service_from = item.service_from;
@@ -389,7 +399,7 @@ exports.list = async function (req, res) {
 
         results.push(item);
       }
-
+      
       response.success_message(results, res, invoiceRecordsCount);
     });
   } catch (error) {
