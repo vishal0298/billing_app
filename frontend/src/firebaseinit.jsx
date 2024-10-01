@@ -106,6 +106,6 @@ export const onMessageListener = () =>
       });
     } else {
       console.warn("Messaging is not available for onMessageListener.");
-      reject(new Error("Messaging is not supported."));
+      reject(console.log("Messaging is not supported."));
     }
   });
