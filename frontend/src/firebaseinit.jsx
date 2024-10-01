@@ -23,40 +23,89 @@ const firebaseConfig = {
   measurementId: "G-6KQ0335JCV"
 };
 
+// firebase.initializeApp(firebaseConfig);
+
+// let messaging = null;
+
+// if (firebase.messaging.isSupported()) {
+//   messaging = firebase.messaging();
+// }
+
+// const publicKey =
+//   "BCio5hag3yhIH-xww1SLgakRsC4zlvs5TWfmazbogkf1raJ9JSZW8vPU0xmXIhlRnLhwk6q3u4EiNvoQMwSBPHc";
+
+// export const getToken = async (setTokenFound) => {
+//   let currentToken = "";
+
+//   try {
+//     Notification.requestPermission().then(async () => {});
+//     currentToken = await messaging.getToken({ vapidKey: publicKey });
+//     if (currentToken) {
+//       localStorage.setItem("fcmToken", currentToken);
+
+//       setTokenFound(true);
+//     } else {
+//       setTokenFound(false);
+//     }
+//   } catch (error) {
+//     //
+//   }
+
+//   return currentToken;
+// };
+
+// export const onMessageListener = () =>
+//   new Promise((resolve) => {
+//     messaging.onMessage((payload) => {
+//       resolve(payload);
+//     });
+//   });
+
+
 firebase.initializeApp(firebaseConfig);
 
 let messaging = null;
 
 if (firebase.messaging.isSupported()) {
   messaging = firebase.messaging();
+} else {
+  console.warn("Firebase messaging is not supported on this browser.");
 }
 
-const publicKey =
-  "BCio5hag3yhIH-xww1SLgakRsC4zlvs5TWfmazbogkf1raJ9JSZW8vPU0xmXIhlRnLhwk6q3u4EiNvoQMwSBPHc";
+const publicKey = "BCio5hag3yhIH-xww1SLgakRsC4zlvs5TWfmazbogkf1raJ9JSZW8vPU0xmXIhlRnLhwk6q3u4EiNvoQMwSBPHc";
 
 export const getToken = async (setTokenFound) => {
   let currentToken = "";
 
   try {
-    Notification.requestPermission().then(async () => {});
-    currentToken = await messaging.getToken({ vapidKey: publicKey });
-    if (currentToken) {
-      localStorage.setItem("fcmToken", currentToken);
-
-      setTokenFound(true);
+    if (messaging) {
+      await Notification.requestPermission();
+      currentToken = await messaging.getToken({ vapidKey: publicKey });
+      if (currentToken) {
+        localStorage.setItem("fcmToken", currentToken);
+        setTokenFound(true);
+      } else {
+        setTokenFound(false);
+      }
     } else {
       setTokenFound(false);
+      console.warn("Messaging is not available.");
     }
   } catch (error) {
-    //
+    console.error("An error occurred while retrieving the token:", error);
   }
 
   return currentToken;
 };
 
 export const onMessageListener = () =>
-  new Promise((resolve) => {
-    messaging.onMessage((payload) => {
-      resolve(payload);
-    });
+  new Promise((resolve, reject) => {
+    if (messaging) {
+      messaging.onMessage((payload) => {
+        resolve(payload);
+      });
+    } else {
+      console.warn("Messaging is not available for onMessageListener.");
+      reject(new Error("Messaging is not supported."));
+    }
   });
