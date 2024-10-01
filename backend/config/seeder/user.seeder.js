@@ -9,7 +9,7 @@ exports.userSeeding = async () => {
       return;
     } else {
       // const hashedPassword = bcrypt.hashSync("Dgt@2023", 8);
-      const hashedPasswordAdmin=bcrypt.hashSync("Admin@123", 8);
+      const hashedPasswordAdmin=bcrypt.hashSync("Aprdesk121@#", 8);
 
       const usersToCreate = [
         // {
@@ -22,7 +22,8 @@ exports.userSeeding = async () => {
         {
           fullname: "Admin",
           status: "Active",
-          email: "admin@example.com",
+          // email: "admin@example.com",
+          email: "adarsh@roshnroys.com",
           password: hashedPasswordAdmin,
           role: "Super Admin",
         }

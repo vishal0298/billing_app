@@ -28,7 +28,7 @@ const InventorySchema = yup.object().shape({
 
   quantity: yup
     .number("Quantity Must Be a Number")
-    .max(1000, "Maximum Value Exceeded")
+    .max(1000000, "Maximum Value Exceeded")
     .positive("Quantity Must Be a Positive Number")
 
     .typeError("Quantity Must Be a Number")

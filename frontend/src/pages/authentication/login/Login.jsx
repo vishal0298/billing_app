@@ -200,8 +200,10 @@ const Login = () => {
                           className="btn btn-lg btn-block w-40 btn-primary w-100 mt-3 mb-3 me-1"
                           to="#"
                           onClick={() => {
-                            setValue("email", "admin@dreamstechnologies.com");
-                            setValue("password", "Demo123$");
+                            // setValue("email", "admin@dreamstechnologies.com");
+                            // setValue("password", "Demo123$");
+                            setValue("email", "adarsh@roshnroys.com");
+                            setValue("password", "Aprdesk121@#");
                           }}
                         >
                           {" "}
