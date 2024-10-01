@@ -35,6 +35,7 @@ module.exports = (env = {}) => {
       port: 3000,
       open: true, // Automatically open the browser
       historyApiFallback: true,
+      allowedHosts: ['adarsh.roshnroys.com'],
     },
     externals: {
       // global app config object
