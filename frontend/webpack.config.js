@@ -21,8 +21,8 @@ module.exports = (env = {}) => {
   const isProduction = env.NODE_ENV === "production";
   // const apiUrl = isProduction ? envVars?.REACT_APP_BACKEND_URL : 'http://localhost:7005/';
   // const apiUrl = isProduction ? envVars?.REACT_APP_BACKEND_URL : 'http://37.60.255.54:7005/';
-  // const apiUrl = isProduction ? envVars?.REACT_APP_BACKEND_URL : 'http://82.180.147.10:7005';
-  const apiUrl = isProduction ? envVars?.REACT_APP_BACKEND_URL : 'http://adarsh.roshnroys.com/api';
+  const apiUrl = isProduction ? envVars?.REACT_APP_BACKEND_URL : 'http://82.180.147.10:7005';
+  // const apiUrl = isProduction ? envVars?.REACT_APP_BACKEND_URL : 'http://adarsh.roshnroys.com/api';
   return {
     mode: isProduction ? "production" : "development",
     entry: {
