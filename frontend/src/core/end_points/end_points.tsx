@@ -114,7 +114,7 @@ export const expenses = {
 // export const downloadImageURL = "http://localhost:7005";
 // export const downloadImageURL = "http://37.60.255.54:7005";
 // export const downloadImageURL = "http://82.180.147.10:7005";
-export const downloadImageURL = "https://adarsh.roshnroys.com/api";
+export const downloadImageURL = "http://adarsh.roshnroys.com/api";
 
 export const quotation = {
   Add: "/quotation/addQuotation",
