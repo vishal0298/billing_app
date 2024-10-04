@@ -39,8 +39,8 @@ const staffFilter = ({
   const onSearchChange = async (val) => {
     if (val !== "") {
       try {
-        let searchUrl =staffApi;
-        if (val !== "") searchUrl = `${searchUrl}?search_unit=${val}`;
+        let searchUrl = staffApi;
+        if (val !== "") searchUrl = `${searchUrl}?search_staff=${val}`;
         const response = await getData(searchUrl, false);
         if (response.code == 200) {
           let data = response?.data;
