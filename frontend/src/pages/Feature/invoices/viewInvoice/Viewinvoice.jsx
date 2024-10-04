@@ -304,7 +304,7 @@ const ViewInvoice = () => {
                                     ? invoiceData?.customerId?.name
                                     : ""}
                                   <br />
-                                  {invoiceData?.customerId?.villaNumber
+                                  {invoiceData ? "Villa No/Flat No : " : "" }{invoiceData?.customerId?.villaNumber
                                     ? invoiceData?.customerId?.villaNumber
                                     : ""}
                                   <br />

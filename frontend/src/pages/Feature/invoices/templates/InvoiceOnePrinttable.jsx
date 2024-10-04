@@ -113,7 +113,7 @@ const InvoiceOneprint = ({ data, invoiceLogo, currencyData, companyData }) => {
                   <div className="inv-to-address">
                     {data?.customerId?.name ? data?.customerId?.name : ""}
                     <br />
-                    {data?.customerId?.villaNumber ? data?.customerId?.villaNumber : ""}
+                    {data ? "Villa No/Flat No : " : "" }{data?.customerId?.villaNumber ? data?.customerId?.villaNumber : ""}
                     <br />
                     {data?.customerId?.phone ? data?.customerId?.phone : ""}
                     <br />

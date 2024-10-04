@@ -8,7 +8,7 @@ import {
   itemRender,
 } from "../../../../common/paginationfunction";
 import { FilterIcon } from "../../../../common/imagepath";
-import StaffFilter from "../unitFilter";
+import StaffFilter from "../staffFilter";
 import { ListStaffContext } from "./listStaff.control";
 
 const Staff = () => {
@@ -167,7 +167,7 @@ const Staff = () => {
                       </li>
                       <li>
                         <Link to="/units" >
-                        Units
+                        Staff
                         </Link>
                       </li>
                       <li>
