@@ -383,8 +383,9 @@ const InvoiceFilter = ({
 
         const searchUrl = `${listcustomerApi}?${queryParams.join(",")}`;
         const response = await getData(searchUrl);
-
+        console.log(response)
         if (response.code === 200) {
+          console.log(response?.data?.invoices)
             setInvoiceListData(response?.data?.invoices || []);
             setTotalCount(response?.data?.invoices?.length);
             setShow(false);
