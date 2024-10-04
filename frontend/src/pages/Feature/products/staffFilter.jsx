@@ -187,7 +187,7 @@ const staffFilter = ({
                         id="member_search1"
                         placeholder="Search Unit"
                         onChange={(e) => {
-                          const val = e?.target?.value.toLowerCase();
+                          const val = e?.target?.value;
                           setSearchText({
                             value: val,
                             asset: [],
