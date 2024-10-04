@@ -371,12 +371,15 @@ const InvoiceFilter = ({
     }
   };
 
-  const handleApplyVillaFilter = async (key6, queryParams) => {
+  const handleApplyVillaFilter = async (e) => {
+    e.preventDefault();
+    const queryParams = [];
     try {
+      console.log(key6)
         const villaQuery = `villaNumber=${key6.join(",")}`;
         queryParams.push(villaQuery);
 
-        const searchUrl = `${listcustomerApi}?${queryParams.join("&")}`;
+        const searchUrl = `${listcustomerApi}?${queryParams.join(",")}`;
         const response = await getData(searchUrl);
 
         if (response.code === 200) {
