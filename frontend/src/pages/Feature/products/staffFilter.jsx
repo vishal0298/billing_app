@@ -214,11 +214,11 @@ const staffFilter = ({
                               type="checkbox"
                               {...register(`unit${index}`)}
                               onChange={(e) =>
-                                handleCheckboxChange(e, item?._id)
+                                handleCheckboxChange(e, item?.staffName)
                               }
                             />
                             <span className="checkmark" />
-                            {item?.name}
+                            {item?.staffName}
                           </label>
                         );
                       })}
