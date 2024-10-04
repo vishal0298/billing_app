@@ -57,7 +57,7 @@ exports.list = async function (req, res) {
     const request = req.query;
     console.log(request.search_staff)
     if (request.search_staff) {
-      const splittedVal = request.staff.split(",").map((id) => mongoose.Types.ObjectId(id));
+      const splittedVal = request.staff?.split(",").map((id) => mongoose.Types.ObjectId(id));
       filter._id = { $in: splittedVal };
     }
     if (request.search_staff) {
