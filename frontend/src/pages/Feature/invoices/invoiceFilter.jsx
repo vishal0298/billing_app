@@ -385,16 +385,17 @@ const InvoiceFilter = ({
         const searchUrl = `${listcustomerApi}?${queryParams.join(",")}`;
         const response = await getData(searchUrl);
         console.log(response)
-        setInvoiceListData([])
+        const invoicesData = []; 
         if (response.code === 200) {
           response?.data?.map((data) =>{
             console.log(data?.invoices)
-              setInvoiceListData(...invoicelistData, data?.invoices);
-              setTotalCount(data?.invoices?.length);
-              setShow(false);
+            invoicesData.push(data?.invoices)
           })
-        }else{
-          setInvoiceListData([])
+          if(invoicesData?.length != 0){
+            setInvoiceListData(invoicesData);
+            setTotalCount(invoicesData?.length);
+            setShow(false);
+          }
         }
     } catch (err) {
         console.error("Error fetching villa data:", err);
