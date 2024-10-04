@@ -1,207 +1,3 @@
-// const staffModel = require("../models/staff.model");
-// const response = require("../../../response");
-// const verify = require("../../../verify.token");
-// const mongoose = require("mongoose");
-
-// var data;
-
-// // Create Staff
-// exports.create = async function (req, res) {
-//   var request = req.body;
-//   const auth_user = verify.verify_token(req.headers.token).details;
-//   const staffName = request.name?.trim().toLowerCase();
-//   console.log(staffName)
-//   const _staff = staffModel.findOne(
-//     {
-//       staffName: { $regex: new RegExp(`^${staffName}$`, "i") },
-//       isDeleted: false,
-//     },
-//     function (err, staff) {
-//       console.log(staff)
-//       console.log(err)
-//       if (err) {
-//         data = { message: "Error on the server." };
-//         response.error_message(data, res);
-//       } else {
-//         if (staff) {
-//           data = { message: "Staff member already exists." };
-//           response.validation_error_message(data, res);
-//         } else {
-//           try {
-//             staffModel.create(
-//               {
-//                 id: new mongoose.Types.ObjectId(),
-//                 staffName: request.name,
-//                 employeeId: request.employeeId,
-//                 mobileNumber: request.mobileNumber,
-//                 user_id: auth_user.id,
-//                 created_at: new Date(),
-//               },
-//               function (err, staff) {
-//                 if (err) {
-//                   data = { message: err.message };
-//                   response.validation_error_message(data, res);
-//                 } else {
-//                   if (staff) {
-//                     data = {
-//                       message: "Staff member created successfully.",
-//                       auth: true,
-//                     };
-//                     response.success_message(data, res);
-//                   } else {
-//                     data = { message: "Failed.", auth: true };
-//                     response.error_message(data, res);
-//                   }
-//                 }
-//               }
-//             );
-//           } catch (err) {
-//             data = { message: err.message };
-//             response.validation_error_message(data, res);
-//           }
-//         }
-//       }
-//     }
-//   );
-// };
-
-// // List Staff
-// exports.list = async function (req, res) {
-//   var filter = {};
-//   const request = req.query;
-
-//   filter.isDeleted = false;
-//   if (request.staff) {
-//     let splittedVal = request.staff.split(",").map((id) => {
-//       return mongoose.Types.ObjectId(id);
-//     });
-//     filter._id = { $in: splittedVal };
-//   }
-//   if (request.search_staff) {
-//     filter.staffName = {
-//       $regex: `^${request.search_staff}`,
-//       $options: "i",
-//     };
-//   }
-//   const staffRecordsCount = await staffModel.find(filter).count();
-//   const staffRec = await staffModel
-//     .find(filter)
-//     .sort({ _id: -1 })
-//     .skip(request.skip)
-//     .limit(request.limit);
-//   response.success_message(staffRec, res, staffRecordsCount);
-// };
-
-// // View Staff
-// exports.view = function (req, res) {
-//   staffModel
-//     .findOne({ _id: req.params.id })
-//     .select("-__v -updated_at")
-//     .exec(function (err, staff) {
-//       if (err) {
-//         data = { message: err._message };
-//         response.validation_error_message(data, res);
-//       } else {
-//         if (staff) {
-//           data = {
-//             staff_details: staff,
-//           };
-//           response.success_message(staff, res);
-//         } else {
-//           data = {
-//             staff_details: [],
-//             message: "No result found",
-//           };
-//           response.success_message(data, res);
-//         }
-//       }
-//     });
-// };
-
-// // Update Staff
-// exports.update = function (req, res) {
-//   const auth_user = verify.verify_token(req.headers.token).details;
-//   var request = req.body;
-//   var newvalues = {
-//     $set: {
-//       staffName: request.name,
-//       employeeId: request.employeeId,
-//       mobileNumber: request.mobileNumber,
-//     },
-//   };
-
-//   const staffName = request.name.trim().toLowerCase();
-//   staffModel.findOne(
-//     {
-//       staffName: { $regex: new RegExp(`^${staffName}$`, "i") },
-//       _id: { $ne: req.params.id },
-//       user_id: auth_user.id,
-//     },
-//     async (err, dublicaterec) => {
-//       if (err) {
-//         data = { message: err._message };
-//         response.validation_error_message(data, res);
-//       } else {
-//         if (dublicaterec) {
-//           data = { message: "Staff member already exists." };
-//           response.validation_error_message(data, res);
-//         } else {
-//           staffModel.findByIdAndUpdate(
-//             req.params.id,
-//             newvalues,
-//             function (err, staff) {
-//               if (err) {
-//                 data = JSON.stringify({ message: err.message });
-//                 response.validation_error_message(data, res);
-//               } else {
-//                 if (staff) {
-//                   data = { message: "Staff member updated successfully." };
-//                   response.success_message(data, res);
-//                 }
-//               }
-//             }
-//           );
-//         }
-//       }
-//     }
-//   );
-// };
-
-// // Delete Staff
-// exports.delete = function (req, res) {
-//   staffModel.deleteOne({ _id: req.params.id }, function (err, results) {
-//     if (err) {
-//       data = { message: err.message };
-//       response.validation_error_message(data, res);
-//     } else {
-//       if (results) {
-//         var message =
-//           results.deletedCount > 0
-//             ? "Deleted Successfully"
-//             : "Record Not Found";
-//         data = { message: message, deletedCount: results.deletedCount };
-//         response.success_message(data, res);
-//       }
-//     }
-//   });
-// };
-
-// // Soft Delete Staff
-// exports.softDelete = async (req, res) => {
-//   try {
-//     const staff = await staffModel.findOneAndUpdate(
-//       { _id: req.params.id },
-//       { $set: { isDeleted: true } }
-//     );
-//     data = { message: "Deleted Successfully", deletedCount: 1 };
-//     response.success_message(data, res);
-//   } catch (error) {
-//     data = { message: error.message };
-//     response.validation_error_message(data, res);
-//   }
-// };
-
-
 const staffModel = require("../models/staff.model");
 const response = require("../../../response");
 const verify = require("../../../verify.token");
@@ -241,19 +37,6 @@ exports.create = async function (req, res) {
       user_id: auth_user.id,
       // isDeleted: false,
     })
-    // Create new staff member
-    // const newStaff = await staffModel.create({
-    //   id: new mongoose.Types.ObjectId(),
-    //   staffName: request.name,
-    //   employeeId: request.employeeId,
-    //   mobileNumber: request.mobileNumber,
-    //   user_id: auth_user.id,
-    //   isDeleted: false,
-    //   // created_at: new Date(),
-    // });
-
-    // console.log("helloooooooooooo" )
-    // console.log("newStaff :" + newStaff )
 
     const data = {
       message: "Staff member created successfully.",
@@ -272,14 +55,14 @@ exports.list = async function (req, res) {
     const filter = { isDeleted: false };
     // console.log(req)
     const request = req.query;
-    // console.log(request.staff)
-    // if (request.staff) {
-    //   const splittedVal = request.staff.split(",").map((id) => mongoose.Types.ObjectId(id));
-    //   filter._id = { $in: splittedVal };
-    // }
-    // if (request.search_staff) {
-    //   filter.staffName = { $regex: `^${request.search_staff}`, $options: "i" };
-    // }
+    console.log(request.search_staff)
+    if (request.search_staff) {
+      const splittedVal = request.staff.split(",").map((id) => mongoose.Types.ObjectId(id));
+      filter._id = { $in: splittedVal };
+    }
+    if (request.search_staff) {
+      filter.staffName = { $regex: `^${request.search_staff}`, $options: "i" };
+    }
 
     const staffRecordsCount = await staffModel.countDocuments(filter);
     // console.log(staffRecordsCount)
