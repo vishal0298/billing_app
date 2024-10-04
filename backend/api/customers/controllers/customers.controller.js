@@ -85,10 +85,126 @@ exports.create = async (req, res) => {
   }
 };
 
+// exports.list = async (req, res) => {
+//   try {
+//     const request = req.query;
+//     let query = [
+//       {
+//         $lookup: {
+//           from: "invoices",
+//           localField: "_id",
+//           foreignField: "customerId",
+//           as: "invoices",
+//         },
+//       },
+//       {
+//         $match: {
+//           isDeleted: false,
+//         },
+//       },
+//       {
+//         $sort: {
+//           _id: -1,
+//         },
+//       },
+//     ];
+
+//     if (request.customer) {
+//       let splittedVal = request.customer.split(",").map((id) => {
+//         return mongoose.Types.ObjectId(id);
+//       });
+//       query[1].$match._id = { $in: splittedVal };
+//     }
+//     if (request.membership_type) {
+//       query[1].$match.membership_type = {
+//         $regex: `^${request.membership_type}`,
+//         $options: "i",
+//       };
+//     }
+//     if (request.villaNumber) {
+//       query[1].$match.villaNumber = {
+//         $regex: `^${request.villaNumber}`,
+//         $options: "i",
+//       };
+//     }
+//     if (request.search_customer) {
+//       query[1].$match.name = {
+//         $regex: `^${request.search_customer}`,
+//         $options: "i",
+//       };
+//     }
+
+//     const customerRecordsCount = (await customersModel.aggregate(query)).length;
+
+//     if (request.skip) {
+//       query.push({ $skip: parseInt(request.skip) });
+//     }
+
+//     if (request.limit) {
+//       query.push({ $limit: parseInt(request.limit) });
+//     }
+
+//     const customerRec = await customersModel.aggregate(query);
+
+//     for (let item of customerRec) {
+//       if (item.image) {
+//         item.image = `${process.env.DEVLOPMENT_BACKEND_URL}/${item.image}`;
+//       }
+
+//       if (item.invoices.length > 0) {
+//         let balance = 0;
+//         let invoiceIds = [];
+
+//         for (const inv of item.invoices) {
+//           let paidAmount = 0;
+
+//           if (!invoiceIds.includes(inv._id)) {
+//             const paymentRec = await paymentModel.aggregate([
+//               {
+//                 $match: {
+//                   invoiceId: mongoose.Types.ObjectId(inv._id),
+//                 },
+//               },
+//               {
+//                 $group: {
+//                   _id: null,
+//                   paidAmount: {
+//                     $sum: "$amount",
+//                   },
+//                 },
+//               },
+//             ]);
+
+//             if (paymentRec.length > 0) {
+//               paidAmount += paymentRec[0].paidAmount;
+//             }
+
+//             balance += parseInt(inv.TotalAmount) - paidAmount;
+//             invoiceIds.push(inv._id);
+//           }
+//         }
+
+//         item.balance = balance;
+//         item.noOfInvoices = item.invoices.length;
+//       } else {
+//         item.balance = 0;
+//         item.noOfInvoices = 0;
+//       }
+
+//       item.createdAt = resUpdate.resDate(item.createdAt);
+//     }
+//     response.success_message(customerRec, res, customerRecordsCount);
+//   } catch (error) {
+//     console.log("Error:", error);
+//     response.error_message(error.message, res);
+//   }
+// };
+
 exports.list = async (req, res) => {
   try {
     const request = req.query;
     let query = [
+      // Step 1: Lookup invoices and embed in customers
       {
         $lookup: {
           from: "invoices",
@@ -107,8 +223,52 @@ exports.list = async (req, res) => {
           _id: -1,
         },
       },
+      // Step 2: For each invoice, add the basic customer details inside customerId field of invoice
+      {
+        $unwind: {
+          path: "$invoices",
+          preserveNullAndEmptyArrays: true, // This ensures that customers without invoices are still returned
+        },
+      },
+      {
+        $lookup: {
+          from: "customers", // Assuming customer data is stored in 'customers' collection
+          localField: "_id", // Customer _id from customersModel
+          foreignField: "_id", // Corresponding customerId in the invoice
+          as: "customerDetails",
+        },
+      },
+      {
+        $unwind: "$customerDetails", // Flatten the customerDetails array to merge the data
+      },
+      // Step 3: Add customer details to the invoice’s customerId field
+      {
+        $addFields: {
+          "invoices.customerId": {
+            _id: "$customerDetails._id",
+            name: "$customerDetails.name",
+            email: "$customerDetails.email",
+            membership_type: "$customerDetails.membership_type",
+            phone: "$customerDetails.phone",
+            villaNumber: "$customerDetails.villaNumber",
+            userId: "$customerDetails.userId",
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$_id",
+          name: { $first: "$name" },
+          membership_type: { $first: "$membership_type" },
+          email: { $first: "$email" },
+          villaNumber: { $first: "$villaNumber" },
+          phone: { $first: "$phone" },
+          invoices: { $push: "$invoices" }, // Group the invoices back into an array
+        },
+      },
     ];
 
+    // Applying additional filters based on request (e.g., customer, membership_type, villaNumber, etc.)
     if (request.customer) {
       let splittedVal = request.customer.split(",").map((id) => {
         return mongoose.Types.ObjectId(id);
@@ -198,7 +358,7 @@ exports.list = async (req, res) => {
     console.log("Error:", error);
     response.error_message(error.message, res);
   }
-};
+}
 
 exports.view = async (req, res) => {
   try {
