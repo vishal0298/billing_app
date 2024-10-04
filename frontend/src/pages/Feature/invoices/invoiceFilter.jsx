@@ -321,6 +321,7 @@ const InvoiceFilter = ({
   };
 
   const handleApplyFilter = async (e) => {
+    console.log(e)
     e.preventDefault();
     try {
       let searchUrl = invoice_api.Base;
@@ -371,27 +372,27 @@ const InvoiceFilter = ({
     }
   };
 
-  const handleApplyVillaFilter = async (e) => {
-    e.preventDefault();
-    const queryParams = [];
-    try {
-      console.log(key6)
-        const villaQuery = `villaNumber=${key6.join(",")}`;
-        queryParams.push(villaQuery);
+//   const handleApplyVillaFilter = async (e) => {
+//     e.preventDefault();
+//     const queryParams = [];
+//     try {
+//       console.log(key6)
+//         const villaQuery = `villaNumber=${key6.join(",")}`;
+//         queryParams.push(villaQuery);
 
-        const searchUrl = `${listcustomerApi}?${queryParams.join(",")}`;
-        const response = await getData(searchUrl);
+//         const searchUrl = `${listcustomerApi}?${queryParams.join(",")}`;
+//         const response = await getData(searchUrl);
 
-        if (response.code === 200) {
-            setInvoiceListData(response?.data?.invoices || []);
-            setTotalCount(response?.data?.invoices?.length);
-            setShow(false);
-        }
-    } catch (err) {
-        console.error("Error fetching villa data:", err);
-        // Handle error (e.g., show a notification)
-    }
-};
+//         if (response.code === 200) {
+//             setInvoiceListData(response?.data?.invoices || []);
+//             setTotalCount(response?.data?.invoices?.length);
+//             setShow(false);
+//         }
+//     } catch (err) {
+//         console.error("Error fetching villa data:", err);
+//         // Handle error (e.g., show a notification)
+//     }
+// };
 
   const handleFilterclear = async () => {
     resetList();
@@ -897,7 +898,7 @@ const InvoiceFilter = ({
             {/* /By Status */}
             <div className="filter-buttons">
               <button
-                onClick={key6.length != 0 ? handleApplyFilter : handleApplyVillaFilter}
+                onClick={handleApplyFilter}
                 disabled={noFilters == true ? true : false}
                 className="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary"
               >
