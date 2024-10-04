@@ -36,6 +36,7 @@ const InvoiceFilter = ({
   const [first5, setfirst5] = useState(false);
   const [first6, setfirst6] = useState(false);
   const [noFilters, setnoFilters] = useState(true);
+  const [selectFilter, setSelectFilter] = useState('')
   const [key, setKey] = useState([]);
   const [key2, setKey2] = useState([]);
   const [key3, setKey3] = useState([]);
@@ -372,27 +373,27 @@ const InvoiceFilter = ({
     }
   };
 
-//   const handleApplyVillaFilter = async (e) => {
-//     e.preventDefault();
-//     const queryParams = [];
-//     try {
-//       console.log(key6)
-//         const villaQuery = `villaNumber=${key6.join(",")}`;
-//         queryParams.push(villaQuery);
+  const handleApplyVillaFilter = async (e) => {
+    e.preventDefault();
+    const queryParams = [];
+    try {
+      console.log(key6)
+        const villaQuery = `villaNumber=${key6.join(",")}`;
+        queryParams.push(villaQuery);
 
-//         const searchUrl = `${listcustomerApi}?${queryParams.join(",")}`;
-//         const response = await getData(searchUrl);
+        const searchUrl = `${listcustomerApi}?${queryParams.join(",")}`;
+        const response = await getData(searchUrl);
 
-//         if (response.code === 200) {
-//             setInvoiceListData(response?.data?.invoices || []);
-//             setTotalCount(response?.data?.invoices?.length);
-//             setShow(false);
-//         }
-//     } catch (err) {
-//         console.error("Error fetching villa data:", err);
-//         // Handle error (e.g., show a notification)
-//     }
-// };
+        if (response.code === 200) {
+            setInvoiceListData(response?.data?.invoices || []);
+            setTotalCount(response?.data?.invoices?.length);
+            setShow(false);
+        }
+    } catch (err) {
+        console.error("Error fetching villa data:", err);
+        // Handle error (e.g., show a notification)
+    }
+};
 
   const handleFilterclear = async () => {
     resetList();
@@ -473,6 +474,7 @@ const InvoiceFilter = ({
                                 value: val,
                                 asset: [],
                               });
+                              setSelectFilter("CUSTOMER")
                               onSearchprocessChange(val, "CUSTOMER");
                             }}
                           />
@@ -549,6 +551,7 @@ const InvoiceFilter = ({
                                 value: val,
                                 asset: [],
                               });
+                              setSelectFilter("VILLANUMBER")
                               onSearchprocessChange(val, "VILLANUMBER");
                             }}
                           />
@@ -627,6 +630,7 @@ const InvoiceFilter = ({
                                 value: val,
                                 asset: [],
                               });
+                              setSelectFilter("STAFF")
                               onSearchprocessChange(val, "STAFF");
                             }}
                           />
@@ -759,6 +763,7 @@ const InvoiceFilter = ({
                                 value: val,
                                 asset: [],
                               });
+                              setSelectFilter("INVOICE")
                               onSearchprocessChange(val, "INVOICE");
                             }}
                           />
@@ -898,7 +903,7 @@ const InvoiceFilter = ({
             {/* /By Status */}
             <div className="filter-buttons">
               <button
-                onClick={handleApplyFilter}
+                onClick={selectFilter !== "VILLANUMBER" ? handleApplyFilter : handleApplyVillaFilter}
                 disabled={noFilters == true ? true : false}
                 className="d-inline-flex align-items-center justify-content-center btn w-100 btn-primary"
               >
