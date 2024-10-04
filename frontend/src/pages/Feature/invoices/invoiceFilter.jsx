@@ -203,11 +203,13 @@ const InvoiceFilter = ({
           let searchUrl = staffApi;
           const response = await getData(searchUrl, false);
           if (response.code == 200) {
-            let data = response?.data.filter((obj) => obj?.staffName.includes(val));
+            let data = response?.data;
+            // let data = response?.data.filter((obj) => obj?.staffName.includes(val));
             if (data.length > 0) {
               setSearchText3({
                 value: val,
-                asset: response?.data.filter((obj) => obj?.staffName.includes(val)),
+                asset: response?.data,
+                // asset: response?.data.filter((obj) => obj?.staffName.includes(val)),
               });
             } else {
               setSearchText3({
