@@ -16,6 +16,7 @@ import { staffApi } from "../../../constans/apiname";
 const InvoiceFilter = ({
   setShow,
   show,
+  invoicelistData,
   setInvoiceListData,
   fromDate,
   toDate,
@@ -384,11 +385,16 @@ const InvoiceFilter = ({
         const searchUrl = `${listcustomerApi}?${queryParams.join(",")}`;
         const response = await getData(searchUrl);
         console.log(response)
+        setInvoiceListData([])
         if (response.code === 200) {
-          console.log(response?.data?.invoices)
-            setInvoiceListData(response?.data?.invoices || []);
-            setTotalCount(response?.data?.invoices?.length);
-            setShow(false);
+          response?.data?.map((data) =>{
+            console.log(data?.invoices)
+              setInvoiceListData(...invoicelistData, data?.invoices);
+              setTotalCount(data?.invoices?.length);
+              setShow(false);
+          })
+        }else{
+          setInvoiceListData([])
         }
     } catch (err) {
         console.error("Error fetching villa data:", err);

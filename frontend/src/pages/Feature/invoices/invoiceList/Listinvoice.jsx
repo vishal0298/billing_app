@@ -599,6 +599,7 @@ const Listinvoice = () => {
       <InvoiceFilter
         setShow={setShow}
         show={show}
+        invoicelistData={invoicelistData}
         setInvoiceListData={setInvoiceListData}
         page={page}
         pagesize={pagesize}
