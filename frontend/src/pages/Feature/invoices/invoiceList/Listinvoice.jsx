@@ -93,7 +93,9 @@ const Listinvoice = () => {
     } 
   }
   useEffect(() => {
-    calculateTotalAmount()
+    if(Array.isArray(invoicelistData) && invoicelistData?.length){
+      calculateTotalAmount()
+    }
   }, [invoicelistData])
   
   const [totalItems, setTotalItems] = useState(0);

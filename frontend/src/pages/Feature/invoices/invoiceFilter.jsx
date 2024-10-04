@@ -65,7 +65,7 @@ const InvoiceFilter = ({
     { id: "MEMBERSHIP", value: "Membership" },
   ]);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (
       key.length > 0 ||
       key2.length > 0 ||
@@ -357,7 +357,7 @@ const InvoiceFilter = ({
       if (key5.length > 0) queryParams.push(`payment_mode=${key5.join(",")}`);
       if (queryParams.length > 0)
         searchUrl = `${searchUrl}?${queryParams.join("&")}`;
-      
+
       const response = await getData(searchUrl);
       if (response.code == 200) {
         if (page > 1) {
@@ -367,41 +367,86 @@ const InvoiceFilter = ({
         setTotalCount(response?.totalRecords);
         setShow(false);
 
-      
+
       }
     } catch (err) {
-     
+
     }
   };
+
+  //   const handleApplyVillaFilter = async (e) => {
+  //     e.preventDefault();
+  //     const queryParams = [];
+  //     try {
+  //       console.log(key6)
+  //         const villaQuery = `villaNumber=${key6.join(",")}`;
+  //         queryParams.push(villaQuery);
+
+  //         const searchUrl = `${listcustomerApi}?${queryParams.join(",")}`;
+  //         const response = await getData(searchUrl);
+  //         console.log(response)
+  //         const invoicesData = []; 
+  //         if (response.code === 200) {
+  //           response?.data?.map((data) =>{
+  //             console.log(data?.invoices)
+  //             invoicesData.push(data?.invoices)
+  //           })
+  //           if(invoicesData?.length != 0){
+  //             setInvoiceListData(invoicesData);
+  //             setTotalCount(invoicesData?.length);
+  //             setShow(false);
+  //           }
+  //         }
+  //     } catch (err) {
+  //         console.error("Error fetching villa data:", err);
+  //         // Handle error (e.g., show a notification)
+  //     }
+  // };
+
 
   const handleApplyVillaFilter = async (e) => {
     e.preventDefault();
     const queryParams = [];
+
     try {
-      console.log(key6)
+      console.log(key6);
+
+      // Build the query string for villa numbers
+      if (key6 && key6.length > 0) {
         const villaQuery = `villaNumber=${key6.join(",")}`;
         queryParams.push(villaQuery);
+      }
 
-        const searchUrl = `${listcustomerApi}?${queryParams.join(",")}`;
-        const response = await getData(searchUrl);
-        console.log(response)
-        const invoicesData = []; 
-        if (response.code === 200) {
-          response?.data?.map((data) =>{
-            console.log(data?.invoices)
-            invoicesData.push(data?.invoices)
-          })
-          if(invoicesData?.length != 0){
-            setInvoiceListData(invoicesData);
-            setTotalCount(invoicesData?.length);
-            setShow(false);
+      const searchUrl = `${listcustomerApi}?${queryParams.join("&")}`; // Changed comma to & for query parameters
+      const response = await getData(searchUrl);
+      console.log(response);
+
+      const invoicesData = [];
+
+      if (response.code === 200) {
+        response.data?.forEach((data) => {
+          console.log(data?.invoices);
+          if (data?.invoices) {
+            invoicesData.push(...data.invoices); // Spread operator to flatten the invoices
           }
+        });
+
+        if (invoicesData.length > 0) {
+          setInvoiceListData(invoicesData);
+          setTotalCount(invoicesData.length);
+          setShow(false);
+        } else {
+          // Optionally handle case where no invoices are found
+          console.log("No invoices found.");
         }
+      }
     } catch (err) {
-        console.error("Error fetching villa data:", err);
-        // Handle error (e.g., show a notification)
+      console.error("Error fetching villa data:", err);
+      // Handle error (e.g., show a notification)
     }
-};
+  };
+
+
 
   const handleFilterclear = async () => {
     resetList();
@@ -599,7 +644,7 @@ const InvoiceFilter = ({
             </div>
 
             {/* staff */}
-             <div className="accordion" id="accordionMain1">
+            <div className="accordion" id="accordionMain1">
               <div
                 className="card-header-new"
                 id="headingOne"
@@ -676,8 +721,8 @@ const InvoiceFilter = ({
               </div>
             </div>
             {/* Payment Method */}
-             {/* Payment */}
-             <div className="accordion" id="accordionMain1">
+            {/* Payment */}
+            <div className="accordion" id="accordionMain1">
               <div
                 className="card-header-new"
                 id="headingOne"
@@ -926,7 +971,7 @@ const InvoiceFilter = ({
                 Reset
               </button>
             </div>
-          
+
           </form>
         </div>
       </div>
