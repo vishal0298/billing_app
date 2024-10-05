@@ -18,12 +18,12 @@ exports.create = async (req, res) => {
     let query = {
       userId: auth_user.id,
       isDeleted: false,
-      $or: [{ email: request.email }, { phone: request.phone }],
+      $or: [{ name: request.name }],
     };
     const customerrec = await customersModel.findOne(query);
 
     if (customerrec) {
-      data = { message: "Customer Email or Phone Alredy Exists.." };
+      data = { message: "Customer Alredy Exists.." };
       response.validation_error_message(data, res);
     } else {
       let filePath = "";
@@ -33,7 +33,7 @@ exports.create = async (req, res) => {
       const val = {
         name: request.name,
         phone: request.phone,
-        email: request.email,
+        // email: request.email,
         // currency: request.currency,
         villaNumber: request.villaNumber,
         membership_type: request.membership_type,
@@ -247,7 +247,7 @@ exports.list = async (req, res) => {
           "invoices.customerId": {
             _id: "$customerDetails._id",
             name: "$customerDetails.name",
-            email: "$customerDetails.email",
+            // email: "$customerDetails.email",
             membership_type: "$customerDetails.membership_type",
             phone: "$customerDetails.phone",
             villaNumber: "$customerDetails.villaNumber",
@@ -260,7 +260,7 @@ exports.list = async (req, res) => {
           _id: "$_id",
           name: { $first: "$name" },
           membership_type: { $first: "$membership_type" },
-          email: { $first: "$email" },
+          // email: { $first: "$email" },
           villaNumber: { $first: "$villaNumber" },
           phone: { $first: "$phone" },
           invoices: { $push: "$invoices" }, // Group the invoices back into an array
@@ -414,7 +414,7 @@ exports.update = async (req, res) => {
       $set: {
         name: request.name,
         phone: request.phone,
-        email: request.email,
+        // email: request.email,
         // currency: request.currency,
         villaNumber: request.villaNumber,
         membership_type: request.membership_type,
@@ -453,13 +453,15 @@ exports.update = async (req, res) => {
       },
     };
 
-    const dublicaterec = await customersModel.findOne({
-      user_id: auth_user.id,
-      $or: [{ email: request.email }, { phone: request.phone }],
-      _id: { $ne: req.params.id },
-    });
+    // const dublicaterec = await customersModel.findOne({
+    //   user_id: auth_user.id,
+    //   $or: [{ name: request.name }],
+    //   _id: { $ne: req.params.id },
+    // });
 
-    data = { message: "Customer Email or Phone Already Exists.." };
+    // data = { message: "Customer Already Exists.." };
+
+    const dublicaterec = false
 
     if (dublicaterec) {
       response.validation_error_message(data, res);

@@ -231,7 +231,7 @@ const CustomerDetails = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-xl-3 col-lg-4 col-md-6 col-12">
+                  {/* <div className="col-xl-3 col-lg-4 col-md-6 col-12">
                     <div className="customer-details">
                       <div className="d-flex align-items-center">
                         <span className="customer-widget-icon d-inline-flex">
@@ -245,7 +245,7 @@ const CustomerDetails = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="col-xl-3 col-lg-4 col-md-6 col-12">
                     <div className="customer-details">
                       <div className="d-flex align-items-center">
@@ -325,12 +325,12 @@ const CustomerDetails = () => {
                       <input type="text" className="form-control" />
                     </div>
                   </div>
-                  <div className="col-sm-6 col-md-3">
+                  {/* <div className="col-sm-6 col-md-3">
                     <div className="form-group">
                       <label>Email</label>
                       <input type="text" className="form-control" />
                     </div>
-                  </div>
+                  </div> */}
                   <div className="col-sm-6 col-md-3">
                     <div className="form-group">
                       <label>Phone</label>

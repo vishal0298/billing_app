@@ -4,20 +4,14 @@ const customersModel = require("../models/customers.model");
 
 exports.create = [
   body("name").trim().notEmpty().withMessage("is required"),
-  body("email").custom(async (value) => {
-    const existingUser = await customersModel.findOne({ email: value });
-    if (existingUser) {
-      throw new Error("Email already exists");
-    }
-    return true;
-  }),
-  body("phone").custom(async (value) => {
-    const existingUser = await customersModel.findOne({ phone: value });
-    if (existingUser) {
-      throw new Error("Phone number already exists");
-    }
-    return true;
-  }),
+  // body("email").custom(async (value) => {
+  //   const existingUser = await customersModel.findOne({ email: value });
+  //   if (existingUser) {
+  //     throw new Error("Email already exists");
+  //   }
+  //   return true;
+  // }),
+  body("phone").trim().notEmpty().withMessage("is required"),
   // body("currency").trim().trim().optional(),
   body("website").trim().trim().optional(),
   body("notes").trim().optional(),
@@ -74,7 +68,7 @@ exports.create = [
 
 exports.update = [
   body("name").trim().notEmpty().withMessage("is required"),
-  body("email").trim().notEmpty().withMessage("is required"),
+  // body("email").trim().notEmpty().withMessage("is required"),
   body("phone").trim().notEmpty().withMessage("is required"),
   // body("currency").trim().optional(),
   body("website").trim().optional(),

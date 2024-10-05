@@ -188,7 +188,7 @@ const ViewCustomer = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-xl-6 col-12">
+                  {/* <div className="col-xl-6 col-12">
                     <div className="customer-details">
                       <div className="d-flex align-items-center">
                         <span className="customer-widget-icon d-inline-flex">
@@ -202,7 +202,7 @@ const ViewCustomer = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="col-xl-6 col-12">
                     <div className="customer-details">
                       <div className="d-flex align-items-center">
@@ -268,12 +268,12 @@ const ViewCustomer = () => {
                       <input type="text" className="form-control" />
                     </div>
                   </div>
-                  <div className="col-sm-6 col-md-3">
+                  {/* <div className="col-sm-6 col-md-3">
                     <div className="form-group">
                       <label>Email</label>
                       <input type="text" className="form-control" />
                     </div>
-                  </div>
+                  </div> */}
                   <div className="col-sm-6 col-md-3">
                     <div className="form-group">
                       <label>Phone</label>

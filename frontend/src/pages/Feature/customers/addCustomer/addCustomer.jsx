@@ -15,7 +15,7 @@ const AddCustomers = () => {
     useContext(AddCustomerContext);
 
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [villaNumber, setVillaNumber] = useState("");
   const [membershipType, setMembershipType] = useState("");
@@ -73,7 +73,7 @@ const AddCustomers = () => {
     event.preventDefault();
     const formData = {
       name,
-      email,
+      // email,
       phone,
       villaNumber,
       membership_type: membershipType,
@@ -154,7 +154,7 @@ const AddCustomers = () => {
                           />
                         </div>
                       </div>
-                      <div className="col-lg-4 col-md-6 col-sm-12">
+                      {/* <div className="col-lg-4 col-md-6 col-sm-12">
                         <div className="form-group">
                           <label>
                             Email<span className="text-danger"> *</span>
@@ -167,7 +167,7 @@ const AddCustomers = () => {
                             onChange={(e) => setEmail(e.target.value)}
                           />
                         </div>
-                      </div>
+                      </div> */}
                       <div className="col-lg-4 col-md-6 col-sm-12">
                         <div className="form-group">
                           <label>

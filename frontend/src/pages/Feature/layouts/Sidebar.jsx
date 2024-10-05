@@ -412,7 +412,7 @@ const Sidebar = () => {
                   </Link>
                 </li>
 
-                <li
+                {/* <li
                   className={`${
                     "/sales-return" === pathName ||
                     "/add-sales-return" === pathName ||
@@ -433,7 +433,7 @@ const Sidebar = () => {
                   <Link to="/sales-return" onClick={() => toggleSidebar("")}>
                     <FeatherIcon icon="edit" /> <span>Sales Return</span>
                   </Link>
-                </li>
+                </li> */}
               </ul>
               {/* /Sales */}
 
@@ -551,7 +551,7 @@ const Sidebar = () => {
               {/* /Finance & Accounts */}
 
               {/* Quotations */}
-              <ul
+              {/* <ul
                 style={{
                   display:
                     showHide("quotation") && showHide("deliveryChallan")
@@ -598,7 +598,7 @@ const Sidebar = () => {
                     <span>Delivery Challans</span>
                   </Link>
                 </li>
-              </ul>
+              </ul> */}
               {/* /Quotations */}
 
               {/* Reports */}

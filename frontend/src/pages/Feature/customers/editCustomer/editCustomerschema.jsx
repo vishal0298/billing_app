@@ -6,7 +6,7 @@ export const editCustomerschema = yup.object().shape({
       .required("Enter Phone number")
       // .min(10, "Phone Number Must Be At Least 10 Digits")
       .max(15, "Phone Number Must Be At Most 15 Digits"),
-    email: yup.string().email("Enter Valid Email"),
+    // email: yup.string().email("Enter Valid Email"),
     villaNumber: yup.string().required("Enter Villa Number"),
     membership_type: yup.string().required("Select Membership Type"),
     // billingAddress: yup.object().shape({

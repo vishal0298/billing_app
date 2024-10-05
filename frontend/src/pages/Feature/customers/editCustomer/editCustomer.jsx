@@ -77,7 +77,7 @@ const EditCustomers = () => {
 
   const setNewValues = (data) => {
     setValue("name", data?.name);
-    setValue("email", data?.email);
+    // setValue("email", data?.email);
     setValue("phone", data?.phone);
     setValue("currency", data?.currency);
     setValue("website", data?.website);
@@ -275,7 +275,7 @@ const EditCustomers = () => {
                           />
                         </div>
                       </div>
-                      <div className="col-lg-4 col-md-6 col-sm-12">
+                      {/* <div className="col-lg-4 col-md-6 col-sm-12">
                         <div className="form-group">
                           <label>
                             Email<span className="text-danger"> *</span>
@@ -305,7 +305,7 @@ const EditCustomers = () => {
                             )}
                           />
                         </div>
-                      </div>
+                      </div> */}
                       <div className="col-lg-4 col-md-6 col-sm-12">
                         <div className="form-group">
                           <label>
