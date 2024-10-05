@@ -429,8 +429,9 @@ const InvoiceFilter = ({
 
       if (response.code === 200) {
         response.data?.forEach((data) => {
+
           console.log(data?.invoices);
-          if (data?.invoices?.length > 0) {
+          if (data?.invoiceNumber && data?.invoices) {
             invoicesData.push(...data.invoices); // Spread operator to flatten the invoices
           }
         });
