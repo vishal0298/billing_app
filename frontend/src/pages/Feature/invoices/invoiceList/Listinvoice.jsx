@@ -81,7 +81,7 @@ const Listinvoice = () => {
   
   const calculateTotalAmount = () => {
     let total = 0;
-    if(invoicelistData)
+    if(invoicelistData.length > 0)
       {
         console.log(invoicelistData)
       invoicelistData.map((invocie)=>{
