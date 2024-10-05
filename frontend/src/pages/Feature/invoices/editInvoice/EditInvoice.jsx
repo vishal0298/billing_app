@@ -965,9 +965,9 @@ const EditInvoice = () => {
                   </div>
                   <div className="form-group-item border-0 p-0">
                     <div className="row">
-                      {/* <div className="col-xl-6 col-lg-12">
+                      <div className="col-xl-6 col-lg-12">
                         <div className="form-group-bank">
-                          <div className="row align-items-center">
+                          {/* <div className="row align-items-center">
                             <div className="col-md-8">
                               <div className="form-group">
                                 <label>Select Bank </label>
@@ -1008,7 +1008,7 @@ const EditInvoice = () => {
                                 </Link>
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                           <div className="form-group notes-form-group-info">
                             <label>Notes</label>
                             <Controller
@@ -1033,7 +1033,7 @@ const EditInvoice = () => {
                               {errors?.notes?.message}
                             </small>
                           </div>
-                          <div className="form-group input_text notes-form-group-info mb-0">
+                          {/* <div className="form-group input_text notes-form-group-info mb-0">
                             <label>Terms and Conditions </label>
                             <Controller
                               name="termsAndCondition"
@@ -1058,9 +1058,9 @@ const EditInvoice = () => {
                             <small className="text-danger">
                               {errors?.termsAndCondition?.message}
                             </small>
-                          </div>
+                          </div> */}
                         </div>
-                      </div> */}
+                      </div>
                       <div className="col-xl-6 col-lg-12">
                         <div className="form-group-bank">
                           <div className="invoice-total-box">
