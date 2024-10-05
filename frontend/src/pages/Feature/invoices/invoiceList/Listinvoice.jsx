@@ -81,11 +81,11 @@ const Listinvoice = () => {
   
   const calculateTotalAmount = () => {
     let total = 0;
-    if(invoicelistData.length > 0)
+    if(invoicelistData?.length > 0)
       {
         console.log(invoicelistData)
-      invoicelistData.map((invocie)=>{
-      invocie.items.map((item) => {
+      invoicelistData?.map((invocie)=>{
+      invocie?.items?.map((item) => {
         total += parseInt(item.amount)
       })
     })
@@ -93,7 +93,7 @@ const Listinvoice = () => {
     } 
   }
   useEffect(() => {
-    if(Array.isArray(invoicelistData) && invoicelistData?.length){
+    if(Array.isArray(invoicelistData) && invoicelistData?.length != 0){
       calculateTotalAmount()
     }
   }, [invoicelistData])
