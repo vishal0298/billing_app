@@ -425,10 +425,12 @@ const InvoiceFilter = ({
 
       const invoicesData = [];
 
+      setInvoiceListData([])
+
       if (response.code === 200) {
         response.data?.forEach((data) => {
           console.log(data?.invoices);
-          if (data?.invoices) {
+          if (data?.invoices?.length > 0) {
             invoicesData.push(...data.invoices); // Spread operator to flatten the invoices
           }
         });
@@ -438,6 +440,7 @@ const InvoiceFilter = ({
           setTotalCount(invoicesData.length);
           setShow(false);
         } else {
+          setInvoiceListData([])
           // Optionally handle case where no invoices are found
           console.log("No invoices found.");
         }
