@@ -1112,7 +1112,7 @@ const AddInvoice = () => {
                                     errors?.notes ? "error-input" : ""
                                   }`}
                                   type="text"
-                                  value={value || ""}
+                                  value={value}
                                   onChange={onChange}
                                   placeholder="Enter Notes"
                                   autoComplete="false"

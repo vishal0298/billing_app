@@ -37,7 +37,9 @@ const ListExpense = () => {
   const [product, setProduct] = useState([
     { id: 1, text: "Select Payment Mode" },
     { id: 2, text: "Cash" },
-    { id: 3, text: "Cheque" },
+    { id: 3, text: "Upi" },
+    { id: 4, text: "Card" },
+    { id: 5, text: "Membership" },
   ]);
 
   // eslint-disable-next-line no-unused-vars

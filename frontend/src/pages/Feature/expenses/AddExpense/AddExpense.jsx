@@ -17,8 +17,10 @@ const AddExpense = () => {
 
   // eslint-disable-next-line no-unused-vars
   const [paymentOptions, setPaymentOptions] = useState([
-    { label: "Cash", value: "Cash" },
-    { label: "Cheque", value: "Cheque" },
+    { label: "CASH", value: "Cash" },
+    { label: "UPI", value: "Upi" },
+    { label: "CARD", value: "Card" },
+    { label: "MEMBERSHIP", value: "Membership" },
   ]);
   // eslint-disable-next-line no-unused-vars
   const [paymentStatus, setPaymentStatus] = useState([

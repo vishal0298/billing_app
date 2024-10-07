@@ -8,7 +8,7 @@ exports.create = [
   body("payment_method")
     .trim()
     .notEmpty()
-    .isIn(["Cash", "Cheque", "Bank", "Online"])
+    .isIn(["Cash", "Upi", "Card", "Membership"])
     .withMessage("is Invalid"),
   body("amount").trim().notEmpty().withMessage("is required"),
   body("notes").trim().optional(),

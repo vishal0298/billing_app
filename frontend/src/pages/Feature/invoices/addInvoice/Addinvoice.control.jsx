@@ -351,23 +351,23 @@ const AddinvoiceComponentController = (props) => {
     }
   };
 
-  // const handleKeyPress = (event) => {
-  //   const keyCode = event.keyCode || event.which;
-  //   const keyValue = String.fromCharCode(keyCode);
-  //   if (/^\d+$/.test(keyValue)) {
-  //     event.preventDefault();
-  //   }
-  // };
-
   const handleKeyPress = (event) => {
     const keyCode = event.keyCode || event.which;
     const keyValue = String.fromCharCode(keyCode);
-
-    // Allow only alphabetic characters
-    if (!/^[a-zA-Z]+$/.test(keyValue)) {
+    if (/^\d+$/.test(keyValue)) {
       event.preventDefault();
     }
   };
+
+  // const handleKeyPress = (event) => {
+  //   const keyCode = event.keyCode || event.which;
+  //   const keyValue = String.fromCharCode(keyCode);
+
+  //   // Allow only alphabetic characters
+  //   if (!/^[a-zA-Z]+$/.test(keyValue)) {
+  //     event.preventDefault();
+  //   }
+  // };
 
   const [status, setstatus] = useState([
     { id: 1, text: "Choose a Status" },

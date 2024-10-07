@@ -19,7 +19,7 @@ const payment = new Schema(
     },
     payment_method: {
       type: String,
-      enum: ["Cash", "Cheque", "Online", "Bank"],
+      enum: ["Cash", "Upi", "Card", "Membership"],
     },
     amount: {
       type: Schema.Types.Number,
