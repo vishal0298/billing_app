@@ -49,9 +49,10 @@ const ListinvoiceComponentController = (props) => {
   const addpaymentcancelModal = useRef(null);
 
   const [paymentMethodsData, setpaymentMethodsData] = useState([
-    { label: "Cash", value: "Cash" },
-    { label: "Bank", value: "Bank" },
-    { label: "Cheque", value: "Cheque" },
+    { label: "CASH", value: "Cash" },
+    { label: "UPI", value: "Upi" },
+    { label: "CARD", value: "Card" },
+    { label: "MEMBERSHIP", value: "Membership" },
   ]);
   // For Roles and Permissions
   const [permission, setPermission] = useState({});
