@@ -328,12 +328,8 @@ const ViewInvoice = () => {
                                     ? companyData?.companyName
                                     : ""}
                                   <br />
-                                  {companyData?.companyAddress ? (
-                                    (companyData?.companyAddress ||
-                                      companyData?.addressLine1 ||
-                                      companyData?.addressLine2,
-                                    companyData?.city)
-                                  ) : (
+                                  {companyData?.addressLine1 ? companyData?.addressLine1 || companyData?.addressLine2 || companyData?.city  :  
+                                  (
                                     <>
                                       <p></p>
                                     </>

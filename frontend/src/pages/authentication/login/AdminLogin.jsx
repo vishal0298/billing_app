@@ -58,7 +58,7 @@ const AdminLogin = () => {
   return (
     <>
       <Helmet>
-        <title>{companyTitle || "Kanakku"}</title>
+        <title>{companyTitle || "Rosh & Roy's Unisex Salon"}</title>
         <link rel="icon" href={faviconurl ? faviconurl : AlterFavIcon}></link>
       </Helmet>
       <div className="main-wrapper login-body">

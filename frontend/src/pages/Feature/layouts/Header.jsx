@@ -67,8 +67,8 @@ const Header = memo((props) => {
   return (
     <>
       <Helmet>
-        <title>Kanakku</title>
-        <meta name="description" content="Kanakku" />
+        <title>Rosh & Roy's Unisex Salon</title>
+        <meta name="description" content="Rosh & Roy's Unisex Salon" />
         <link
           rel="icon"
           href={companyData?.favicon ? companyData?.favicon : AlterFavIcon}

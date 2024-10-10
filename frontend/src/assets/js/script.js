@@ -1,6 +1,6 @@
 /*
 Author       : Dreamguys
-Template Name: Kanakku - Bootstrap Admin Template
+Template Name: Rosh & Roy's Unisex Salon - Bootstrap Admin Template
 Version      : 1.0
 */
 

@@ -271,7 +271,7 @@ const CustomerDetails = () => {
                         </span>
                         <div className="customer-details-cont">
                           <h6>Company Name</h6>
-                          <p>Kanakku Corporation</p>
+                          <p>Rosh & Roy's Unisex Salon Corporation</p>
                         </div>
                       </div>
                     </div>

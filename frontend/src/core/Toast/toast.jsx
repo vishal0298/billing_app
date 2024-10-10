@@ -1,6 +1,6 @@
 import { message as toaster } from "antd";
 
-// const heading = "Kanakku";
+// const heading = "Rosh & Roy's Unisex Salon";
 // const toastPosition = "top-center";
 
 const infoToast = (message) => {
