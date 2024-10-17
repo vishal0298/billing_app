@@ -20,12 +20,13 @@ exports.create = async (req, res) => {
       isDeleted: false,
       $or: [{ name: request.name }],
     };
-    const customerrec = await customersModel.findOne(query);
+    // const customerrec = await customersModel.findOne(query);
 
-    if (customerrec) {
-      data = { message: "Customer Alredy Exists.." };
-      response.validation_error_message(data, res);
-    } else {
+    // if (customerrec) {
+    //   data = { message: "Customer Alredy Exists.." };
+    //   response.validation_error_message(data, res);
+    // } else 
+    // {
       let filePath = "";
       if (req.file) {
         filePath = req.file.path;
@@ -78,7 +79,9 @@ exports.create = async (req, res) => {
         };
         response.success_message(data, res);
       }
-    }
+    
+    
+    // }
   } catch (error) {
     console.log("error :", error);
     response.error_message(error.message, res);
